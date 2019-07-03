@@ -30,10 +30,17 @@ ex)길바닥에 빗방울이 떨어지는 횟수 또한 포아송 근사로 설�
 Birthday Problem(3강) 확장하기
 : n명 중에서 생일이 같은 세 명의 사람을 찾을 확률?
 
+## 12강- 이산, 연속, 균등분포 (Discrete vs. Continuous, the Uniform)
+### 이산확률변수 vs 연속확률변수
+이산확률변수는 확률변수 x가 가질수 있는 값의 가지수가 유한개 or 무한개가 존재해서 하나씩 셀 수 있을 떄의 변수이다
+연속확률변수는 확률변수 x가 어떤 구간에서 실수값을 가질때의 변수이다
 
 
 
-12강- 이산, 연속, 균등분포 (Discrete vs. Continuous, the Uniform)
+
+
+
+
 13강- 정규분포 (Normal Distribution)
 14강- 위치, 척도 및 무의식적인 통계학자의 법칙(Location, Scale, and LOTUS)
 15강- Midterm Review
