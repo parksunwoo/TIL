@@ -35,14 +35,27 @@ Birthday Problem(3강) 확장하기
 이산확률변수는 확률변수 x가 가질수 있는 값의 가지수가 유한개 or 무한개가 존재해서 하나씩 셀 수 있을 떄의 변수이다
 연속확률변수는 확률변수 x가 어떤 구간에서 실수값을 가질때의 변수이다
 
+## 13강- 정규분포 (Normal Distribution)
+연속균등분포는 연속 확률 분포로, 분포가 특정 범위 내에서 균등하게 나타나 있을 경우를 가리킨다. 이 분포는 두 개의 매개변수 a,b를 받으며, 이때 [a,b] 범위에서 균등한 확률을 가진다 보통 기호로 u(a,b)로 나타낸다.
+
+### 확륣변수의 독립
+확률변수 X1, X2, ..., Xn 가 모든 x1,x2, ..., xn에 대하여
+
+-> 완전한 독립. 쌍으로 독립(pairwise independence) 보다 '센 개념'. (쌍으로 독립이라고 완전히 독립은 아니다)
+    ex) X1, X2 ~ iid Bern(1/2) 한 동전 던지기 시행이고
+    X3 = 1 (x1 = x2 일 때; otherwise 0) 이라고 하자
+        -> (X1, X2), (X2, X3),(X3, X1)는 쌍으로 독립이지만 (X1,X2,X3)은 독립이 아니다 (X1,X2 값이 정해지면 X3 값이 정해진다)
+
+### 정규분포 (Normal Distribution) N(u,σ^2)
+
+
+## 14강- 위치, 척도 및 무의식적인 통계학자의 법칙(Location, Scale, and LOTUS)
+![statistics_14_1](./img/statistics_14_1.png)
+![statistics_14_2](./img/statistics_14_2.png)
+![statistics_14_3](./img/statistics_14_3.png)
 
 
 
-
-
-
-13강- 정규분포 (Normal Distribution)
-14강- 위치, 척도 및 무의식적인 통계학자의 법칙(Location, Scale, and LOTUS)
 15강- Midterm Review
 16강- 지수분포(Exponential Distribution)
 17강- 적률생성함수(Moment Generating Functions)
