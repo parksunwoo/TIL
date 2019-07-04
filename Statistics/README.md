@@ -50,9 +50,9 @@ Birthday Problem(3강) 확장하기
 
 
 ## 14강- 위치, 척도 및 무의식적인 통계학자의 법칙(Location, Scale, and LOTUS)
-![statistics_14_1](./img/statistics_14_1.png)
-![statistics_14_2](./img/statistics_14_2.png)
-![statistics_14_3](./img/statistics_14_3.png)
+![statistics_14_1](../img/statistics_14_1.png)
+![statistics_14_2](../img/statistics_14_2.png)
+![statistics_14_3](../img/statistics_14_3.png)
 
 
 
