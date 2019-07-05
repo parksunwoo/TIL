@@ -1,4 +1,4 @@
-# [하버드] 확률론 기초: Statistics 110 : https://www.edwith.org/harvardprobability
+# [하버드 확률론 기초: Statistics 110](https://www.edwith.org/harvardprobability)
 Today I Learned
 
 ## 1강- 확률과 셈 원리 (Probability and Counting)
@@ -55,8 +55,48 @@ Birthday Problem(3강) 확장하기
 ![statistics_14_3](../img/statistics_14_3.png)
 
 
+## 15강- Midterm Review
+### Coupon Collctor 문제
+n가지 장난감을 모아야 전체를 모은다고 할 때, 장난감 전부를 모으는 데까지 걸리는 시간 T(뽑아야 하는 장난감 수) 의 기댓값을 구하시오
+T = T1 + T2 + ... + Tn
+    T1 = 첫 번째 장난감을 모으는 데까지 걸리는 시간 = 1
+    T2 -1 ~ Geom (n-1/ n)
+    Tj -1 ~ Geom (n-(j-1)/n)
+    
+E(T) = E(T1) + ... + E(Tn)
+     = 1 + n/n-1 + n/n-2 + ... + n/1 = n (1+ 1/2 + ... + 1/n)
+     = nlogn (충분히 큰 n)
+     
+### 균등분포의 보편성(Universality)
+X ~ F
 
-15강- Midterm Review
+F(x0) = 1/3
+P(F(x) <= 1/3) = P(X <= x0)
+               = F(X0) = 1/3
+       => F(X) ~ Unif(0,1)
+       
+ex) 로지스틱 분포
+    F(x) = e^x / 1 + e^x
+    U ~ Unif(0,1)
+    log U/1-U ~ logistic
+    
+### 선형성(linearity)
+확률변수 X,Y,Z 가 iid하게 분포하고 양의 값을 가졌다고 할 때 E(X/ X+Y+Z)를 구하시오
+E(X/X+Y+Z) = E(Y/X+Y+Z) = E(Z/X+Y+Z) = c <선형성>
+E(X+Y+Z/X+Y+Z) = 3c = 1
+E(X/X+Y+Z) = c = 1/3
+
+### LOTUS
+U ~ Unif(0,1)
+X = U^2, Y = e^X 라 할 때 E(Y)를 구하시오
+![statistics_15_1](../img/statistics_15_1.png)
+
+### 포아송 분포 (Poisson distribution)
+시간 t까지 받는 이메일의 수가 Pois(λt) 를 따른다고 할 때, 첫 번째 이메일까지 걸리는 시간 T1 의 분포를 구하시오.
+![statistics_15_2](../img/statistics_15_2.png)
+
+
+
 16강- 지수분포(Exponential Distribution)
 17강- 적률생성함수(Moment Generating Functions)
 18강- 적률생성함수_2 (MGFs Continued)
