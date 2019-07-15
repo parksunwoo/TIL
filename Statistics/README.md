@@ -2,6 +2,36 @@
 Today I Learned
 
 ## 1강- 확률과 셈 원리 (Probability and Counting)
+확률론의 활용영역:
+- 유전학, 물리학, 계량경제학, 금융, 역사학, 정치
+- 인문학, 사회과학계에서도 중요도와 활용이 늘어나고 있음
+- 도박과 게임 - 통계에서 여러 번 연구된 주제이다(페르마, 파스칼)
+- 인생 전반 : 수학이 확실성에 대한 학문이라면 확률은 불확실성(uncertainty)을 계량화하는 것을 가능하게 해 준다.
+표본공간(sample space) : 시행에서 발생 가능한 모든 경우의 집합
+사건(event) : 표본공간의 부분집합
+확률의 naive한 정의
+P(A) = (사건 A가 발생하는 경우의 수) / (발생 가능한 모든 경우의 수)
+    내포하고 있는 가정 : 
+        - 모든 사건이 발생할 확률은 같다
+        - 유한한 표본공간
+        - 항상 이 가정이 만족되는 것은 아니기 때문에 적용 불가한 경우들이 있다
+
+셈 원리(Counting Principle)
+- 곱의 법칙(Multiplication Rule) : 발생 가능한 경우의 수가 n1, n2, ,,, nr 가지인 1,2, ,,, r 번의 시행에서 발생 가능한 모든 경우의 수는
+  n1 * n2 * ... * nr 이다
+이항계수(Binomial Coefficient): 크기 n의 집합에서 만들 수 있는 크기 k인 부분집합의 수(순서 관계없이)
+(n)  = n! / (n-k)!k!
+(k)
+
+표본추출 정리한 표(sampling Table) : n개 중에서 k개 뽑기
+
+|-|순서상관 있음|순서 상관 없음|
+|------|---|---|
+|복원|n^k|(n+k-1)|
+|복원|.|(k)|
+|비복원|n * (n-1) * ... * (n-k+1)|(n)|
+|비복원|.|(k)|
+
 ## 2강- 해석을 통한 문제풀이 및 확률의 공리 (Story Proofs, Axioms of Probability)
 ## 3강- Birthday Problem과 확률의 특성 (Birthday Problem, Properties of Probability)
 ## 4강- 조건부 확률 (Conditional Probability)
