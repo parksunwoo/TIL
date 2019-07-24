@@ -61,6 +61,19 @@ ex2) n명 중에서 k명 뽑기, k명 중에서 한 명을 회장으로 뽑는 �
      -> 회장을 먼저 뽑고 나머지 k명에 들어갈 사람 뽑기 <-> k명을 뽑고 그 중에서 회장 뽑기
 
 ## 3강- Birthday Problem과 확률의 특성 (Birthday Problem, Properties of Probability)
+Birthday Problem : k명 중에 2명 이상이 같은 생일을 가질 확률 (일별 출생 확률은 동일하고 각각의 사건은 독립적으로 발생한다고 가정한다)
+k가 몇 명 이상이어야 같은 생일을 가진 사람들이 있을 확률이 50%일까
+k <= 365 라 할 때,
+p(k명의 생일이 모두 다름) = 365 * 365 * ... * (365 -k+1) / 365^k
+ -> k = 23 명 일 때 50.7%, k = 50 명 일 때 97%, k = 100 명 일때 99.9%
+직관적으로 푸는 방법?
+-> (23) = 253 개의 '짝'이 나옴
+   (2 )
+  
+![statistics_3_1](../img/statistics_3_1.png)
+
+
+
 ## 4강- 조건부 확률 (Conditional Probability)
 ## 5강- 조건부 확률과 전확률정리 (Conditioning Continued, Law of Total Probability)
 ## 6강- Monty Hall 문제와 심슨의 역설 (Monty Hall, Simpson's Paradox)
