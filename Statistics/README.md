@@ -150,11 +150,37 @@ P(B) = P(B ∩ A1) + P(B ∩ A2) + ... + P(B ∩ An) 가 성립하여, 이는 �
     조건부 독립 -> 독립이 성립하는가? FALSE
     독립 -> 조건부 독립이 성립하는가? FALSE
             
-
-
-
-
 ## 6강- Monty Hall 문제와 심슨의 역설 (Monty Hall, Simpson's Paradox)
+### Monty Hall 문제
+세 개의 문 중에 하나 뒤에는 자동차가 있고, 나머지 두 개 뒤에는 염소가 있다. Monty가 내가 고르지 않은 문 중 하나를 열어 염소가 있는 것을 보여줬다면,
+나는 처음 고른 문에서 바꾸는 것이 유리한가, 그렇지 않은가?
+
+ii) 전체 확률의 법칙으로 풀기
+    S: 처음 선택에서 바꿔서 자동차 있는 문을 맞추는 사건
+    Dj : j번 문 뒤에 자동차가 있는 사건 (j ∈ {1,2,3})
+    P(S) = P(S|D1) * 1/3 + P(S|D2) * 1/3 + P(S|D3) * 1/3
+         = 0 + 1 * 1/3 + 1 * 1/3 = 2/3
+    또한 Monty는 내가 고르지 않은 두 개의 문이 둘 다 염소가 있다면 두 문을 열 확률은 같으므로 
+    P(S| Monty가 2번문을 연다) = 2/3 = P(S) 으로, 조건부 확률과 조건부가 아닌 확률 값이 일치한다.
+
+### Simpson's Paradox(심슨의 역설) : 부분에서 성립하는 대소 관계는 전체를 보았을 떄 역전될 수도 있다. 
+예시) 심슨 가족이 사는 스프링필드에 Dr. Hibbert와 Dr.Nick, 두 명의 의사가 있고, 그들은 심장 수술과 반창고 제거 두 가지 수술을 한다고 하자
+
+의사들의 수술종류별 성공률을 보았을 때, Dr.Hibbert 가 더 좋은 의사임은 분명하다.
+하지만 Dr.Nick 이 더 높은 전체 수술 성공률을 근거로 스스로의 경쟁력을 주장한다면, 이 또한 틀린말은 아니다.
+심슨 역설 예시 ( https://en.wikipedia.org/wiki/Simpson%27s_paradox)
+
+이론적 접근
+A: 수술이 성공하는 사건
+B: Dr.Nick 가 수술을 집도하는 사건
+C: 심장 수술을 받는 사건
+
+심장) P(A|B,C) < P(A|B^C, C))
+반창고 P(A|B,C^C) < P(A|B^C,C^C) 로 Dr.Hibbert가 각각의 수술이라는 조건부 확률에서는 더 좋은 성적을 보일 수 있지만
+무조건부 확률은 P(A|B) > P(A|B^C) 와 같이 역전될 수가 있다는 것이다
+ -> 여기서 C(수술의 종류)는 confounder(교란변수)라고 하며, 이렇게 적절한 confounder 에 의한 조건부 확률을 확인하지 않으면 상황에 대한 그릇된 판단을 내릴 위험이 있다.
+
+
 ## 7강- 도박꾼의 파산 문제와 확률변수 (Gambler's Ruin and Random Variables)
 ## 8강- 확률변수와 확률분포 (Random Variables and Their Distributions)
 ## 9강- 기댓값, 지시확률변수와 선형성 (Expectation, Indicator Random Variables, Linearity)
