@@ -180,6 +180,9 @@ C: 심장 수술을 받는 사건
 무조건부 확률은 P(A|B) > P(A|B^C) 와 같이 역전될 수가 있다는 것이다
  -> 여기서 C(수술의 종류)는 confounder(교란변수)라고 하며, 이렇게 적절한 confounder 에 의한 조건부 확률을 확인하지 않으면 상황에 대한 그릇된 판단을 내릴 위험이 있다.
 
+전체 확률의 정의를 이용해 심슨의 역설이 틀렸음을 증명할 수 있는가?
+P(A|B) = P(A|B,C)P(C|B) + P(A|B,C^C)P(C^C|B) 에서 문제에서 주어진 조건에서 
+P(A|B,C) < P(A|B^C, C), P(A|B,C^C) < P(A|B^C, C^C) 는 확인 가능하지만, P(C|B), P(C^C|B) 가 좌항, 우항에 서로 다른 가중치로 작용하기 떄문에 증명할 수 없다.
 
 ## 7강- 도박꾼의 파산 문제와 확률변수 (Gambler's Ruin and Random Variables)
 ## 8강- 확률변수와 확률분포 (Random Variables and Their Distributions)
