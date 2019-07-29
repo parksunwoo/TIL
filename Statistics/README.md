@@ -185,6 +185,48 @@ P(A|B) = P(A|B,C)P(C|B) + P(A|B,C^C)P(C^C|B) 에서 문제에서 주어진 조�
 P(A|B,C) < P(A|B^C, C), P(A|B,C^C) < P(A|B^C, C^C) 는 확인 가능하지만, P(C|B), P(C^C|B) 가 좌항, 우항에 서로 다른 가중치로 작용하기 떄문에 증명할 수 없다.
 
 ## 7강- 도박꾼의 파산 문제와 확률변수 (Gambler's Ruin and Random Variables)
+### Gambler's Ruin(도박꾼의 파산)
+A와 B 두 명의 도박꾼이 매 라운드 $1씩 걸고 도박을 한다. 이긴 사람은 상대방의 $1을 가져가고, 둘 중 한 명이 가지고 온 돈이 바닥날 때까지 이 과정을 반복한다.
+p = P ( A가 어떤 라운드를 이긴다)
+q = 1 - p
+A는 i달러, B는 N-i 달러를 가지고 게임을 한다고 할 떄,
+
+![statistics_7_1](../img/statistics_7_1.png)
+
+p의 확률로 A가 1달러를 더 얻고, q의 확률로 1달러를 잃는다.
+0, N은 흡수상태 (absorbing state)라 하여, 게임 종료를 나타낸다.
+
+pi : A가 i달러로 시작하여 게임을 이길 확률
+pi = p*pi+1 + q*pi-1 (1 ≤ i ≤ N-1) 이고, p0 = 0, pN = 1 이다.
+이를 계차방정식 (difference equation)이라고 한다 (미분방정식의 이산 형태)
+
+guessing을 통한 풀이
+
+
+해석
+하우스와 같은 돈을 가지고 시작하고 1% 정도로만 불공평한 게임이라고 해도 게임을 계속하다 보면 이길 확률이 매우 적어지게 된다. (도박꾼의 파산)
+확인할점 : 게임이 끝나지 않고 영원히 계속될 확률이 있는가
+게임이 공평한 상황에서 (p = q) B가 (N-i 달러를 갖고 이길 확률은 N-i / N 이다
+i/N + (N-i) / N = 1 이므로 게임이 계속될 확률은 0이다.
+
+### 확률변수(Random Variable) : 표본공간 S부터 실수 체계 R로 '맵핑' 하는 함수
+![statistics_7_3](../img/statistics_7_3.png)
+
+<br>
+예시) 베르누이 (Bernoulli) 확률변수
+ X가 0(실패), 1(성공) 두 가지의 값만 가질 수 있으며, P(x=1) = p, P(X=0) = 1 - p 일 때 X는 Bernoulli(p) 분포를 따른다고 한다.
+ 
+예시) 이항 (Binomial) 확률변수
+ n번의 독립적인 베르누이 (p) 시행에서 성공 횟수의 분포는 Bin(n,p) 를 따른다고 한다
+ - 이항확률변수의 확률질량변수(PMF) : P(X=k) = 
+ - 이항확률변수의 특징
+   X ~ Bin(n,p), Y ~ Bin(m,p) 일 때, X + Y ~ Bin(n+m, p)를 따른다.
+
+
+
+
+
+
 ## 8강- 확률변수와 확률분포 (Random Variables and Their Distributions)
 ## 9강- 기댓값, 지시확률변수와 선형성 (Expectation, Indicator Random Variables, Linearity)
 ## 10강- 기댓값 (Expectation Continued)
