@@ -1,4 +1,4 @@
-# [[MIT] 데이터 사이언스 기초](hhttps://www.edwith.org/datascience/lecture/33888/)
+# [[MIT] 데이터 사이언스 기초](https://www.edwith.org/datascience/lecture/33888/)
 Today I Learned
 
 ## Chapter 1. Introduction and Optimization Problems
@@ -37,3 +37,59 @@ Today I Learned
 
 람다 함수에 대한 설명이 나와있는 문서
 [점프 투 파이썬](https://wikidocs.net/64) 
+
+## Chapter 2. Optimization Problems
+### 탐욕 알고리즘(Greedy Algorithm)
+결정할 때마다 그 순간에 최적이라고 생각되는 것을 선택해 나가는 방식으로 최종 답에 도달하는 방식
+- 장점 : 구현하기 쉬움, 매우 빠름
+- 단점 : 최적일 수도 있고 아닐수도 있는 해를 구함
+
+### 무차별 대입 알고리즘(Brute Force Algorithm)
+- 탐욕 알고리즘을 대체할 수 있는 알고리즘
+- 항목의 조합 가능한 수를 열거한 후, 전체 합이 가중치를 넘어가는 것은 제거
+
+### 동적 프로그래밍(Dynamic Programming)
+- 복잡한 문제를 간단한 여러 개의 문제로 나누어 푸는 방법
+- 최적 부분 구조 문제일 경우 풀 수 있는 방법
+    - For x > 1, fib(x) = fib(x-1) + fib(x-2)
+- 중복 부분 문제일 경우 풀 수 있는 방법
+    - 최적 해를 구할 때 같은 문제를 여러 번 풀어야 하는 문제
+    - fib(x)를 1번 계산하거나 여러 번 계산하는 경우
+- 근사가 아닌 최적화 해법이 구해짐
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

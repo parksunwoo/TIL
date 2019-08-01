@@ -17,10 +17,14 @@ $ find . -type f -name "h*" -exec rm {} \;
 $ while true; do python run.py -w 5 -f 64 -l ko; sleep 1; done;
 ```
 
--
+- 현재 디렉토리 내에 있는 파일의 개수 확인
 ```bash
-$
+$ ls -l | grep ^- | wc -l
 ```
 
+- 현재 디렉토리 내에 있는 디렉토리 개수
+```bash
+$ ls -l | grep ^d | wc -l
+```
 
 
