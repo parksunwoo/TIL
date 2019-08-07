@@ -57,6 +57,75 @@ Today I Learned
     - fib(x)를 1번 계산하거나 여러 번 계산하는 경우
 - 근사가 아닌 최적화 해법이 구해짐
 
+## Chapter 3. Graph-theoretic Models
+### 그래프(Graph)
+- 그래프는 꼭짓점 혹은 노드로 이루저이고 이들은 간선 혹은 변으로 이루어짐
+- 노드의 집합
+    - 각 노드는 다른 노드와 관계된 정보를 담고있음
+    - 예 ; 학생의 성적
+- 간선, 변이
+    - 노드의 쌍을 연결
+    - 간선을 이용해 그래프를 만드는 2가지 방법: 무방향, 유향
+- 사용 예시
+    - 개체 사이의 관계 표시
+        - 예 : 파리에서 런던으로 여행을 갈 때 노드는 각 도시 연결은 도시 사이 레일
+- 유용한 이유
+    - 세상에 존재하는 여러 관꼐는 그래프로 표현하기 적합
+    - 컴퓨터 네트워크, 교통 네트워크, 금융 네트워크, 정치 네트워크, 범죄 네트워크, 사회 네트워크 등
+- 그래프를 만드는 방법
+    - 두 요소 사이에 연속된 간선이 있는지 확인
+    - 최소 비용 혹은 최단 경로를 찾을 수 있는지 확인
+    - 그래프 분할 문제로 접근
+그래프 탐색
+    - 한 노드에서 다른 노드로 가는 최단 경로를 구하는 방법은?
+    - 최단 경로 : 시작점의 첫 간선 ~ 도착점의 마지막 간선
+        - 일종의 사슬처럼 보임
+    - 알고싶은 것 : 최소 단계 수
+    - 1) 깊이 우선 탐색 (Depth-first Search)
+        - 루트 노드에서 시작해 다음 분기로 넘어가기 전에 해당 분기를 모두 탐색하는 방법
+        - 루프의 가능성이 있기 떄문에 경로를 기억해야 함
+        - 이미 들렀던 노드는 가지 않음
+            - 첫 간선을 따라가다 올바르게 왔는지 확인 올바르지 않으면 루프
+            - 목표 노드에 도착하거나 선택지가 없어질 때까지 반복
+        - 특징
+            - 자기 자신을 호출하는 순환 알고리즘
+            - 어떤 노드를 방문했는지를 반드시 확인
+     
+     [그래프 깊이 우선 탐색 ratsgo's blog](https://ratsgo.github.io/data%20structure&algorithm/2017/11/20/DFS/)            
+     ```python     
+    from pythonds.graphs import Graph
+    class DFSGraph(Graph):
+        def __init__(self):
+            super().__init__()
+            self.time = 0
+            
+        def dfs(self):
+            # 모든 노드의 색상을 white, 부모노드 정보를 -1로 초기화
+            for aVertex in self:
+                aVertex.setColor('white')
+                aVertex.setPred(-1)
+            for aVertex in self:
+                # 임의의 노드가 아직 방문하지 않은(white) 노드라면 해당 노드에 대해 dfsvisit 호출
+                # dfsvisit은 더 이상 나아갈 엣지가 없을 떄까지 재귀적으로 수행, 수행 후에도 white인 노드가
+                # 있으면 해당 노드를 시작노드로 해서 dfsvisit 반복 수행
+                if aVertex.getColor() == 'white':
+                    self.dfsvisit(aVertex)
+        
+        def dfsvisit(self, startVertex):
+            # processing 이라는 의미로 시작노드의 색상을 gray로 변
+              
+     ```
+     
+    - 2) 너비 우선 탐색 (Breadth-first Search)
+        - 루트 노드에서 시작해 인접한 노드를 먼저 탐색하는 방법
+        - 특징
+            - 루트 노드에서 목표 노드까지의 최단 거리를 보장
+            
+            
+            
+            
+            
+            
 
 
 
