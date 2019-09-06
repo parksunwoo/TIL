@@ -1,7 +1,4 @@
-# [하버드 확률론 기초: Statistics 110](https://www.edwith.org/harvardprobability)
-Today I Learned
 
-## 1강- 확률과 셈 원리 (Probability and Counting)
 확률론의 활용영역:
 - 유전학, 물리학, 계량경제학, 금융, 역사학, 정치
 - 인문학, 사회과학계에서도 중요도와 활용이 늘어나고 있음
@@ -221,13 +218,11 @@ i/N + (N-i) / N = 1 이므로 게임이 계속될 확률은 0이다.
  - 이항확률변수의 확률질량변수(PMF) : P(X=k) = 
  - 이항확률변수의 특징
    X ~ Bin(n,p), Y ~ Bin(m,p) 일 때, X + Y ~ Bin(n+m, p)를 따른다.
-
-
-
-
-
-
+   
 ## 8강- 확률변수와 확률분포 (Random Variables and Their Distributions)
+### 이항분포 Bin(n,p)
+
+
 ## 9강- 기댓값, 지시확률변수와 선형성 (Expectation, Indicator Random Variables, Linearity)
 ## 10강- 기댓값 (Expectation Continued)
 ## 11강- 포아송분포 (The Poisson distribution)
