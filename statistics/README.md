@@ -1,4 +1,7 @@
+# [[하버드] 확률론 기초: Statistics 110](https://www.edwith.org/harvardprobability/joinLectures/17924)
+Today I Learned
 
+## 1강- 확률과 셈 원리 (Probability and Counting)
 확률론의 활용영역:
 - 유전학, 물리학, 계량경제학, 금융, 역사학, 정치
 - 인문학, 사회과학계에서도 중요도와 활용이 늘어나고 있음
@@ -337,10 +340,8 @@ E(X∣X>a) = a+E(X−a∣X>a)  ⋯  ( X-a는 a만큼 기다린 후 남는 대기
 = a + (1 / λ)
 
 X> a 가 주어질 때 X-a 는 새로운 지수분포가 된다 이 부분은 a 이상 이미 기다렸지만 결국 새로 다시 시작한다.
- 
- 
- 
- ​​  
+
+
 ​## 17강- 적률생성함수(Moment Generating Functions)
 ### 무기억성(memoryless property)
 
@@ -381,9 +382,9 @@ MGF 는 무슨 뜻일까? 모든 실수 t에 관한 확률변수에 대한 함�
 
 
 
-18강- 적률생성함수_2 (MGFs Continued)
-19강- 결합, 조건부, 주변 확률질량함수(Joint, Conditional, and Marginal Distributions)
-20강- 다항분포 및 코시분포(Multinomial and Cauchy)
+## 18강- 적률생성함수_2 (MGFs Continued)
+## 19강- 결합, 조건부, 주변 확률질량함수(Joint, Conditional, and Marginal Distributions)
+## 20강- 다항분포 및 코시분포(Multinomial and Cauchy)
 21강- 공분산과 상관계수(Covariance and Correlation)
 22강- 변수변환과 합성곱(Transformations and Convolutions)
 23강- 베타분포(Beta disctribution)
