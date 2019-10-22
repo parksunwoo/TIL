@@ -380,22 +380,20 @@ MGF 는 무슨 뜻일까? 모든 실수 t에 관한 확률변수에 대한 함�
 
 라플라스의 후속 규칙 - 내일 해가 뜰 확률은 얼마인가?
 
-
-
 ## 18강- 적률생성함수_2 (MGFs Continued)
 ## 19강- 결합, 조건부, 주변 확률질량함수(Joint, Conditional, and Marginal Distributions)
 ## 20강- 다항분포 및 코시분포(Multinomial and Cauchy)
-21강- 공분산과 상관계수(Covariance and Correlation)
-22강- 변수변환과 합성곱(Transformations and Convolutions)
-23강- 베타분포(Beta disctribution)
-24강- 감마분포와 포아송 과정(Gamma distribution and Poisson process)
-25강- 순서통계량과 조건부 기댓값(Order Statistics and Conditional Expectations)
-26강- 조건부 기댓값_2(Conditional Expectation Continuted)
-27강- 조건부 기댓값_3(Conditional Expectation given an R.V.)
-28강- 부등식(Inequalities)
-29강- 큰 수의 법칙과 중심극한정리(Law of Large Numbers and Central Limit Theorem)
-30강- 카이제곱분포, t분포, 다변량정규분포(Chi-Square, Student-t, Multivariate Normal)
-31강- 마코프 체인(Markov Chains)
-32강- 마코프 체인_2(Markov Chains Continued)
-33강- 마코프 체인_3(Markov Chains Continued Further)
-34강- A Look Ahead
+## 21강- 공분산과 상관계수(Covariance and Correlation)
+## 22강- 변수변환과 합성곱(Transformations and Convolutions)
+## 23강- 베타분포(Beta disctribution)
+## 24강- 감마분포와 포아송 과정(Gamma distribution and Poisson process)
+## 25강- 순서통계량과 조건부 기댓값(Order Statistics and Conditional Expectations)
+## 26강- 조건부 기댓값_2(Conditional Expectation Continuted)
+## 27강- 조건부 기댓값_3(Conditional Expectation given an R.V.)
+## 28강- 부등식(Inequalities)
+## 29강- 큰 수의 법칙과 중심극한정리(Law of Large Numbers and Central Limit Theorem)
+## 30강- 카이제곱분포, t분포, 다변량정규분포(Chi-Square, Student-t, Multivariate Normal)
+## 31강- 마코프 체인(Markov Chains)
+## 32강- 마코프 체인_2(Markov Chains Continued)
+## 33강- 마코프 체인_3(Markov Chains Continued Further)
+## 34강- A Look Ahead
