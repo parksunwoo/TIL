@@ -35,20 +35,20 @@
   <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="#">SUNWOO PARK</a>
+          <a class="navbar-brand" href="{% url 'home' %}">SUNWOO PARK</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="#">Twitter</a>
+                <a class="nav-link" href="http://twitter.com/">Twitter</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% static 'Profile.pdf' %}">Resume</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Blog</a>
+                <a class="nav-link active" href="{% url 'allblogs' %}">Blog</a>
               </li>
             </ul>
           </div>
