@@ -91,6 +91,124 @@ Today I Learned
 - SlugConverter(StringConverter) -> r"[-a-zA-Z0-9_]+"
 - UUIDConverter -> r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"  ``하이픈 포함 36자리``
     
+### 새로운 장고 앱을 생성할 때, 추천 작업
+- 앱 내 urls.py 를 생성하고 등록
+    1. 앱 생성
+    2. 앱이름/urls.py 파일 생성
+    3. 프로젝트/urls.py 에 include 적용
+    4. 프로젝트/settings.py 의 INSTALLED_APPS에 앱 이름 등록    
+
+## [기초편] 장고 차근차근 시작하기 > 06 다양한 응답의 함수 기반 뷰 만들기
+### View
+ - 1개의 HTTP 요청에 대해 -> 1개의 뷰가 호출
+ - urls.py/urlpatterns 리스트에 매핑된 호출 가능한 객체
+ - 웹 클라이언트로부터의 HTTP 요청을 처리
+ - 크게 2가지 형태의 뷰
+    - 함수 기반  : 장고 뷰의 기본. 호출 가능한 객체 그 자체
+    - 클래스 기반 : 클래스.as_view() 를 통해 호출가능한 객체를 생성/리턴
+    
+### View 호출시, 인자
+- 1번째 인자: HttpRequest 객체 
+- 2번쨰 인자: 현재 요청의 URL로부터 Capture 된 문자열들
+    - url/re_path 를 통한 처리에서는 모든 인자는 str 타입으로 전달
+    - path를 통한 처리에서는 매핑된 Converter의 to_python 에 맞게 변환된 값이 인자로 전달
+    
+### View 호출에 대한 리턴값
+- 필히 HttpResponse 객체를 리턴
+ - 장고 middleware 에서는 뷰에서 HttpResponse 객체를 리턴하기를 기대 -> 다른 타입을 리턴하면 middlewar에서 처리 오류
+- 파일 like 객체 혹은 str/bytes 타입의 응답 지원
+ - response = HttpResponse( 파일like객체 또는 str객체 또는 bytes 객체)
+- 파일 like 객체
+ - response.write( str객체 또는 bytes객체)
+  
+## [기초편] 장고 차근차근 시작하기 > 07 적절한 HTTP 상태코드로 응답하기
+### HTTP 상태코드
+- 웹 서버는 적절한 상태코드로서 응답
+- 각 HttpResponse 클래스마다 고유한 status_code 가 할당
+- REST API를 마늗ㄹ 때, 특히 유
+
+## [기초편] 장고 차근차근 시작하기 > 08 장고 쉘
+- SQL 출력 옵션
+ - 쉘 > python manage.py shell_plus --print-sql
+ - 혹은 settings.SHELL_PLUS_PRINT_SQL = True
+
+
+## [기초편] 장고 차근차근 시작하기 > 09 장고 모델 (ORM)
+### 애플리케이션의 다양한 데이터 저장방법
+- 데이터베이스 : RDBMS , NoSQL 등
+- 파일 : 로컬, 외부 정적 스토리지
+- 캐시서버 : memcached, redis 등
+
+### 데이터베이스와 SQL
+- 데이터베이스에 쿼리하기 위한 언어 -> SQL
+ - 직접 SQL을 만들어내기도 하지만, ORM(Object-relational mapping)을 통해 SQL을 생성/실행하기도 합니다.
+ - ORM을 쓰더라도, 내가 작성된 ORM코드를 통해 어떤 SQL이 실행되고 있는지, 파악을 하고 이를 최적화할 수 있어야한다.
+
+### 장고의 강점은 model과 form
+
+### Django Model
+- 데이터베이스 테이블과 파이썬 클래스를 1:1로 매핑
+ - 모델 클래스명은 단수형으로 지정 - Post(o)
+ - 매핑되는 모델 클래스는 DB 테이블 필드 내역이 일치
+ 
+### 모델 활용 순서
+ - 장고 모델을 통해, 데이터베이스 형상을 관리할 경우
+    1. 모델 클래스 형성
+    2. 모델 클래스로부터 마이그레이션 파일 생성 -> makemigrations 명령
+    3. 마이그레이션 파일을 데이터베이스에 적용 -> migrate 명령
+    4. 모델활용
+ - 장고 외부에서, 데이터베이스 형상을 관리할 경우
+  - 데이터베이스로부터 모델 클래스 소스 생성 -> inspectdb 명령
+  
+### 모델명과 DB 테이블명
+ - DB 테이블명 : 디폴트 "앱이름_모델명"
+    - blog 앱
+        - post 모델 -> blog_post
+        
+### 적용순서
+ - item 모델정의
+ - 마이그레이션 파일 생성
+ - 마이그레이션 파일 적용
+ - 데이터베이스 확인
+    - db 종류에 따라 다양한 방
+    
+## [기초편] 장고 차근차근 시작하기 > 10 장고 모델 필드
+ - Primary Key: AutoField, BigAutoField
+ - 문자열 : CharField, TextField, SlugField
+ - 날짜/시간 : DateField, TimeField, DateTimeField, DurationField     
+ - 참/거짓 : BooleanField, NullBooleanField
+ - 숫자 : IntegerField, SmallIntegerField, PositiveIntegerField
+ - 파일 : FileField, ImageField, FilePathField
+ - 이메일 : EmailField
+ - URL : URLField
+ - UUID : UUIDField
+ - 아이피 : GenericIPAddressField
+ - Relation Types
+    - Foreign Key
+    - 
+        
+### 자주 쓰는 필드 공통 옵션
+ - blank : 파이썬 validation 시에 empty 허용 여부 (디폴트 : False)
+ - null : null 허용 여부 
+ - db_index : 인덱스 필드 여부
+ - default : 디폴트 값 지정, 혹은 값을 리턴해줄 함수 지정
+ - unique : 현재 테이블 내에서 유일성 여부
+ - choices : select 박스 소스로 사용
+ - validators : validators 를 수행할 함수를 다수 지정
+  - 모델 필드에 따라 고유한 validators 들이 등록 
+
+### Tip
+- 설계한 데이터베이스 구조에 따라, 최대한 필드타입을 타이트하게 지정해주는 것이, 입력값 오류를 막을 수 있음 
+ - 필요하다면, validators들을 추가로 타이트하게 지정
+- ORM은 SQL 쿼리를 만들엉주는 역할일 뿐, 보다 성능높은 애플리케이션을 위해서는, 사용하려는 DB 엔진에 대한 깊은 이해가 필요 
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
