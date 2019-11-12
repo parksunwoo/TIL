@@ -233,6 +233,119 @@ Today I Learned
  - 하나의 마이그레이션으로 합쳐서 적용하기를 권장
     - 방법1) 서버로의 미적용 마이그레이들을 모두 롤백하고 -> 롤백된 마이그레이션들을 모두 제거하고 -> 새로이 마이그레이션 파일 생성
     - 방법2) 미적용 마이그레이션들을 하나로 합치기 -> squashmigrations
+
+## [기초편] 장고 차근차근 시작하기 > 12 장고 admin을 통한 데이터 관리
+### django admin
+- djnago.contrib.admin 앱을 통해 제공
+    - 디폴트 경로: /admin/ -> 실제 서비스에서는 다른 주소로 변경 권장
+- 모델 클래스 등록을 통해, 조회/추가/수정/삭제 웹UI를 제공
+    - 서비스 초기에 관리도구로서 사용하기에 제격
+    - 관리도구 만들 시간을 줄이고 End - User 서비스에 집중
+    
+## [기초편] 장고 차근차근 시작하기 > 13 모델을 통한 데이터 조회
+### Model Manager
+- 데이터베이스 질의 인터페이스를 제공
+- 디폴트 Manager로서 ModelCls.Objects가 제공
+
+```djangotemplate
+ModelCls.objects.all()
+ModelCls.objects.all().order_by('-id')[:10]
+ModelCls.objects.create(title="New Title")
+```
+    
+### QuerySet
+- SQL을 생성해주는 인터페이스
+- 순회가능한 객체
+- Model Manager를 통해, 해당 Model에 대한 QuerySet을 획득
+- Chanining을 지원
+    - Post.objects.all().filter().exclude().filter() -> QuerySet
+    - QuerySet은 Lazy한 특성
+        - QuerySet을 만드는 동안에는 DB접근을 하지 않습니다.
+        - 실제로 데이터가 필요한 시점에 접근을 합니다.
+
+### 다양한 조회요청 방법
+- 조건을 추가한 Queryset, 획득할 준비
+    - queryset.filter() -> queryset
+    - queryset.exclude() -> queryset
+- 특정 모델객체 1개 획득을 시도
+    - queryset(숫자인덱스)
+    - queryset.get()
+    - queryset.first() last()
+- filter <-> exclude
+    - 인자로 "필드명 = 조건값" 지정
+    - 1개 이상의 인자 지정 -> 모두 AND 조건으로 묶임
+    - OR 조건을 묶을려면, django.db.models.Q 활
+
+### 필드 타입별 다양한 조건 매칭
+- 숫자/날짜/시간 필드
+    - 필드명 __lt
+    - 필드명 __lte
+    - 필드명 __gt
+    - 필드명 __gte
+- 문자열 필드
+    - 필드명 __startswith
+    - 필드명 __endswith
+    - 필드명 __contains
+    - 필드명 __istartswith
+    - 필드명 __iendswith
+    - 필드명 __icontains
+    
+### 정렬 조건 추가
+- 정렬 조건을 추가하지 않으면 일관된 순서를 보장받을 수 없음
+- DB에서 다수 필드에 대한 정렬을 지원
+    - 하지만 가급적 단일 필드로 하는 것이 성능에 이익
+    - 시간순/역순 정렬이 필요한 경우, id필드를 활용해볼 수 있음
+- 정렬 조건을 지정하는 2가지 방법
+    1. (추천) 모델 클래스의 Meta 속성으로 ordering 설정 : list로 설정
+    2. 모든 queryset에 order by(..) 에 지정
+
+### 슬라이싱을 통한  범위조건추가
+- str/list/tuple 에서의 슬라이싱과 거의 유사하나, 역순 슬라이싱은 지원하지 않음
+ - db에서 지원하지 않음
+- 객체 [start:stop:step]
+    -offset -> start
+    -limit -> stop - start
+    
+    
+    
+    
+    
+    
+    
+        
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+
  
  
  
