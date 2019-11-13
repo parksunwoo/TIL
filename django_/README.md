@@ -306,6 +306,178 @@ ModelCls.objects.create(title="New Title")
     -offset -> start
     -limit -> stop - start
     
+## [기초편] 장고 차근차근 시작하기 > 13 모델을 통한 데이터 생성/수정/삭제
+### 다양한 INSERT 예시
+- 방법1
+    ```djangotemplate
+    post = Post.objects.create(field1=value1, field2=value2, ...)
+    post.pk
+    ``` 
+    
+- 방법2
+    ```djangotemplate
+    post = Post(field1=value1, field2=value2)
+    post.pk  -> None
+    post.save()
+    post.pk
+    ```
+  
+- 방법3
+    ```djangotemplate
+    form = PostModelForm(request.POST, request.FILES)
+    if form.is_valid():
+        post = form.save()
+        post.pk
+    ```
+
+### 다양한 UPDATE 예시
+- 방법1) 개별 모델 인스턴스의 save 함수 호출 -> 반환값 : None
+    ```djangotemplate
+      post = Post.objects.all().first()
+      post.field1 = new value1
+      post.field2 = new value2
+      post.save()         
+    ```    
+
+- 방법2) querySet 의 update 함수 호출 -> 반환값 : count
+    ```djangotemplate
+      qs = Post.objects.all().filter().exclude()
+      qs.update(field1=new_value1, field2=new_value2)
+    ```    
+
+- 방법3) 
+    ```djangotemplate
+      form = PostForm(request.POST, request.FILES, instance=post)
+      if form.is_valid():
+          post = form.save()
+    ```    
+
+### 다양한 DELETE 예시
+- 방법1) 개별 모델 인스턴스의 delete 함수 호출 -> 반환값 : 삭제된 record 갯수
+    ```djangotemplate
+      post = Post.objects.all().first()
+      post.delete()
+    ```
+- 방법2) QuerySet 의 delete 함수 호출 -> 반환값 : 삭제된 record 갯수
+    ```djangotemplate
+      qs = Post.objects.all().filter().exclude()
+      qs.delete()
+    ```  
+### 대개의 경우, 데이터베이스가 주요 병목
+- 같은 작업을 하더라도
+    - DB로 전달/실행하는 SQL 개수를 주링고
+    - 각 SQL의 성능/처리속도 최적화가 필요
+    
+- RDBMS 외에도 캐싱 솔루션이나 NoSQL 솔루션을 고려
+    - 제일 먼저, DB엔진과 서비스에 맞는 적절한 DB설계가 중요
+
+## [기초편] 장고 차근차근 시작하기 > 15 관계를 표현하는 모델 필드
+### RDBMS에서의 관계 예시
+-1:N 관계 -> models.ForeignKey 로 표현
+    - 1명의 유저가 쓰는 다수의 포스팅
+-1:1 관계 -> models.OneToOneField로 표현
+    - 1명의 유저는 1개의 프로필
+-M:N 관계 -> models.ManyToManyField로 표현
+    - 1개의 포스팅에는 다수의 태그
+        - 1개의 태그에는 다수의 포스
+
+### ForeignKey
+- 1:N 관계에서 N측에 명시
+    - Post:Comment,
+- ForeignKey(to, on_delete)
+    - to: 대상모델
+        - 클래스를 직접 지정하거나,
+        - 클래스명을 문자열로 지정. 자기 참조는 "self" 지정
+    - on_delete : record 삭제 시 Rule
+        - CASCADE: FK로 참조하는 다른 모델의 record도 삭제
+        - PROTECT: 삭제방지
+        - SET_NULL: null로 대체. 필드에 null=True 옵션 필수
+        - SET_DEFAULT: 디폴트 값으로 대체. 필드에 디폴트값 지정 필수
+        - SET: 대체할 값이나 함수 지정. 함수의 경우 호출하여 리턴값을 사용
+        - DO_NOTHING
+    
+### FK에서의 related_name
+>>> comment.post
+>>> post.comment_set.all() <-> comment.objects.filter(post=post)
+
+- related_name 디폴트 명은 앱이름 고려 X, 모델명만 고려
+- 다음의 경우, user.post_set 이름에 대한 충돌
+    - blog앱 Post 모델, author = FK(User)
+    - shop앱 Post 모델, author = FK(User)
+- 이름이 충돌나면 makemigrations 실패
+- 이름 충돌 피하기
+    1. 어느 한 쪽의 FK에 대해, related_name을 포기 -> related_name = '+'
+    2. 어느 한 쪽의 FK의 related_name 을 변경
+        ex) FK(User, ..., related_name="blog_post_set")
+        
+### ForeignKey.limit_choices_to 옵션
+- form을 통한 choice 위젯에서 선택항목 제한가능.
+    - dict/Q 객체를 통한 지정: 일괄지정
+    - dict/Q 객체를 리턴하는 함수 지정 : 매번 다른 조건 지정 가능
+
+### OneToOneField
+- 1:1 관계에서 어느 쪽이라도 가능
+    - User.Profile
+-ForeignKey(unique=True)와 유사하지만, reverse 차이
+    - User:Profile 를 FK로 지정한다면 -> profile.user_set.first() -> user    
+    - User:Profile 를 O2O로 지정한다면 -> profile.user -> user
+
+### O2O에서의 related_name
+>>> profile.user
+>>> user.profile
+
+### ManyToManyField
+- M:N 관계에서 어느쪽이라도 가능
+    - Post: Tag
+- ManyToManyField(to, blank=False)
+
+### RDBMS이지만 DB따라 NoSQL 기능도 지원    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+            
+        
+        
+        
+    
+
+
+
+
+
+
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
     
     
     
