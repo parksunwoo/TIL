@@ -459,8 +459,64 @@ ModelCls.objects.create(title="New Title")
 
 - 쿼리초기화
     - 메모리에 누적되기에, 프로세스가 재시작됨되며 초기화
-    - django.db.reset_queries() 통해서 수동 초기화도 가능
+    - django.db.reset_queries() 통해서 수동 초기화도 가
     
+## [기초편] 장고 차근차근 시작하기 > 17 장고 Logging과 SQL Logging 처리
+### 로그 
+- 특정 형식으로 현 상황을 기록하는 문자열 기록
+- 로깅을 파이썬에서 기본 지원
+- 로그 레벨
+    - DEBUG
+    - INFO : 분석이 필요한 유용한 상태 정보
+    - WARNING : 중요도가 낮은 문제를 발생할 가능성
+    - ERROR: 상용 환경의 에러
+    - CRITICAL : 급하게 주의가 요구되는 심각한 상황, ex) 내부 API 서비스에 접근 불가
+    
+### named bucket
+- 마침표로 parent/child 계층 구분
+    - django.security.csrf 로그 : django.security 와 django에 전파
+- 부모 namespace 로의 전파를 막으려면
+    - 해당 handler 설정에서 propagate = False 설정
+- 장고에서 사용중인 named bucket
+    - django / django.contrib.gis
+    - django.db.backends / django.db.backends.schema
+    
+### 로깅
+- named bucket을 지정하여, 현 모듈에서 쓸 logger 객체 획득하고 , logger.debug () 등으로 로깅
+    ```python
+      import logging
+      logger = logging.getLogger(__name__)
+      
+      def post_list(request):
+          logger.error('Something went wrong!')
+    
+    ```    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     
     
