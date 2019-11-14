@@ -38,4 +38,9 @@ A curated list of bookmark
 - Linear algebra https://www.khanacademy.org/math/linear-algebra
 
 ## Python
+
+
+## Django
+- 8퍼센트 Two scoops of django 스터디 https://github.com/8percent/tsd
+- 피플펀드 Mastering Django Core https://tech.peoplefund.co.kr
  
