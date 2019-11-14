@@ -458,7 +458,7 @@ ModelCls.objects.create(title="New Title")
     ```    
 
 - 쿼리초기화
-    - 메모리에 누적되기에, 프로세스가 재시작됨녀 초기화
+    - 메모리에 누적되기에, 프로세스가 재시작됨되며 초기화
     - django.db.reset_queries() 통해서 수동 초기화도 가능
     
     
