@@ -431,7 +431,37 @@ ModelCls.objects.create(title="New Title")
     - Post: Tag
 - ManyToManyField(to, blank=False)
 
-### RDBMS이지만 DB따라 NoSQL 기능도 지원    
+### RDBMS이지만 DB따라 NoSQL 기능도 지    
+
+## [기초편] 장고 차근차근 시작하기 > 16 django-debug-toolbar 를 통한 SQL 디버깅
+### django-debug-toolbar
+- 현재 request/response 에 대한 다양한 디버깅 정보를 보여줌
+- 다양한 panel 지원
+    - SQLPanel을 통해, 각 요청 처리 시에 발생한 SQL 내역 확인 가능
+    - Ajax 요청에 대한 내역은 미지원
+    
+- 웹페이지의 템프릿에 필히 "<body>" 태그가 있어야만, 동작
+- 이유 : dbt의 html/script 디폴트 주입 타겟이 </body> 태그
+
+### 코드를 통한 SQL 내역확인
+- querySet의 query 속성참조
+    ex) print(Post.objects.all().query) -> 실제 문자열 참조 시에 SQL 생성
+- settings.DEBUG = True 시에만 쿼리 실행내역을 메모리에 누적
+- 쿼리확인 
+    ```djangotemplate
+      from django.db import connection, connections
+  
+      for row_dict in connection.queries:
+          print('{time} {sql}'.format(**row_dict))
+  
+      connections['default'].queries  
+    ```    
+
+- 쿼리초기화
+    - 메모리에 누적되기에, 프로세스가 재시작됨녀 초기화
+    - django.db.reset_queries() 통해서 수동 초기화도 가능
+    
+    
     
     
     
