@@ -46,10 +46,11 @@ A curated list of Two Scoops of Django https://www.twoscoopspress.com/
   
 ## 폼
 - django-crispy-forms https://django-crispy-forms.readthedocs.io/en/latest/
+                      https://dev-mht.tistory.com/65
     - 장고 폼의 렌더링 조종 도구. 기본으로 트위터 부트스트랩을 이용하나 변경할수 있음
 - django-floppyforms 
   - django-crispy-forms 과 함게 쓸 수 있는 폼 필드, 위젯, 레이아웃
-- django-forms-bootstrap
+- django-forms-bootstrap https://simpleisbetterthancomplex.com/tutorial/2018/08/13/how-to-use-bootstrap-4-forms-with-django.html
   - 장고 폼과 트위터 부트스트랩을 이용하기 위한 간단한 폼 필터
 - django-forms-builder
   - 어드민 인터페이스에서 어드민이 스스로의 폼을 만드는 기능을 제공하는 장고의 재사용 가능한 앱
