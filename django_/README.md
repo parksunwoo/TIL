@@ -1,7 +1,7 @@
 # TIL
 Today I Learned
 
-## [기초편] 장고 차근차근 시작하기 > 01 개발환경 구축하기
+##  01 개발환경 구축하기
 ### 웹프레임워크가 왜 필요한가요?
 - 서버의역할: 모든 서비스의 근간. 서버없이 머신러닝만 한다고해서 서비스가 되겠는가?
 
@@ -30,7 +30,7 @@ Today I Learned
         - url.py : 최상위 URL 설정
         - wsgi.py : 실서비스에서의 웹서비스 진입
 
-## [기초편] 장고 차근차근 시작하기 > 02 장고의 주요 구성 요소
+##  02 장고의 주요 구성 요소
 ### 장고 주요 기능들
 - Function Based Views : 함수로 HTTP 요청처리
 - Models : 데이터베이스와의 인터페이스
@@ -42,21 +42,21 @@ Today I Learned
 
 - 웹서버, 데이터베이스서버, 캐시서버, 파일시스템의 기본구조
 
-## [기초편] 장고 차근차근 시작하기 > 03 장고 앱
+##  03 장고 앱
 - 재사용성을 목적으로한 파이썬 패키지
  - 재사용성을 목적으로 둔 것이 아니라면, 하나의 장고 앱에서 현재 프로젝트의 거의 모든 기능을 구현해도 무방합니다
  - 하나의 앱이름은 현재 프로젝트 상에서 유일해야
  - 새롭게 생성한 장고앱이나 외부 라이브러리 형태의 장고앱은        
    settings.INSTALLED_APPS 에 등록 시켜줘야만 장고앱으로서 대접을 받는다.
     
-## [기초편] 장고 차근차근 시작하기 > 04 VSCode 장고 디버깅 세팅하기
+##  04 VSCode 장고 디버깅 세팅하기
 - 디버깅을 위해서 기본 적용되는 옵션
  - runserver 서버 시작옵션 --norelod --nothreading
  - 디버깅 메뉴를 통한 명시적인 재시작 및 정
 - 다양한 pylint 메세지
  - 파이썬 정적 코드 분석툴
  
-## [기초편] 장고 차근차근 시작하기 > 05 URLConf와 정규 표현식
+##  05 URLConf와 정규 표현식
 ### 정규 표현식
  - 문자열의 패턴, 규칙, Rule을 정의
  - 문법
@@ -98,7 +98,7 @@ Today I Learned
     3. 프로젝트/urls.py 에 include 적용
     4. 프로젝트/settings.py 의 INSTALLED_APPS에 앱 이름 등록    
 
-## [기초편] 장고 차근차근 시작하기 > 06 다양한 응답의 함수 기반 뷰 만들기
+##  06 다양한 응답의 함수 기반 뷰 만들기
 ### View
  - 1개의 HTTP 요청에 대해 -> 1개의 뷰가 호출
  - urls.py/urlpatterns 리스트에 매핑된 호출 가능한 객체
@@ -121,19 +121,19 @@ Today I Learned
 - 파일 like 객체
  - response.write( str객체 또는 bytes객체)
   
-## [기초편] 장고 차근차근 시작하기 > 07 적절한 HTTP 상태코드로 응답하기
+##  07 적절한 HTTP 상태코드로 응답하기
 ### HTTP 상태코드
 - 웹 서버는 적절한 상태코드로서 응답
 - 각 HttpResponse 클래스마다 고유한 status_code 가 할당
 - REST API를 마늗ㄹ 때, 특히 유
 
-## [기초편] 장고 차근차근 시작하기 > 08 장고 쉘
+##  08 장고 쉘
 - SQL 출력 옵션
  - 쉘 > python manage.py shell_plus --print-sql
  - 혹은 settings.SHELL_PLUS_PRINT_SQL = True
 
 
-## [기초편] 장고 차근차근 시작하기 > 09 장고 모델 (ORM)
+##  09 장고 모델 (ORM)
 ### 애플리케이션의 다양한 데이터 저장방법
 - 데이터베이스 : RDBMS , NoSQL 등
 - 파일 : 로컬, 외부 정적 스토리지
@@ -172,7 +172,7 @@ Today I Learned
  - 데이터베이스 확인
     - db 종류에 따라 다양한 방
     
-## [기초편] 장고 차근차근 시작하기 > 10 장고 모델 필드
+##  10 장고 모델 필드
  - Primary Key: AutoField, BigAutoField
  - 문자열 : CharField, TextField, SlugField
  - 날짜/시간 : DateField, TimeField, DateTimeField, DurationField     
@@ -202,7 +202,7 @@ Today I Learned
  - 필요하다면, validators들을 추가로 타이트하게 지정
 - ORM은 SQL 쿼리를 만들엉주는 역할일 뿐, 보다 성능높은 애플리케이션을 위해서는, 사용하려는 DB 엔진에 대한 깊은 이해가 필요 
     
-## [기초편] 장고 차근차근 시작하기 > 11 마이그레이션을 통한 데이터베이스 스키마 관리
+##  11 마이그레이션을 통한 데이터베이스 스키마 관리
 - 데이터베이스에 어떤 변화를 가하는 Operation들을 나열
     - 테이블 생성/삭제, 필드 추가/삭제 등
 - 대개 모델로부터 자동 생성 -> makemigrations 명령
@@ -234,7 +234,7 @@ Today I Learned
     - 방법1) 서버로의 미적용 마이그레이들을 모두 롤백하고 -> 롤백된 마이그레이션들을 모두 제거하고 -> 새로이 마이그레이션 파일 생성
     - 방법2) 미적용 마이그레이션들을 하나로 합치기 -> squashmigrations
 
-## [기초편] 장고 차근차근 시작하기 > 12 장고 admin을 통한 데이터 관리
+##  12 장고 admin을 통한 데이터 관리
 ### django admin
 - djnago.contrib.admin 앱을 통해 제공
     - 디폴트 경로: /admin/ -> 실제 서비스에서는 다른 주소로 변경 권장
@@ -242,7 +242,7 @@ Today I Learned
     - 서비스 초기에 관리도구로서 사용하기에 제격
     - 관리도구 만들 시간을 줄이고 End - User 서비스에 집중
     
-## [기초편] 장고 차근차근 시작하기 > 13 모델을 통한 데이터 조회
+##  13 모델을 통한 데이터 조회
 ### Model Manager
 - 데이터베이스 질의 인터페이스를 제공
 - 디폴트 Manager로서 ModelCls.Objects가 제공
@@ -306,7 +306,7 @@ ModelCls.objects.create(title="New Title")
     -offset -> start
     -limit -> stop - start
     
-## [기초편] 장고 차근차근 시작하기 > 13 모델을 통한 데이터 생성/수정/삭제
+##  13 모델을 통한 데이터 생성/수정/삭제
 ### 다양한 INSERT 예시
 - 방법1
     ```djangotemplate
@@ -371,7 +371,7 @@ ModelCls.objects.create(title="New Title")
 - RDBMS 외에도 캐싱 솔루션이나 NoSQL 솔루션을 고려
     - 제일 먼저, DB엔진과 서비스에 맞는 적절한 DB설계가 중요
 
-## [기초편] 장고 차근차근 시작하기 > 15 관계를 표현하는 모델 필드
+##  15 관계를 표현하는 모델 필드
 ### RDBMS에서의 관계 예시
 -1:N 관계 -> models.ForeignKey 로 표현
     - 1명의 유저가 쓰는 다수의 포스팅
@@ -433,7 +433,7 @@ ModelCls.objects.create(title="New Title")
 
 ### RDBMS이지만 DB따라 NoSQL 기능도 지    
 
-## [기초편] 장고 차근차근 시작하기 > 16 django-debug-toolbar 를 통한 SQL 디버깅
+##  16 django-debug-toolbar 를 통한 SQL 디버깅
 ### django-debug-toolbar
 - 현재 request/response 에 대한 다양한 디버깅 정보를 보여줌
 - 다양한 panel 지원
@@ -461,7 +461,7 @@ ModelCls.objects.create(title="New Title")
     - 메모리에 누적되기에, 프로세스가 재시작됨되며 초기화
     - django.db.reset_queries() 통해서 수동 초기화도 가
     
-## [기초편] 장고 차근차근 시작하기 > 17 장고 Logging과 SQL Logging 처리
+##  17 장고 Logging과 SQL Logging 처리
 ### 로그 
 - 특정 형식으로 현 상황을 기록하는 문자열 기록
 - 로깅을 파이썬에서 기본 지원
@@ -491,8 +491,9 @@ ModelCls.objects.create(title="New Title")
           logger.error('Something went wrong!')
     
     ```    
+##  18 데이터베이스 정규화/비정규화(제외)
   
-## [기초편] 장고 차근차근 시작하기 > 19 장고 템플릿 엔진
+##  19 장고 템플릿 엔진
 ### 왜 템플릿을 사용하는가?
 - 코드만으로 직접 복잡한 문자열을 조합하기 까다롭다.
     - 조합한 문자열이 조금만 복잡해져도 코드가 산으로..
@@ -571,6 +572,252 @@ ModelCls.objects.create(title="New Title")
     - 위 파일들을 구현하지 않으면, "기본 흰바탕 까만글씨 에러화면" 출력
     - 실제 서비스에서는 구현을 권장 
 
+##  20 Jinja2 템플릿 언어도 같이 써보기
+### 장고 초심자는 장고 템플릿 언어에 먼저 집중
+- 장고 템플릿 언어 (이하 DTL) 를 통해
+    - 장고 기본 기능과 수많은 써드파티 라이브러리들이 구현
+- Jinja2로의 확장은 장고 초심자에게는 너무 이른 호기심
+
+### Jinja2 템플릿 언어
+- 장고 템플릿 언어의 영향을 받음
+    - 문법적으로 유사하지만, 보다 유연한 문법
+    - 가장 큰 차이 : 템플릿 내에서 함수 호출 시에 소괄호를 쓴다
+        - 즉, 다수 인자 지정이 가능
+    - File System Loader 만 지원하기에, 앱별 디렉토리에 템플릿 지정 불가
+- 아직 장고에서는 Jinja2에 대해 부분적인 지원
+- 필요한 라이브러리 pip install jinja2
+
+### 장고 템플릿 언어와의 문법적인 차이 포인트
+- Jinja2에서는 함수 호출시에 괄호를 사용하여 자유도를 높임
+
+|구분|Jinja2|Django Template Language|
+|------|---|---|
+|함수호출|{{ post.get_comments() }}| {{ post.get_comments }}|
+|필터|{{ tags join(" , ") }}|{{ tags join:" , " }}|
+
+### django-jinja 
+- 장고/Jinja2 통합 라이브러리
+    - 장고 기본에서의 Jinja2 지원만으로는 부족.
+- 기존 DTL 코드를 이에 맞춰 사용하기 위해서는, 마이그레이션 필요
+
+##  21 장고가 템플릿 파일을 찾는 원리
+### Django Template Loader
+- 다수 디렉토리 목록에서 지정 상대경로를 가지는 템플릿을 찾아줌.
+    - 다양한 로더가 지원되며, 템플릿 설정의 OPTIONS내 loader를 통해 각기 활성화
+    - 우선순위 : 파일시스템 로더 > 앱 디렉토리 로더
+- 다양한 템플릿 로더
+    - 파일 시스템 로터
+        - settings.TEMPLATES의 DIRS=[] 설정에 의존
+        - 지정 경로 리스트를 리스트에 추가
+    - 앱 디렉토리 로더
+        - settings.TEMPLATES의 APP_DIRS=True 설정에 의존
+        - 각 장고 앱 디렉토리 내, templates 경로를 리스트에 추가
+    - cached 로더
+        - 템플릿은 매번 파일읽기/컴파일 과정이 들어가는 데, 이를 로컬 메모리에 캐싱
+        
+### 템플릿 디렉토리 리스트
+1. 템플릿 로더는 서버가 시작할 때마다, 템플릿 로더 설정에 기반하여 "템플릿 디렉토리 리스트"를 생성
+    - 즉, 개발서버에서 settings.DEBUG = True 시에는 파이썬 소스코드가 변경될 때마다 서버를 재시작하기에, 소스코드 변경시마다
+        "템플릿 디렉토리 리스트"를 새로이 생성
+2. "find template" 로직 수행 시에, 이미 생성된 "템플릿 디렉토리 리스트"에서 템플릿을 순차적으로 찾음
+
+### 디렉토리 매칭 메커니즘
+- 템플릿 디렉토리 리스트 예
+    - askcompany/templates/ 
+    - blog/templates/ 
+    - shop/templates/
+- render(request, "blog/post_list.hml")를 호출할 경우, 순차적으로
+    - appcompany/templates/blog/post_list.html -> 매칭 시도 시작
+    - blog/templates/blog/post_list.html 
+    - shop/templates/blog/post_list.html
+    
+### app/templates/app은 namwspace 역할
+- 만약 다음과 같이 템플릿 파일이 있을 경우,
+    - appcompany/templates/post_list.html
+    - blog/templates/post_list.html 
+    - shop/templates/post_list.html
+- shop/templates/post_list.html 파일 활용을 위해
+    - render(request, "post_list.html")로 호출해보지만,
+    - 사용되는 것은 매번 askcompany/templates/post_list.html 입니다.
+- 권장
+    - 앱 내 디렉토리 배치는 app/templates/app 구조를 필히
+    - 그리고 "app/파일명" 구조로 활용
+
+##  22 템플릿 상속을 통한 중복 제거
+### 템플릿 상속의 필요성
+- 각 뷰에 연결된 템플릿른 독립적으로 동작
+    - 그런데, 독립적으로 동작하는 템플릿은 같은 레이아웃/스타일을 가지게 된다
+        - 네이버 블로그 내 각 링크들은 서로 다른 주소(장고에서는 서로 다른 뷰/템플릿) 이지만, 같은 스타일을 가진다.
+    - 즉, 템플릿 코드 중복이 발생
+- 이러한 코드 중복을 해결하기 위한 솔루션 -> 템플릿 상속
+
+### 템플릿 상속의 특징
+- 기본 특징
+    - 상속은 여러 단계로 이뤄질 수 있다.
+    - block에는 이름을 할당해야하며, 이름을 통해 구분하며, 한 템플릿 내에서 그 이름은 유일
+- 부모 템플릿
+    - 전체 레이아웃을 정의
+    - 자식 템플릿이 비집고 들어올 수 있는 영역(block)을 다수 정의가능
+        - block이 없다면, 자식 템플릿은 상속만 받을 뿐, 어떠한 변경도 수행할 수 없다.
+- 자식 템플릿
+    - 상속받을 부모를 1개 지정할 수 있다.
+    - 상속받은 부모에서 정의한 block에 대해, block 내용을 재정의하여 그 내용을 추가/변경/제거
+        - block 바깥에 정의한 내용은 모두 무시
+        - 부모가 정의하지 않은 block을 재정의하여도 이는 무시
+        
+### 사용하는 템플릿 태그
+- {% extends "부모템플릿경로" %}
+- {% block 블럭이름 %} 블럭내용 {% endblock %}
+    - 부모에서 사용하면, 블럭 정의
+    - 자식이 사용하면, 부모의 블록 재정의
+- {{ block.super }}
+    - 자식 템플릿에서 사용할 때, 지정 위치에 부모 block 내용 출력
+    
+### 기본적으로 2단계의 상속을 추천
+- 프로젝트 전반적인 레이아웃 템플릿 : askcompany/templates/layout.html
+    - 각 앱 별 레이아웃 템픒릿 : app/templates/app/layout.html -> layout.html 상속
+        - 템플릿#1 : app/templates/app/post_list.html -> layout.html 상속   
+        - 템플릿#2 : app/templates/app/post_detail.html -> layout.html 상속   
+        - 템플릿#3 : app/templates/app/post_form.html -> layout.html 상속   
+
+## 23 자주 사용하는 템플릿 필터
+### 장고 템플릿 필터
+- 함수 형태로 구현하여, 템플릿에 등록
+- 언제 사용하는가?
+    - 템플릿 단에서 출력된 값에 대해서, 값 변환이 필요할 
+    - ex) 개행 적용, 숫자에 콤마찍기, 소스코드 highlight 등
+
+- 필터에서 취하는 인자 (1개 ~2개)
+    - 인자 A : 변환할 값
+    - 인자 B (옵션) : 추가 옵션
+    
+### add
+- 정수 뿐만 아니라, 다양한 같은 타입에 대한 + 연산 지원
+{{ value|add:"2" }}
+
+### cut
+{{ value|cut:" " }}
+
+### 유용한 값 처리
+- default : 값이 False 판정일 때, 인자로 지정한 디폴트 값을 사용
+    - default_if_none: 값이 None 판정일 때, 인자로 지정한 디폴트 값을 사용
+- filesizeformat : 숫자를 파일크기로서 단위를 붙임
+    - 지원 단위 : KB, MB, GB, TB, PB
+    - ex) 123456789 -> 117.7 MB
+- join : 문자열 join과 유사
+    - 언제 리스트를 하나로 합쳐서 표현하고자 할 때
+- linebreaks : 1개 개행은 <br> 태그, 2개 개행은 <p> 태그로 변환
+    - 줄바꿈 시에 유용
+- linebreaksbr : 모든 개행을 <br> 태그로 변환
+- pprint : pprint.pprint() 래핑. 리버깅 목적의 출력
+- truncatechars : 지정 글자수 만큼을 자르고, 말줄임표(...)를 붙임.
+    - truncatechars_html: 글자 단위로 html 요소를 살려서 자르기
+    - truncatewords: 단어 단위로 자르기
+    - truncatewords: 단어 단위로 html 요소를 살려서 자르기
+    
+### URL 링크 만들기
+- urlize : URL과 이메일을 a 태그로 변환
+    - URL은 링크 문자열이 필히 http://, https://, www. 로 시작해야함.
+    - 최상위 도메인이 .com, .edu, .gov, .int, .mil, .net, .org 중 하나여야함
+    - 생성된 링크에 rel="nofollow"가 추가 -> 크롤러에게 추적방지 요청
+    - 보다 유연한 링크 변환을 위해, javascript 라이브러리를 사용해볼 수도.
+- urlizetrunc 
+    - urlize와 동일하지만, 링크 텍스트를 지정 길이로 자르기
+    
+### escape 처리와 SafeText
+- escape : 문자열의 HTML요소를 변환 <-> safe
+    - 이를 통해 사이트 개발자가 의도치않은 HTML/Javascript 수행을 방지
+        - < (&lt), > (&gt), 홑따옴표(&#39), 쌍따옴표(&quot;), &(&amp;) 를 변환
+        - 장고 템플릿 언어에서는 디폴트로 escape 처리
+        - autoescape 태그를 통한 처리도 가능
+- safe : escape 처리되지 않도록, SafeText 로 래핑
+    - 파이썬 객체의 값을
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+           
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        
+        
+
+
+
+
 
     
     
@@ -636,7 +883,7 @@ ModelCls.objects.create(title="New Title")
     
     
       
-    
+   
     
     
     
