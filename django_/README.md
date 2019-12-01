@@ -732,8 +732,111 @@ ModelCls.objects.create(title="New Title")
         - autoescape 태그를 통한 처리도 가능
 - safe : escape 처리되지 않도록, SafeText 로 래핑
     - 파이썬 객체의 값을
+
+### date
+- 지정 포맷으로 날짜 포맷팅
+- 관련 settings
+    1. DATE_FORMAT : 디폴트 "N j, Y" (예: "Feb. 4, 2003")
+    2. DATETIME_FORMAT : 디폴트 "N j, Y, P" (예: "Feb. 4, 2003, 4 pm")
+    3. SHORT_DATE_FORMAT : 디폴트 "m/d/Y" (예: "12/31/2003")
+    3. SHORT_DATETIME_FORMAT : 디폴트 "m/d/Y P" (예: "12/31/2003 4 pm")
+- 위 포맷 중 택일 지정하거나, 커스텀 지정. 미지정시에 DATE_FORMAT 으로 지정
+- settings.USE_L10N = True 시에는 settings.LANGUAGE_CODE에 맞춰, 번역 사용
+
+### time
+- 지정 포맷으로 시간 포맷팅
+- 관련 settings
+    1. TIME_FORMAT : 다폴트 "P" (예 "4 p.m")
+- 커스텀 지정. 미지정시에 TIME_FORMAT 으로 지정
+- settings.USE_L10N = True 시에는 settings.LANGUAGE_CODE 에 맞춰 번역 사용
+
+### json script 필터
+- 파이썬 객체를 JSON 으로의 처리
+    - 파이썬 문법과 JSON 문자열 문법이 비슷한 측면이 있기에, 그대로 템플릿에 출력하여, 사용하기도 했었음.
+    - django.core.serializers.json.DjangoJSONEncoder 를 통한 json 직렬화
+    - 변환된 JSON 문자열에 대해서 '>', '<', '&' 문자열 ESCAPE 처리 (XSS 공격방지)
     
+{{ value|json_script:"my-id" }}
+
+<script id="my-id" type="application/json">{"hello": "world"}</script>
+
+var value = JSON.parse(document.getElementById('my-id').textContent);
+
+## 24. 자주 사용하는 템플릿 태그
+
+### 장고 템플릿 태그
+- 함수/클래스 형태로 구현하여, 템프릿에 등록
+    - 원하는 개수 만큼의 인자를 받을 수 있습니다.
+    - 템플릿에 따라 현재 템플릿 내 Context를 받을 수도 있습니다.
+- 언제 사용하는가?
+    - 단순 값 변환이 아닌, 다양한 처리가 필요할 때
+        - ex) for/endfor, if/endif, ifchanged 등
+    - 템프릿 필터보다 많은 인자 처리가 필요할 때
+- 필터에서 취하는 인자 (0개 이상~)
+
+### 기본 태그
+- extends : 템플릿 상속
+- load : 빌트인 템플릿태그/필터 외에 추가 로딩
+    - 각 장고앱의 templatetags/ 디렉토리 내, 파일명을 지정
+- include : 템플릿 가져오기
+    - 현재의 context가 그대로 전달
+    - with 옵션을 통해 추가 키워드 인자 전달
+        - only 추가옵션을 통해 지정
+- block ... endblock : 블락 영역 지정
+    - 템플릿 상속을 위한 영역 이정
+- comment ... endcomment : 주석 영역 지정
+
+### 조건문 / 반복문
+- if ... elif ... else ... endif : 조건문
+- ifchanged ... endifchanged : 대상 값이 변경될 시에, 렌더링
+    - 인자없이 사용할 경우
+        - 대상 값: 해당 블락에 속한 템플릿 내역
+    - 인자를 1개 이상 사용할 경우
+        - 대상 값: 인자 목록
+- for ... empty ... endfor : 반복문
+    - empty는 해당 Iterable Object가 비었을 때, 수행
     
+### 템플릿 태그(1)
+- lorem: 무작위 채우기 텍스트 생성
+     - {% lorem 횟수 단어_단락_선택 랜덤여부 %}
+     - 횟수 : 디폴트 1
+     - 단어_단락_선택 : 단어(w), HTML단락(p), PlainText단락(b, 디폴트)
+- spaceless ... endspaceless
+    - HTML 태그 사이의 공백을 모두 제거
+- url : URL Reverse
+- verbatim ... endverbatim
+    - 해당 역열에 대해서 템플릿 엔진 처리를 하지 않습니다.
+    
+### 템플릿 태그(2)
+- with ... endwith
+    - 템플릿 단계에서 변수 생성 문법
+    
+총 {{ business.employees.count }} 명의 직원이 있습니다.
+{{ business.employees.count }} 명의 직원 중에 3명이 업무 중에 있습니다.
+
+{% with total=business.employees.count %}
+    총 {{ total }} 명의 직원이 있습니다.
+    {{ total }} 명의 직원 중에 3명이 업무 중에 있습니다.
+{% endwith %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
     
     
     
