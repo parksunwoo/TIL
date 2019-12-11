@@ -320,10 +320,72 @@ fi
     - 키보드 입력은 read 명령어로 읽을 수 있음
     - read 명령어를 단독으로 실행하면 키보드 입력을 대기하는 상태가 되어서 enter를 입력할 때까지 입력된 내용을 읽을 수 있음
     - read 명령어로 입력을 대기할 때 read -p "입력하세요>" name처럼 해서 입력을 요구하는 프롬프트를 표시하면 좋음
+
+- 키보드 입력을 확인해서 다시 입력받고 싶어
+```shell script
+#!/bin/bash
+given_args=0
+on_arg_given(){
+  given_args=$(($given_args + 1))
+}
+
+while getopts l:f:u:i:q:g:p:b:c:s: OPT; do
+    case $OPT in
+      l) last_name="$OPTARG"; last_name_given=yes; on_arg_given;;
+      f) first_name="$OPTARG"; first_name_given=yes; on_arg_given;;
+
+    esac
+done
+
+input(){
+  [ "$last_name_given" = "" ] && read -p " 성은?> " last_name
+  [ "$first_name_given" = "" ] && read -p " 이름은?> " first_name
+}
+
+confirm(){
+
+}
+
+if [$given_args -lt 10]; then
+    while true; do
+      input; confirm
+      if [  "$yesno" != "yes" ]; then continue; else break; fi
+    done
+fi
+```
+ 
+- 명령어의 모든 출력을 파일로 저장하고 싶어
+    - 명령어나 스크립트의 정보 출구는 표준 출력 (1번) 과 표준 에러 출력(2번) 두 가지가 있음
+    - 리다이렉트를 사용하면 표준 출력(1> 또는 >)과 표준 에러 출력(2>) 각자 따로따로 출력할 곳을 변경 가능
+    - "출력 번호 >& 출력 대상 번호"라고 쓰면 특수한 리다이렉트가 되어서 두 출력을 하나로 합칠 수 있음
+      1> /path/to/file 2>&1 이라고 적으면 표준 출력이 파일에 리다이렉트되고, 표준 에러 출력도 표준 출력과 같은 출력 대상에 리다이렉트 됨
+      
+- 사용자 작성용 명령어 차이를 파악하고 싶어
+    - 기본적으로 useradd를 사용(드물게 adduser 밖에 사용할 수 없는 경우도 있음)
+    - 실행하기 전에 --help로 사용법을 확인할 것!
+    - 기대와 다른 상태로 사용자가 작성되었다면 userdel로 삭제(드물게 rmuser 밖에 사용할 수 없는 경우도 있음)
     
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+      
+      
+          
     
     
     
