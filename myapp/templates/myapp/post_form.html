@@ -1,0 +1,12 @@
+
+<h1>Post Form</h1>
+
+<hr />
+
+<form action="" method="post">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="저장"/>
+</form>
