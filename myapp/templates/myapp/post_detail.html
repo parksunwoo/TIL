@@ -1,0 +1,18 @@
+
+<table>
+    <tbody>
+        {% for post in post_list %}
+            <tr>
+                <td>{{ post.pk }}</td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.created_at }}</td>
+                <td>
+                    <a href="{% url "post_edit" post.pk %}">
+                        수정
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
