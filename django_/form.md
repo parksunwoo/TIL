@@ -120,27 +120,42 @@ response = FileResponse(open('myfile.png', 'rb'), as_attachment=True)
     - BooleanField, CharField, ChoiceField, DateField, DateTimeField, EmailField, FileField, ImageField, FloatField, IntegerField, RegexField 등
     
     
+## 04 Cross Site Request Forgery
+### 사이트 간 요청 위조 공격
+- 사옹자가 의도하지 않게 게시판에 글을 작성하거나, 쇼핑을 하게 하는 등의 공격
+
+### 요청을 받는 서버 입장에서, 공격을 막기 위해 Token 을 통한 체크
+- POST 요청에 한해 CsrfViewMiddleware 를 통한 체크
+    - POST 요청을 받을 떄 Token 값이 없거나 유효하지 않다면, 403 Forbidden 응답
+- 처리순서
+    1) 입력 Form을 보여줄 때, Token값도 값이 할당
+        - token은 User마다 다르며, 주기적으로 변경됩니다
+    2) 그 입력 Form을 통해 Token 값이 전달이 되면, Token 유효성 검증
     
+### CSRF Token 체크기능을 끈다
+- 가급적이면 끄지 말자
+    - 기본 제공되는 보안기능이며,
+    - 이를 유지하는 데에 비용이 거의 들지 않는다.
+- 앱 API에서는 끄는 것이 필요할 수 있다
+    - django-rest-framework에서는 관련 View에 대해 모두 배제
+- 특정 View에 한해, CSRF Token 체크에서 배제할려면?
+    - 해당 뷰에 @csrf_exempt 장식자를 적용
     
-    
-    
-    
-    
-    
-     
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    
-    
-    
+## 05. ModelForm
+### ModelForm
+- 장고 Form을 상속
+- 지정된 Model로부터 필드정보를 읽어들여, Form Fields를 세팅
+- 내부적으로 Model Instance 를 유지
+- 유효성 검증에 통과한 값들로, 지정 Model Instance로의 저장(save) 지원 (Create 또는 Update)
+
+### ModelForm.save(commit=True)
+- form의 cleaned_data를 Model Instance 생성에 사용하고, 그 Instance를 리턴
+- commit = True
+    - model instance 의 save() 및 form.save_m2m()을 호출
+    - form.save() != instance.save()
+- commit = False
+    - instance.save() 함수 호출을 지연시키고자할 때 사용
+
     
     
     
