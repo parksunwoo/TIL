@@ -1,12 +1,18 @@
 
-<h1>Post Form</h1>
+<table>
+    <tbody>
+        {% for post in post_list %}
+            <tr>
+                <td>{{ post.pk }}</td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.created_at }}</td>
+                <td>
+                    <a href="{% url "post_edit" post.pk %}">
+                        수정
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-<hr />
-
-<form action="" method="post">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="submit" value="저장"/>
-</form>
