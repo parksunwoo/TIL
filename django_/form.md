@@ -156,6 +156,66 @@ response = FileResponse(open('myfile.png', 'rb'), as_attachment=True)
 - commit = False
     - instance.save() 함수 호출을 지연시키고자할 때 사용
 
+## 06. Form Validation
+### 유효성 검사 호출 로직
+- form.is_valid() 호출 당시
+1. form.full_clean() 호출
+    1. 각 필드 객체 별로
+        - 각 필드객체.clean() 호출을 통해 각 필드 Type에 맞춰 유효성 감사
+    2. Form 객체 내에서
+        - 필드 이름 별로 Form객체.clean_필드명() 함수가 있다면 호출해서 유효성 검사
+        - Form객체.clean() 함수가 있다면 호출해서 유효성 검사
+2. 에러 유무에 따른 True/False 리턴
+
+### Form에서 수행하는 2가지 유효성 검사
+1. validator 함수를 통한 유효성 검사
+    - 값이 원하는 조건에 맞지 않을 때, ValidationError 예외를 발생
+        - 주의 : 리턴값은 사용되지 않습니다
+2. Form 클래스 내 clean, clean_ 멤버함수를 통한 유효성 검사 및 변경
+    - 값이 원하는 조건에 맞지 않을 때, ValidationError 예외를 발생
+    - 리턴값을 통해 값 반환
+    
+### 함수형/클래스형 Validator(1)
+- 함수형
+    - 유효성 검사를 수행할 값 인자를 1개 받은 Callable Object
+- 클래스형
+    - 클래스의 인스턴스가 Callable Object
+
+### 모델 필드에 디폴트 적용된 validators
+- models.EmailField (CharField)
+    - validators.validate_email 적용
+- models.URLField
+    - validators.URLValidator() 적용
+- models.GenericIPAddressField
+    - validators.ip_address_validators 적용
+- models.SlugField
+    - validators.validate_slug 적용
+    
+### Form clean 멤버함수에게 기대하는 것
+1. "필드별 Error 기록" 혹은 "Non 필드 Error 기록"
+    - 값이 조건에 안 맞으면 ValidationError 예외를 통해 오류 기록
+    - 혹은 add_error(필드명, 오류내용)  직접 호출을 통해 오류 기록
+2. 원하는 포맷으로 값 변경
+    - 리턴값을 통해 값 변경하기
+
+### 멤버 함수별, 검사/변경의 책임
+- clean_필드명() 멤버함수
+    - 특정 필드별 검사/변경의 책임
+    - ValidationError 예외 발생 시, 해당 필드 Error로 분류
+- clean() 멤버함수
+    - 다수 필드에 대한 검사/변경의 책임
+    - ValidationError 예외 발생 시, non_field_error로 분류
+    - add_error(...) 함수를 통해 필드별 Error 기록도 가능
+    
+### 언제 validators를 쓰고, 언제 clean을?
+- 가급적이면 모든 validators는 모델에 정의하고, ModelForm을 통해 모델의 validators 정보도 같이 가져오세요
+- clean이 필요할 때
+    - 특정 Form에서 1회성 유효성 검사 루틴이 필요할 때
+    - 다수 필드값에 걸쳐서, 유효성 검사가 필요할 때
+    - 필드 값을 변경할 필요가 있을 때
+        - validator는 값만 체크할 뿐, 값을 변경할 수는 없습니다.
+   
+    
     
     
     
