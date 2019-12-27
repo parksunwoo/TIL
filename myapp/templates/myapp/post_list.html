@@ -1,14 +1,6 @@
+{% extends "myapp/layout.html" %}
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message.tags }}
-            {{ message.message }}<br/><br/>
-        </div>
-    {% endfor %}
-{% endif %}
+{% block content %}
 
 <table>
     <tbody>
@@ -26,4 +18,5 @@
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
 

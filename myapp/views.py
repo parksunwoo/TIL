@@ -42,6 +42,7 @@ def comment_new(request, post_pk):
             comment.post = post
             comment.ip = request.META['REMOTE_ADDR']
             comment.save()
+            messages.success(request, '새 댓글이 등록되었습니다.')
             return redirect(success_url)
     else:
         form = form_cls()
@@ -61,7 +62,7 @@ def post_edit(request, pk):
         form = form_cls(request.POST, request.FILES, instance=post)
         if form.is_valid():
             post = form.save()
-            messages.error(request, '새 글을 수정/저장했습니다.')
+            messages.debug(request, '글을 수정/저장했습니다.')
             return redirect(success_url)
     else:
         form = form_cls(instance=post)
@@ -82,6 +83,7 @@ def comment_edit(request, post_pk, comment_pk):
         form = form_cls(request.POST, request.FILES, instance=comment)
         if form.is_valid():
             comment = form.save(commit=False)
+            messages.debug(request, '댓글을 수정/저장했습니다.')
             return redirect(success_url)
     else:
         form = form_cls(instance=comment)

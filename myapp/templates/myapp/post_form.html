@@ -1,13 +1,7 @@
+{% extends "myapp/layout.html" %}
 {% load bootstrap4 %}
 
-<!doctype html>
-<html>
-    <head>
-        <meta charset="urf-8"/>
-        <title></title>
-        {% bootstrap_css %}
-</head>
-<body>
+{% block content %}
 
 <div class="container">
     <div class="col-sm-12">
@@ -24,17 +18,14 @@
                 </button>
             {% endbuttons %}
         </form>
-
-        {% bootstrap_javascript jquery='full' %}
-
-        <script type="text/javascript">
-        var dom = document.getElementById('{{ form.user_agent.id_for_label }}');
-        dom.value = navigator.userAgent;
-        </script>
     </div>
 </div>
 
-</body>
-</html>
+{% endblock %}
 
-
+{% block extra_body %}
+<script type="text/javascript">
+var dom = document.getElementById('{{ form.user_agent.id_for_label }}');
+dom.value = navigator.userAgent;
+</script>
+{% endblock %}

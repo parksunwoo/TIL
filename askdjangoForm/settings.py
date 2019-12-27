@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from django.contrib.messages import constants as message_constants
+from django.contrib.messages import constants as constants
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -115,6 +115,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+
 USE_L10N = True
 
 USE_TZ = True
@@ -129,6 +130,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 MESSAGE_TAGS = {
-    message_constants.DEBUG : 'secondary',
-    message_constants.ERROR : 'danger',
+    constants.DEBUG : 'secondary',
+    constants.ERROR : 'danger',
 }
+
+# settings/dev.py에서 지정하시기를 추천
+MESSAGE_LEVEL = constants.DEBUG

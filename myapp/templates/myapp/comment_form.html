@@ -1,12 +1,21 @@
+{% extends "myapp/layout.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
 
 <h1>Comment Form</h1>
 
-<hr />
-
-<form action="" method="post">
+<form action="" method="post" novalidate autocomplete="off">
     {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="submit" value="저장"/>
+
+    {% bootstrap_form form %}
+
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">
+            Submit
+        </button>
+    {% endbuttons %}
 </form>
+
+{% endblock %}
+
