@@ -6,5 +6,6 @@ from django_summernote.admin import SummernoteModelAdmin
 @admin.register(Post)
 class PostAdmin(SummernoteModelAdmin):
     summernote_fields = '__all__'
+    readonly_fields = ['user_agent']
 
 admin.site.register(Comment)

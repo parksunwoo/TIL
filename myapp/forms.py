@@ -5,6 +5,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
+        widgets = {
+            'user_agent': forms.HiddenInput,
+        }
 
 class CommentForm(forms.ModelForm):
     class Meta:

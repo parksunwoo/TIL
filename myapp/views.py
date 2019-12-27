@@ -2,6 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm, CommentForm
 from .models import Post, Comment
+from django.contrib import messages
 
 post_list = ListView.as_view(model=Post)
 
@@ -15,8 +16,9 @@ def post_new(request):
     if request.method == 'POST':
         form = form_cls(request.POST, request.FILES)
         if form.is_valid():
-            post = Post.objects.create(**form.cleaned_data)
-            # post.save()
+            # post = Post.objects.create(**form.cleaned_data)
+            post = form.save()
+            messages.success(request, '새 글이 등록되었습니다.')
             return redirect(success_url)
     else :
         form = form_cls()
@@ -58,7 +60,8 @@ def post_edit(request, pk):
     if request.method == 'POST':
         form = form_cls(request.POST, request.FILES, instance=post)
         if form.is_valid():
-            post.save()
+            post = form.save()
+            messages.error(request, '새 글을 수정/저장했습니다.')
             return redirect(success_url)
     else:
         form = form_cls(instance=post)

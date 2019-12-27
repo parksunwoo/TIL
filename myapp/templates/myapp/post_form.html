@@ -1,12 +1,40 @@
+{% load bootstrap4 %}
 
-<h1>Post Form</h1>
+<!doctype html>
+<html>
+    <head>
+        <meta charset="urf-8"/>
+        <title></title>
+        {% bootstrap_css %}
+</head>
+<body>
 
-<hr />
+<div class="container">
+    <div class="col-sm-12">
+        <h1>Post Form</h1>
 
-<form action="" method="post">
-    {% csrf_token %}
-    <table>
-        {{ form.as_table }}
-    </table>
-    <input type="submit" value="저장"/>
-</form>
+        <form action="" method="post" novalidate autocomplete="off">
+            {% csrf_token %}
+
+            {% bootstrap_form form %}
+
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+            {% endbuttons %}
+        </form>
+
+        {% bootstrap_javascript jquery='full' %}
+
+        <script type="text/javascript">
+        var dom = document.getElementById('{{ form.user_agent.id_for_label }}');
+        dom.value = navigator.userAgent;
+        </script>
+    </div>
+</div>
+
+</body>
+</html>
+
+
