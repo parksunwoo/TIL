@@ -11,6 +11,14 @@
 <a href="{% url "post_list" %}">
     목록으로
 </a>
+
+<a href="{% url "post_edit" post.pk %}">
+    수정
+</a>
+<a href="{% url "post_delete" post.pk %}">
+    삭제
+</a>
+
 <a href="{% url "comment_new" post.pk %}">
     댓글 쓰기
 </a>
