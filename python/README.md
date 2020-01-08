@@ -249,12 +249,97 @@ yellow 3
 blue 10
 >
 >
+
+#04. 블록문 들여쓰기 주석
+### 블록문 (Block Statement)
+- 블록문 (Block Statement) : 연속된 코드 묶음
+- 코드는 다수의 블록 으로 구성. 블로문 안에 다수의 블록문 중첩
+- 블록구분 : 들여쓰기 (Indent), 다른 언어에서는 중괄호 ({})
+
+### 들여쓰기(Indentation)
+- 들여쓰기는 Tabs 또는 Spaces로 입력
+ - Github 코드 저장소에성늬 Tabs/Spaces 사용 통계
+- 파이썬 언어 특징중에서 가장 호불호가 갈리는 기능
+ - 코드의 가독성 증대
+- 하나의 들여쓰기는 Python Style Guide #Indentation 에 따라, 공백 4칸을 권장
+
+### IndentationError
+- 일관된 들여쓰기를 지키지 않는다 IndentationError 발생
+- Tab과 Space는 엄연히 다른 글자입니다. 필히 하나로 통일 ~ !!!
+max = 10
+result = 0
+for i in range(max+1):
+result = result +i # 들여쓰기(Indentation) 가 빠졌어요.
+print("result = %d" % result)
+
+### 탭 > 스페이스, 자동변환 기능
+- 요즘 대개의 소스코드 편집기에서 자동변환 기능을 제공
+- visual studio code : 디폴트 활성화
+- sublime text3 : 아래 설정이 필요
+
+### 주석 (Comments)
+- 파이썬에서의 주석 문법은 "1줄 주석" 문법만 지원
+    - "여러 줄 주석" 문법은 "문자열"로서 표기
+
+### PEP8: Style Guide for Python Code
+- PEP : Python Enhancements Proposals
+- 일관성있는 코드 스타일을 위한 코드 스타일 제안
+- 주요 스타일
+    - 들여쓰기는 공백 4칸 (구글은 공백 2칸)
+- [파이썬 코딩 컨벤션 by spoqa](https://spoqa.github.io/2012/08/03/about-python-coding-convention.html)
+
+#05. 흐름 제어 (조건문, 반복)
+### 조건문, if문
+- 한 if statement 에서 if/ else 는 1회만 쓸수 있으나, elif 는 원하는 조건의 수만큼 쓸 수 있음
+
+### 반복문 : for
+- Iterable Object 로부터 가져올 값들을 모두 가져올때까지 반복
+for 변수 in 리스트:
+    매 항목마다 수행할 코드 블록
+for 내에서 break 문을 지나면 해당 반복문 종료
+
+for i in range(20):
+    print(i)
+    if i > 10:
+        break
+         
+### 중첩 반복문을 한번에 종료시키기
+예외발생이나 함수 내에서 return 문을 통해 중첩 반복문을 한번에 종료가능
+
+>>> def gugu():
+    for i in range(2, 10):
+        for j in range(1, 10):
+            print(i, j)
+            return None
 >
->
->
->
->
->
+### 내장함수 range 
+- range (stop) : 0부터 stop 미만의 범위에서 1씩 증가시킨 값으로 리스트를 구성
+    - 문법적으로는 리스트가 아니라, 순회가능한 (Iterable) 객체
+- range (start, stop[, step]) : start 값 이상, stop 값 미만의 범위에서 step 씩 증가시킼ㄴ 값을 리스트를 구성
+
+### 반복문 : while
+- 조건이 만족하는 동안에 반복문 수행
+while 조건:
+    매 항목마다 수행할 코드 블록
+while 내에서 break 문을 만나면 해당 반복문 종료
+
+### 무한루프 
+- <반복문조건>이 항시 True 일 때
+i = 10
+while i < 13:
+    print(i)
+    i -= 1
+    
+for 에서는 itertools.count 함수를 통해 가능
+from itertools import count
+for i in count(1):
+    print(i)
+
+
+
+
+
+
     
     
 
