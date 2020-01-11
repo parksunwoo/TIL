@@ -10,10 +10,10 @@ $ source ./myvenv/bin/activate  # 맥/리눅스 가상환경 활성화
 $ pip install <package>         # 가상환경 안에서 개발
 $ deactivate                    # 현재 가상환경 비활성 
 ```
-    
+
     - 파이썬3 명령어로 생성한 가상환경이므로 pip로 실행해도 무관함 
     - virtualenv : 파이썬3에서는 굳이 사용할 필요없음, 파이썬2에서 사용하기위함
-    
+
 #02. 데이터 타입
 ## 기본 데이터 타입 (int, float, str)
 ### 변수 (Variables)
@@ -72,7 +72,7 @@ lyrics = '''The now glows white on the mountain tonight Now a footprint'''
     - 정의되지 않은 변수에 접근 시에 발생
     >>> print(a)
     NameError : name 'a' is not defined
-                                          
+    
 #03. 기본 자료구조
 ## 기본 데이터 타입 (int, float, str)
 ### container
@@ -97,6 +97,7 @@ names = [
     'Min',
 ]
 - 색인(index) 지원 : 0부터 시작하여 1씩 증가
+  
   - 음수 색인 지원: 끝에서부터 역으로 -1부터 1씩 감소
 - 다른 타입의 값들로도 구성 가능
 - 한 List에 서로 다른 데이터타입의 값을 넣을 수 있지만, 가급적 같은 타입으로 맞춰 주는 것이 보다 알기 쉬운 코드가 됩니다
@@ -212,7 +213,7 @@ AttributeError : 'tuple' object has no attribute 'append'
  - Key와 Value 의 쌍으로 구성된 집합
  - Key 중복을 허용하지 않음.
  - 중과홀 내에 콜론(:) 으로 Key/Value를 구분
- 
+
  dict_values = {'blue':10, 'yellow':3, 'blue':9, 'red':7}
  - in 연산자로 멤버쉽 체크 지원 (Key의 등록 여부)
  - 순회 시에는 key 목록만 순회
@@ -225,7 +226,7 @@ AttributeError : 'tuple' object has no attribute 'append'
 10
 >>> dict_values['black'] = 30
 >>> del dict_values['black'] 
-    
+
 - in 연산자로 지정 Key 의 등록여부를 확인
 >>> dict_values = {'blue':10, 'yellow':3, 'red':7}
 >>> print('blue' in dict_values)
@@ -329,37 +330,243 @@ i = 10
 while i < 13:
     print(i)
     i -= 1
-    
+  
+
 for 에서는 itertools.count 함수를 통해 가능
 from itertools import count
 for i in count(1):
     print(i)
 
 
+#06. 함수
+### Agenda
+- positional / keyword arguments
+- 가변인자
+- 익명함수
+- 1급객체와 1급 함수/클래스
+- 고차함수
 
+### 함수 Functions
+- 함수의 구성
+    - 1개의 함수명(필수) : 작업의 이름
+    - 0개 이상의 인자값(옵션) : 작업에 필요한 정보
+    - 1개의 반환값 (옵션) : 작업의 결과를 하나 돌려받습니다
+- 코드의 중복을 제거하기 위해서 가장 필요한 문법
+- 빌트인 함수 (Builtin Functions) : print, range 등
+- 반환값이 없는 함수호출은 None 을 리턴합니다
 
+### Scope (변수의 유효범위)
+- 변수가 선언되어, 해당 변수가 영향을 미치는 영역
+- 지역 변수 (Local Variable)
+    - 함수 안에서 선언되어 함수내에서만 활용이 가능한 변수
+- 전역 변수 (Global Variable)
+    - 함수 밖에서 선언되어, 함수안에서도 활용이 가능한 변수
+    
+### 전역변수
+- 코드의 가독성을 헤치므로 권장하지 않는 방법
+- 주로 변수 목적으로 많이 쓰입니다. 파이썬에서는 따로 상수문법이 따로 없습니다.
+    - 상수명을 대문자로 씁니다.
+- 변수의 값이 변경되는 경우라면, 그 유효범위를 최소화하여 지역변수를 사용하는 것이 버그 발생확률을
+  획기적으로 낮ㅊ루 수 있습니다.
+  
+### Arguments (인자)
+ - 함수가 실행되는데에 필요한 0개 이상의 변수 목록
 
+### Positional Arguments
+- 인자의 위치에 기반한 인자
 
+def fn_with_positional_arguments (name, age):
+    print("당신의 이름은 {}이며, 나이는 {}입니다.".format(name, age))
+    
+fn_with_positional_arguments('Tom', 10)
+
+### Keyword Arguments
+- 인자의 이름에 기반한 인자
+- 디폴트 인자 문법이 함께 적용 : 함수 호출 시에 해당 인자를 지정하지 않으면 디폴트 인자값으로 값이 자동지정
+
+def fn_with_positional_arguments (name="", age=0):
+    print("당신의 이름은 {}이며, 나이는 {}입니다.".format(name, age))
+
+### Packing
+- 인자의 갯수를 제한하지 않고, 다수의 인자를 받을 수 있음
+- 다수의 Positional Arguments 를 하나의 tuple 로서 받을 수 있음 (packing)
+
+```python
+def fn2(*colors) :  # 0개 이상의 인자를 받을 수 있음
+    for color in colors:
+        print(color)
+        
+fn2()
+fn2('white')
+fn2('white', 'yellow')
+
+def fn3(color1, color2, *other_colors):
+    print('color1 :', color1) 
+    print('color2 :', color2) 
+    for color in other_colors:
+        print(color)
+
+fn3('brown', 'green') # 최소 2개의 인자 지정이 필요
+```
+### unPacking
+- 인자를 넘길 때 Sequence Data Type (리스트/튜플 등) 을 다수의 인자인 것처럼 나눠서 전달 가능 (unpacking)
+
+```python
+colors = ['white', 'yellow', 'black']
+fn2(*colors)
+fn2('brown', 'pink', *colors)
+```
+
+​       
+
+#07. 클래스
+
+### Object Oriented Programming (OOP) 배경
+
+- 함수는 데이터의 처리방법을 구조화했을뿐, 데이터 자체는 구조화하지 못했다.
+- 큰 문제를 작게 쪼개는 것이 아니라, 먼저 작은 문제들을 해결할 수 있는 객체들을 만든 뒤, 이 객체들을 조합해서 큰 문제를 해결하는 상향식 (Bottom-up) 해결법을 도입
+
+### OOP 주요특징
+
+- Encapsulation (캡슐화) : 관련 특성/기능을 하나의 클래스에 결합
+- Inheritance (상속) : 코드 재활용성 증대
+  - 부모 클래스의 특성/기능을 자식 클래스가 물려받음
+  - 자식 클래스는 물려받은 특성/기능을 활용/변경/무시/재정의
+- Polymorphism (다형성, 위키피디아, 참고)
+  - 다른 동작을 동일한 함수로 사용할 수 있도록 지원
+
+#### Class 
+
+- 단순히 <사용자 정의 데이터 타입>
+  - 관련된 다수의 변수와 함수의 묶음으로 구성
+- Ex) Circle 클래스, Rectangle 클래스
+- Tip : 파이썬에서 함수명은 snake_case, 클래스명은 CamelCase
+
+### 파이썬3 기본클래스는 object를 상속받아도, 안 받아도 동일
+
+- python2에서는 object를 상속받아야 New-style Class
+- python3에서는 Old-style class는 제거되고, New-style class만 남았습니다
+
+`class Python3NewStyleClass:`
+`				pass`
+
+`class Python3NewStyleClass(object):
+		pass`
+
+### 커스텀 클래스 Circle - 훨씬 응집도 있는 처리
+
+데이터와 함수의 통합
+
+```python
+from math import sqrt
+class Circle(obejct):
+  def __init__(self, x, y, radius):
+    	self.x = x
+      slef.y = y
+      self.radius = radius
+  
+	def area(self):
+    	return self.radius ** 2
+    
+  def distance(self, other):
+    	return sqrt ((self.x -other.x) **2 + (self.y -other.y) **2) - (self.radius + other.radius)
     
     
-
-
-
-
-
-
-
-
-
-
-
-
-
+    >>> circle1 = Circle(10, 20, 3)
+    >>> circle1.area()
     
+    >>> circle1.distance(circle2)
     
+```
+
+- 지정 클래스 타입의 변수 = 인스턴스 (Instance)
+- 인스턴스 생성 문법
+  -  함수를 호출하듯이, 클래스를 호출하여 인스턴스 생성
+- 클래스가 호출이 될 때, 클래스내 `__init__` 함수가 자동 호출
+  - 생성자(Constructor)라 하며, 해당 인스턴스를 초기화하는 역할
+  - 클래스 호출 시에 넘겨진 인자는 모두 생성자의 인자로 넘겨짐.
+- 인스턴스를 위한 함수/변수들을 인스턴스 함수, 인스턴스 변수
+
+
+
+## 클래스 변수와 인스턴스 변수
+
+### 클래스 변수와 인스턴스 변수
+
+- 클래스 변수 (Class)
+  - 클래스 공간에 저장
+- 인스턴스 변수 (Instance)
+  - 각 인스턴스마다 개별 공간에 저장
+
+#### 인스턴스 변수인 것 같지만, 클래스 변수
+
+파이썬에서는 인스턴스 변수 선언 문법은 Java의 그것과 다릅니다.
+
+```python
+class Dog:
+  	tricks = [] # 이는 인스턴스 변수가 아니라, 클래스 변수
     
-    
-    
+    def add_trick(self, trick):
+        self.tricks.append(trick)
+        
+>>> dog1 = Dog()
+>>> dog1.add_trick('roll over')
+
+>>> dog1.tricks #['roll over', 'play dead'] 출력 -????
+```
+
+### 올바른 인스턴스 변수 선언
+
+인스턴스 함수 내에서 인스턴스 변수를 선언합니다
+
+```python
+class Dog:
+  		def __init__(self):
+      		self.tricks = []   # 이것이 인스턴스 변수입니다.
+        
+      def add_trick(self, trick):
+        	self.tricks.append(trick)
+          
+          
+>>> dog1 = Dog()
+>>> dog1.add_trick('roll over')
+>>> dog2 = Dog()
+>>> dog2.add_trick('play dead')
+
+>>> dog1.tricks # ['roll over'] : 바르게 출력
+>>> dog2.tricks # ['play dead'] : 바르게 출력
+
+```
+
+
+
+### Data Hiding, Name Mangling
+
+데이터 은닉과 이름 장식
+
+- mangle : [동사] 짓이기다. 심하게 훼손하다
+- 파이썬에서는 접근 제한자 미지원
+- 언더스코어 2개 (__)로 시작하는 이름에 한하여 이름을 변경 (Name Mangling) 기법을 제공
+  - 인스턴스 함수 에서는 이름 그대로 접근
+
+```python
+class Person:
+  	def __init__(self, name):
+      self.__name = name
+      
+    def say_hello(self):
+      print('안녕 {}.'.format(self.__name)) # 인스턴스 함수 내에서는 이름 그대로 접근
+      
+      
+      
+>>> tom = Person('tom')
+>>> tom.__name 
+AttributeError: 'Person' object has no attribute '__name'
+>>> tom._Person__name  # 외부에서는 맹글링된 이름으로 접근
+'tom'
+>>> tom.say_hello()
+'안녕 tom.'
+```
 
 
 
@@ -371,4 +578,8 @@ for i in count(1):
 
 
 
+- - 
+
+	def area(self):
+		return self.radius ** 2
 
