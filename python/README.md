@@ -1139,6 +1139,182 @@ iterator = map(값을변환할함수, iterable)
 
 
 
+## 12. 모듈, 팩키지
+
+### import
+
+- 다른 파이썬 소스파일 내 함수/클래스등을 현재의 공간으로 가져오기
+- import 시점에서 해당 코드가 실행됩니다
+
+``` python
+module.py
+pkg1
+-- __init__.py
+-- pkg2
+----- __init__.py
+
+import module					# module.py
+module.some_fn()			# module.py 내 some_fn
+
+from module import some_fn # module.py 내 some_fn
+some_fn()
+
+import pkg1						# pkg1/__init__.py
+import pkg1.pkg2			# pkg1/pkg2/__init__.py
+pkg1.pkg2.some_fn()		# pkg1/pkg2/__init__.py 내 some_fn
+some_fn()
+
+import pkg1						# pkg1/__init__.py
+import pkg1.pkg2			# pkg1/pkg2/__init__.py
+pkg1.pkg2.some_fn()		# pkg1/pkg2/__init__.py 내 some_fn
+
+from pkg1 import pkg2	# pkg1/pkg2/__init__.py
+pkg2.some_fn()
+
+
+import mymodle1 			# mymodule1.py 내 사항을 가져옴
+mymodle1.mysum(1,2)		# mymodule1.py 내 mysum 함수
+
+import pkg1.pkg2 			# pkg1/pkg2/__init__.py 사항을 가져옴
+pkg1.pkg2.mysum(1,2)	# pkg1/pkg2/__init__.py 내 mysum 함수
+
+import pkg1.pkg2.모듈 			# pkg1/pkg2/모듈.py 내 사항을 가져옴
+pkg1.pkg2.mysum(1,2)	# pkg1/pkg2/모듈.py 내 mysum 함수
+```
+
+## modules (모듈)
+
+- 다수의 함수/클래스들을 정의해둔 파이썬 소스코드 파일
+
+``` python
+# mymodule.py
+def mysum(x , y):
+    return x + y
+  
+mymultiply = lambda x, y : x * y
+
+>>> import mymodule
+>>> mymodule.mysum(1, 2)
+3
+>>> mymodule.mymultiply(1, 2)
+2
+
+>>> from mymodule import mysum, mymultiply
+>>> mysum(1, 2)
+3
+>>> mymultiply(1, 2)
+2
+```
+
+## packages (팩키지)
+
+- 파이썬 소스코드가 들어있느 디렉토리
+- 해당 디렉토리에는 필히 ```__init___``` 파일이 있어야 파이썬 팩키지로서 인식합니다. (파이썬 3.3 이상에서는 없어도 인식)
+- 팩키지를 import 할 때에는 ```__init_.py``` 가 import 대상이 됩니다
+
+``` python
+mylib
+-- __init__.py
+---- mysum4 임포트된 함수
+-- math.py
+---- mysum4 함수
+
+# mylib/__init_-.py
+from .math import mysum4
+
+# mylib/math.py
+def mysum4(a, b, c, d):
+  return a + b + c + d
+
+#가져와서 쓰기
+>>> from mylib import mysum4
+>>> mysum(1, 2, 3, 4)
+10
+
+>>> from mylib.math import mysum4
+>>> mysum( 1, 2,3,4)4
+10
+
+```
+
+### import 해서, 이름을 변경해서 쓰기
+
+- import 시에 as를 통해 원하는 이름으로 변경
+
+## Relative import
+
+- 팩키지 내에서 다른 모듈/팩키지 가져오기
+
+``` python
+main.py
+pkg1
+-- __init__.py
+----- mysum 임포트된 함수
+-- math.py
+----- mysum 함수
+
+# pkg1/math.py
+def mysum(x, y):
+    return x + y
+  
+# pkg1/__init__.py
+from .math import mysum # mysum 함수를 현재 이름공간(name)으로 가져옴
+
+# main.py : 아래 2가지 mysum을 모두 사용가능
+from pkg1 import mysum
+from pkg1.math import mysum
+```
+
+### import 경로
+
+- import 를 수행할때, sys.path 경로에서 모듈/팩키지 탐색
+  - 환경변수 PATH 개념과 유사
+- sys.path 는 list 이기 때문에, 자유롭게 추가/수정/삭제 가능
+  - 수정된 내용은 현재 프로세스에서만 유효
+  - 관리성이 나빠지기 떄문에 권장하는 방법은 아님
+- 현재 디렉토리와 sys.path 경로에서 지정 모듈/ 팩키지를 찾지 못했을 경우 Import Error 발생
+
+## 파이썬 소스코드 내 __file__
+
+- 해당 파이썬 소스코드 파일 경로
+- pkg1/helloworld.py 일 경우
+  - "Users/askdjango/pkg1/helloworld.py"
+- 참고 : 장고프로젝트/setings.py 내 BASE_DIR
+
+``` 
+from os.path import abspath, dirname
+BASE_DIR = dirname(dirname(abspath(__file__)))
+```
+
+### 파이썬 소스코드 내 __name__
+
+- 해당 파이썬 소스코드 파일명
+
+  - pkg1/helloworld.py 일 경우 : "helloworld"
+
+- 비교
+
+  - 최초 진입소스 코드일 경우: ```__main___``` 으로 변경되어 실행
+  - import 된 소스코드 : 본래 ``` __name__``` 이 유지된 채로 실행
+
+- 이를 통해, import 시에는 실행되지 않고, 최초 진입시에만 실행될 코드를 지정가능
+
+  
+
+``` python
+def main():
+  print('본 스크립트가 최초 진입 소스코드 경우에만 실행됩니다.')
+ 
+if ```__name__``` == '__main__':
+  main()
+  
+if ```__name__``` == '__main__':
+  코드에 의해 import 될때에는 실행되지 않습니다.
+  
+```
+
+
+
 
 
 
