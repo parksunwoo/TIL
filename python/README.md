@@ -1315,15 +1315,221 @@ if ```__name__``` == '__main__':
 
 
 
+## 13. 문자열 인코딩과 유니코드
+
+### bit and byte
+
+- 컴퓨터 데이터의 크기를 나타내는 단위
+- 1 bit : 0과 1, 2가지 데이터를 표현 가능
+- 1 byte : 8bit, 256 가지 데이터를 표현 가능
+
+### character Encoding (문자 인코딩)
+
+- 문자나 기호들의 집합을 부호화(인코딩) 하는 방법 (위키피디아)
+- 인코딩의 2가지 의미
+  - 변환하는 방법: ascii, cp949, utf8, utf16, utf32 등
+  - 변환하는 행위
+- 하나의 동영상을 avi, mp4, mkv 등으로 변환(인코딩)할 수 있듯이, 하나의 문자열도 다양한 인코딩으로 변환할 수 있습니다.
+- 각 인코딩마다 표현가능한 글자와 범위가 다름
+
+### Encoding & Decoding
+
+- 일반적인 인코딩 의미: 어떠한 값을 특정 룰에 맞춰 다른 형식으로 변환
+  - 디코딩 : 역변환
+- 파이썬 유니코드 문자열(str) 열에서의 인코딩 의미
+  - 하나의 문자를 한의 숫자로서 표현하는 다양한 Mapping Rule (인코딩마다 Rule이 다름)
+  - 해당 Mapping Rule에 맞춰 변환하는 것
+- 파이썬 바이트(bytes) 에서의 디코딩 의미
+  - 해당 바이트를 유니코드로 디코딩할수 있음을 알고있다
+  - 해당 바이트가 인코딩된 인코딩에 따라, 디코딩을 수행하여 유니코드 문자열(str) 을 획득
+
+### 다양한 인코딩
+
+- ascii : 7비트를 사용한 인코딩
+- utf8, utf16, utf32 : 유니코드를 따르는 인코딩 방식
+- code page 949 : Microsoft 의 한국어 문자 인코딩
+- code page 932 : Microsoft 의 일본어 문자 인코딩
 
 
 
+### Unicode (유니코드)
+
+- 기존 코딩의 한계를 극복하고 전 세계의 모든 문자를 일관되게 표현할 수 있도록 설계된 산업표준
+- UTF-8
+  - 모든 유니코드 글자 표현 가능
+  - 가변 길이 문자 인코딩 방식 : 1바이트 ~ 4바이트
+
+### Unicode 이해의 다양한 단계들
+
+### 5. 특정 글자셋을 사용하는 문자(열)을 바이트열로 인코딩하는 방식이 인코딩이며,
+
+UTF-8이 곧 Unicode 가 아니라는 것을 아는 사람. Python에서 unicode 타입과 str 타입이 왜 함께 있는지 이해하며 잘 사용한다
+
+- 부연설명
+  - Python 2 : unicode타입(유니코드) 과 str타입(특정 인코딩)
+  - Python 3 : str 타입(유니코드) 과 bytes 타입(특정 인코딩)
+
+### ascii code
+
+- 7비트를 사용한 인코딩
+
+  ``` python
+  >>> for i in range(128):
+  				print(i, repr(chr(i)))
+  ```
+
+### 파이썬에서의 인코딩/디코딩
+
+- 유니코드 문자열(str타입) > 인코딩 > bytes 타입 문자열
+- Bytes 타입 문자열 > 디코딩 > 유니코드 문자열(str 타입)
+
+``` python
+unicode_string = '가'
+utf8_string = unicode_string.encode('utf-8') # bytes type
+cp949_string = unicode_string.encode('cp949') # bytes type
+unicode_string = cp949_string.decode('cp949') # str type
+```
+
+- 참고 : 바이너리 데이터를 파이썬으로 읽어들이면, bytes 타입
+  - PSD, PNG, JPG, XLSX, 세이브 데이터 등
+- 엉뚱한 인코딩으로 인코딩하면 UnicodeDecodeError
 
 
 
+## 파이썬에서의 인코딩/디코딩 Tip
 
+- 파이썬 코드 안에서는 모두 유니코드로 처리
+  - 유니코드로 문자열을 처리하면, 한글처리에 불편함이 없습니다. 글자수 세기도 쉬움
 
+``` python
+unicde_ga = '가나다'
+utf8_ga = unicode_ga.encode('utf-8')
 
+print(len(unicode_ga)) 	# 3 : 글자수
+print(len(utf8_ga)) 		# 9 : 바이트 수
+
+# 처음 2글자만 보기
+print(unicode_ga[:2])
+print(utf8_ga[:6])			# 인코딩따라서 참조하는 인덱스가 다름
+```
+
+- 현재 파이썬 프로그램 밖과 문자열 데이터를 주고 받을 때에는
+  - 줄 때 : 최대한 늦게 특정 인코딩으로 인코딩한 후에 전송
+  - 받을 때 : 최대한 빨리 특정 인코딩으로 디코딩하여, 유니코드로 처리
+
+- 어떤 경우?
+  - 문자열을 파일에 저장 & 읽어오기
+  - 데이터베이스 통신
+  - Android & iOS 앱과 통신
+  - 그 외, 다수 상황
+
+ 
+
+## 14. 파일 객체
+
+### 파일에 저장하고 읽어오기
+
+### 데이터를 영속성있게 저장할려면???
+
+- 메모리 내 데이터는 프로세스가 종료되면, bye bye ~
+- 영속성있게 저장할려면 파일에 저장해야합니다.
+  - 파이썬에서는 open 함수를 통해 파일 읽기/쓰기 지원
+
+### 파일 모드 (Read, Write, Append)
+
+- [모드 R] 기존 파일 일기
+- [모드 W 혹은 A] 새 파일 생성해서 쓰기
+- [모드 W] 기존 파일 내용 제거하고, 처음부터 쓰기
+- [모드 A] 기존 파일에 추가하기
+
+### 파일의 종류
+
+- TEXT : 문자열 데이터
+  - 자동 인코딩/디코딩이 있으면, 더 편리하겠죠?
+- BINARY : 바이너리 데이터
+  - 자동 인코딩/디코딩을 구지 수행하지 않습니다.
+  - 대개 문자열이 아닌, 이미지/PDF/XLS 포맷 등
+  - TEXT 데이터여도 BINARY로 열수도 있겠죠.
+
+### open(파일 쓰기/읽기 함수)
+
+``` python
+file_obj = open(파일경로, mode='r', encoding=None, 그외옵션생략)
+readed_data = file_obj.read() 	# 파일 내용 처음부터 끝까지 모두 읽기
+File_obj.close() 
+```
+
+- file object 주요 멤버함수
+  - .write 함수 : 파일에 쓰기
+  - .read 함수 : 파일 읽기
+  - .close 함수 : 파일 닫기
+
+### encoding 옵션
+
+- 자동 인코딩/디코딩 인코딩 옵션
+- text mode 시에만 지정 가능. binary 모드에서는 지정불가
+- 미지정시에 OS 설정에 따라, 다른 인코딩이 지정
+  - locale.getpreferredencoding(False)
+  - 한글 윈도우 : cp949
+  - 맥/리눅스 : 대개 utf-8
+  - 가급적이면 모든 파일은 utf-8 인코딩으로 생성
+- 요즘 소스코드 편집기의 디폴트 인코딩은 UTF-8
+- 다양한 인코딩이 혼재하면, 정신건강에 좋지 않아요
+- 특별히 cp949 인코딩이 필요한 경우가 아니라면, utf-8 로 대동단결!!!
+  - ex) 한글 윈도우 엑셀에서 쓸 csv 파일 만들기
+  - (utf-8 인코딩으로도 할 수는 있어요... -BOM 사용)
+
+### 파일을 열때, 5가지 모드
+
+- r(read ), w(wrtie), a (append)
+- 인코딩 모드
+  - t(text) : 자동 인코딩/디코딩 모드
+    - read() 반환타입은 str
+    - write() 인자로 str 타입 필요
+  - b(binary) : 바이너리 모드
+    - read() 반환타입은 bytes
+    - write() 인자로  bytes 타입 필요
+- 지정 예
+  - rt(read + text), rb, wt, wb, at, ab
+
+### r (read)
+
+```python
+filecontent_unicode = open('filepath.txt', 'rt', encoding='utf8').read()
+```
+
+- 지정 경로에 파일이 없을 경우  IOError 예외 발생
+- 지정 경로의 파일에 대해 읽기권한이 없을 경우 PermissionError 예외 발생
+
+### w (wrtie)
+
+```python
+open('filepath.txt', 'wt', encoding='utf8').write('가나다') # 유니코드 문자열(str)
+```
+
+- 지정 경로 파일이 없을 경우, 해당 내용으로 새 파일 생성
+- 지정 경로의 파일이 존재하지만, 쓰기 권한이 없을 경우
+  - PermissionError 예외 발생
+- 지정 경로 내에 없는 디렉토리가 지정된 경우, FileNotFoundError 예외 발생
+
+### a ( append)
+
+```python
+open('filepath.txt', at, encoding='utf8').write('가나다') # 유니코드 문자열 (str)
+```
+
+- w (wrtie) 와 유사
+
+### t (text)
+
+```python
+with open('filepath.tx', 'wt', encoding='utf8') as f :
+  f.write('가나다')
+```
+
+- 지정 encoding 으로 자동 인코딩/디코딩과 함께 파일 쓰기/읽기
+
+  
 
 
 
