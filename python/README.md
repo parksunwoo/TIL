@@ -1829,11 +1829,274 @@ B python
 D python
 ```
 
+## 17. 예외처리
 
+### 예외(Exceptions)
+
+- 프로그램이 처리되는 동안 특정한 문제(예외)가 일어났을 때 진행중인 루틴을 중단하고, 콜스택을 거슬러 올라가, 예외를 전파하는 메커니즘
+  - 이 예외를 처리할 수 있는 핸들러를 찾아, 함수 호출 역순으로 거슬러 올라가, 본 예외를 처리할 수 있는 핸들러를 찾아내면 그 곳에 처리를 맡긴다
+  - 예외를 처리하는 핸들러를 찾을 수 없다면, 그 즉시 파이썬 프로그램이 비정상종료되며, 그 예외 내역에 대한 StackTrace 를 출력
+
+```python
+print('line 1')
+value = int('a') + 1
+print('line 2')
+
+# 위 코드를 실행하면 ValueError 예외가 발생하며, 코드 실행이 중단
+
+line1
+------------------------------------------------------
+ValueError 																		Traceback ( most recent call last)
+------> 1 value = int('a') + 1
+
+ValueError : invalid literal for int() with base 10 : 'a'
+```
+
+### 예외 잡기
+
+```python
+print('line 1')
+try:
+		value = int('a') + 1
+except ValueError as e :
+		print(e)
+print('line 2')
+```
+
+실행결과 : 예외를 정확하게 잡아서 처리했기 때문에, 다음 루틴이 이어서 계속 실행
+
+```python
+line 1
+invalid literal for int() with base 10: 'a'
+line 2
+```
+
+### 호출한 함수 내에서 발생한 예외도 잡을 수 있습니다.
+
+```python
+def fn1(x, y):
+  	return x + y
+
+def fn2(x, y):
+  	return 10 * fn1(a, b)
+
+try:
+  print(fn2('a', 10))
+except TypeError as e :
+  print(e)
+  
+실행결과
+
+must be str, not int
+  
+```
+
+### 흔히 만나는 빌트인 예외
+
+- Exception: 최상위 예외 클래스
+- Stoplteration
+  - Iterator 내에서 더 이상 생산할 Item이 없을 때
+  - for in 구문에서 이 예외를 통해 반복문 중단을 처리
+- AttributeError : Attribite  참조 실패 혹은 설정이 실패한 경우
+- ImportError : 지정 모듈/팩키지를 import 하지 못한 경우
+- NotImplementedError : 구현하지 않은 부분임을 명시할 때, 개발자가 직접 본 예외를 발생 (raise)
+- IndexError : 범위 밖의 인덱스 참조시
+- KeyError : 존재하지 않는 Key에 접근시
+- NameError : local/global name 을 차지못한 경우
+- TypeError : 부적절한 연산/함수를 적용했을 때, ex) 1 + '1'
+- ValueError : ex) int('a')
+- IndentationError : 소스코드 내에 부적절한 들여쓰기가 있을 때
+
+### NotImplementedError 예시
+
+아직 구현하지 않은 부분임을 명시
+
+```python
+class Person:
+  	def run(self):
+    		raise NotImplementedError
+      
+class Doctor:
+  	pass
+
+class Developer(Person):
+  	def run(self):
+      	print('개발자는 오늘도 뜁니다')
+        
+Doctor().run()		# NotImplementedError 발생. 자식 클래스에게 run 함수구현 (Overriding)을 강제하는 효과
+Developer().run() # 예외없이 정상적으로 수행
+```
 
 ### 
 
+### 예외처리
 
+- tuple로 예외를 다수 지정할 수 있습니다.
+- as  를 통해 예외 인스턴스를 획득 가능
+- else : 예외가 발생하지 않았을 때 호출되는 블럭
+- finally : 예외 발생 유무에 상관없이 호출되는 블럭
+
+```python
+try:
+  	some_code()
+    some_code()
+    some_code()
+except ValueError:
+    print('ValueError 가 발생했어요.')
+except (KeyError, TypeError):
+    print('VaueError/TypeError 중에 하나가 발생')
+except ZeroDivisionError as e:
+    print('0으로 나누지마세요. : {}'.format(e))
+else:
+    print('예외가 발생하지 않았어요.')
+finally:
+  	print('예외발생 유무에 상관없이 호출됩니다.')
+```
+
+
+
+### 사용자 예외 정의 (2)
+
+- 손쉬운 예외 분류를 위해 사용자 예외 정의
+
+  ```python
+  class TooBigNumberException(ValueError):
+      def __init__(self, value):
+        	self.value = value
+      
+      def __str__(self):
+          return 'too big number {}.'.format(self.value)
+  
+  class TooSmallNumberException(ValueError):
+      def __init__(self, value):
+        	self.value = value
+      
+      def __str__(self):
+          return 'too small number {}.'.format(self.value)
+        
+  def fn(i):
+      if i > 100:
+          raise TooBigNumberException(i)
+      elif i < -100:
+          raise TooSmallNumberException(i)
+      return i * 10
+    
+  try:
+      fn(200)
+  except TooSmallNumberException as e:
+      print(e)
+  except TooBigNumberException as e:
+      print(e)
+  
+  
+  ```
+
+  
+
+  ## 18. 장식자
+
+  ### 장식자 (Decorator)
+
+  - 어떤 함수를 감싸는 (Wrapping ) 목적의 함수
+  - (잠깐) 1급 함수 : 함수를 동적으로 생성 가능, 반환값으로 전달 가능
+
+  ```python
+  def base_10(fn):
+    	def wrap(x, y):
+        	return x + y + 10
+      return wrap
+  
+  def mysum(x, y):
+      return x + y
+  mysum = base_10(mysum)
+  
+  >>> mysum(1, 2)
+  13
+  
+  @base_10
+  def mysum(x, y)
+  		return x + y
+  
+  >>> mysum(1, 2)
+  13
+  
+  #Example : memoize
+  import time
+  
+  def memoize(fn):
+      cached = {}
+      def wrap(x, y):
+          key = (x , y)
+          if key not in cached:
+            	cached[key] = fn(x, y)
+          return cached[key]
+      return wrap
+    
+  def long_mysum1(x, y)
+  		time.sleep(1)
+      return x + y
+    
+  @memoize
+  def long_mysum2(x, y)
+  		time.sleep(1)
+      return x + y
+    
+  for i in range(3):				# 실제 소요시간 약 3초
+      print(long_mysum1(1, 2)) # memoize 미적용
+  
+  for i in range(3):				# 실제 소요시간 약 1초
+      print(long_mysum2(1, 2)) # memoize 적용
+      
+  ```
+
+  ### 장식자에 인자 지원
+
+  ```python
+  def base(base_i):
+      def outer(fn):
+        def wrap(x, y):
+           return x + y + base_i
+        return wrap
+      retrun outer
+      
+  @base(20)
+  def mysum2(x, y):
+      return x + y
+  
+  @base(30)
+  def mysum3(x, y, z):
+      return x + y + z
+  
+  >>> mysum2(1, 2)
+  23
+  >>> mysum3(1, 2, 3)
+  36
+  
+  # filter_fn을 통과하지 못하는 인자는 alter_value 값으로 대체하기
+  def myfilter(filter_fn, alter_valeu):
+    	def wrap(fn):
+      		def inner(*args):
+            	raise NotImplementedError('구현해주세요.')
+          return inner
+      return wrap
+    
+  @myfilter(lambda i : i%2==0, 0)
+  def mysum(a, b, c, d, e):
+      return a + b + c + d + e
+    
+  @myfilter(lambda i : i%2==0, 1)
+  def mymultiply(a, b, c, d, e):
+      return a + b + c + d + e
+  
+  >>> mysum(1, 2, 3, 4, 5)  
+  6
+  
+  >>> mymultiply(1, 2, 3, 4, 5)  
+  8
+    
+  ```
+
+  
 
 
 
