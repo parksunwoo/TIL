@@ -1529,7 +1529,327 @@ with open('filepath.tx', 'wt', encoding='utf8') as f :
 
 - 지정 encoding 으로 자동 인코딩/디코딩과 함께 파일 쓰기/읽기
 
-  
+### b (binary)
+
+```python
+with open('filepath.txt', 'wb') as f:
+  	f.write('가나다'.encode('utf8'))
+```
+
+- 자동 인코딩/디코딩없이 파일 쓰기/읽기
+- encoding 옵션 지정 불가
+- 문자열이 아닌 파일을 읽어들일 때에는 인코딩/디코딩을 수행하면 안 되므로,  필히 binary 모드를 지정
+
+```python
+with open('myphoto.jpg', 'rb') as f:
+  		photo_data = f.read() # bytes 타입
+```
+
+### 파일에 접근하는 다양한 방법
+
+```python
+f = open('sample.txt', 'rt', encoding='utf8')
+print(f.read())
+f.close()
+
+f = open('sample.txt', 'wt', encoding='utf8')
+f.wirte('hello')
+print('world', file =f)
+f.close()
+
+
+```
+
+- 닫고 싶어도 닫기 전에 예외가 발생하면 닫을수가 없다...
+- 다음과 같이 예외처리르 통해, 꼭 닫아줘야 합니다
+
+```python
+f = open('sample.txt', 'wt', encoding='utf8')
+try:
+		f.write('hello  ')
+    1/0								# ZeroDivisionError 예외 발생
+finally:							# 예외 발생여부에 상관없이 무조건 실행
+  	f.close()
+    print('file closed')
+```
+
+### with 절
+
+- 특정 block을 with 절을 통해, 해당 block 의 실행전/실행후/예외발생시의 처리를 with 절을 통해 처리가능
+- open 함수에서 with 절을 지원하지만, with 절을 한번 만들어보자
+- class를 통한 with절 지원도 가능
+
+```python
+from contextlib import contextmanager
+
+@contextmanager
+def myopen(filepath, mode, encoding):
+    f = open(filepath, mode, encoding)
+    try:
+      	yield f				# with 절의 as에 넘겨짐
+    finally:
+      	f.close()
+        
+with myopen('helloworld.txt', 'wt', 'utf8') as f :
+     f.write('hello ')
+     f.write('world ')
+      
+      
+# open 함수에서의 with절 지원
+with open('sample.txt', 'rt') as f :
+     file_content = f.read()
+
+print(file_content)
+```
+
+### File object 순회 가능한 객체
+
+- 줄 단위로 순회
+
+```python
+with open('sample.txt', 'rt', encoding='utf8') as f :
+     for line in f:
+      		print(line)
+```
+
+### 소스파일 저장은 필히 UTF-8로 
+
+- 요즘 소스코드 에디터의 디폴트 인코딩은  UTF-8
+- 파이썬에서는 각 소스파일 최상단 소스코드 자체의 인코딩 지정가능
+  - python3 : 디폴트 utf-8
+  - python2 : 디폴트 ascii (이 디폴트 인코딩이 원흉!!!)
+- 파이썬은 소스코드를 실행하기 전에 소스파일의 내용을 먼저 디코딩
+- 소스코드 인코딩을 파이썬에게 잘못알려주면, SyntaxError 예외 발생
+- 이는 주석이라고 해서 예외가 없습니다. 파일 내 모든 문자열이 해당
+
+
+
+## 15. 오버로딩과 오버라이딩
+
+### 오버로딩(Overloading)
+
+- 이름은 같지만, 인자와 리턴타입이 다른 멤버 함수를 여럿 정의하는 것.
+- 파이썬에서는 미지원
+
+### 오버라이딩(Overriding)
+
+- 클래스 상속에서 사용되는 개념
+- 상위 클래스가 가지고 있는 메소드를 하위 클래스가 재정의
+
+### Sample.py
+
+- 대신, 디폴트인자를 통한 처리가 가능합니다
+
+```python
+class Sample:
+     def calculate(self, x, y, z=1):
+      		return (x+y) * z
+      
+>>> sample = Sample()
+>>> sample.calculate(1, 2), sample.calculate(1, 2, 3)
+
+(3, 9)
+```
+
+​	
+
+### 클래스 주요 오버라이딩 멤버함수
+
+- ```__init__(self[, ...])``` : 생성자 함수
+
+- ```__repr__(self)``` : 시스템이 해당객체를 인식할수있는 Official 문자열
+  - 대개 디버깅을 위해 사용
+  - 출력 문자열을 통해, 바로 인스턴스를 생성할 수 있도록, 인스턴 생성
+- ```__str__(self)``` : Informal 문자열. str(obj) 시에 호출
+- ```__getitem__(self, key)``` : self[key] 를 구현
+- ```__setitem__(self, key, value)``` : self[key] = value 를 구현
+
+### 클래스 주요 오버라이딩 멤버함수 - 연산자 재정의
+
+- Binary Arthmetic Operations
+  - +,-,*,@,/,//,%, divmod, pow, **, <<, >>, &, ^, |
+  - ex) x + y 는 ```x.__add__(y)``` 함수를 호출
+
+- Augmented Arithmetic Assignments
+  - +=,-=,*=,@=,/=,//=,%=, **=, <<=, >>=, &=, ^=, |=
+  - ex) x += y 는 ```x.__iadd__(y)``` 함수를 호출
+- Unary Arthmetic Operations : -, +, abs, ~
+  - ex)-obj는 ```obj.__neg__()``` 함수를 호출
+- Built-in functions : complex, inf, float, round
+  - ex) complex(obj)는 ```obj.__complex__()``` 함수를 호출
+- Rich comparison : <, <=, ==, !=, >, >=
+  - ex)  x < y 는 ```x.__lt__(y)``` 함수를 호출
+
+### 예외 : ```__add__, __iadd__ ``` 구현하기
+
+```python
+class Person:
+     def __init__(self, name, age):
+         self.name = name
+         self.age = age
+     def __add__(self, value):
+      	 return Person(self.name, self.age + value)
+     def __iadd__(self, value):
+				 self.age += value
+      	 return self
+     def __repr__(self):
+      	 return "Person('{}', {})".format(self.name, self.age)
+      
+>>> tom = Person('Tom', 10)
+>>> tom + 10
+Person('Tom', 20)
+
+>>> tom += 20
+>>> tom 
+Person('Tom', 30)
+```
+
+
+
+### 클래스 주요 오버라이딩 멤버함수 - with절 지원
+
+- ```__enter__(self)```
+- ```__exit__(self, exctype, excvalue, traceback)```
+  - exc_type : 예외 (Exception) 클래스 타입
+  - exc_value : 예외 인스턴스
+  - traceback : Traceback 인스턴스
+  - 예외가 발생하지 않았다면, 인자 3개 모두 None 으로서 호출
+
+### 예외 : 클래스를 통한 with절 지원
+
+```python
+class File:
+   def __init__(self, path, mode):
+      self.path = path
+      self.mode = mode
+   def __enter__(self):
+      self.f = open(self.path, self.mode, encoding='utf-8')
+      return self.f    
+   def __exit__(self, exc_type, exc_value, traceback):
+      # 예외 발생여부에 상관없이 파일을 닫음
+      self.f.close()
+      
+with File('filepath.txt', 'wt') as f:
+  f.write('hello world')
+```
+
+
+
+## 16. 클래스 상속과 MRO
+
+### 상속 (Inheritance)
+
+- 코드 중복을 최소화하기 위한 목적으로 등장
+- 파이썬 클래스는 최상위클래스인 object 를 상속
+  - 파이썬2에서는 object 상속유무에 따라 old/new style class로 분리
+  - 파이썬3에서는 old-style  class가 제거
+- 클래스 간에 상속관계에 놓이게 되면, 부모/자식 관계가 성립 
+- 자식 클래스는 부모 클래스의 모든 내역을 물려받음
+- 다중상속 지원 : 직계 부모가 다수
+
+### 상속으로 해결
+
+- 사람과 관련된 코드는 모두 Person 으로 집결!!!
+
+  ```python
+  class Person(object):
+    def __init__(self, name):
+        self.name = name
+        
+    def run(self):
+        print("뜁니다.")
+        
+    def eat(self, food):
+        print('{}을 먹습니다.'.format(food))
+        
+    def sleep(self):
+        print('잠을 잡니다.')
+        
+    def study(self, target):
+        print('{}을 열심히 공부합니다.'.format(target))
+  ```
+
+- 코드가 보다 간결해졌습니다.
+
+- 상속을 받고, 클래스 개별 코드만 구현합니다.
+
+```python
+class Doctor(Person):
+  def research(self):
+    	print('열심히 연구합니다.')
+      
+class Programmer(Person):
+  def coding(self):
+      print('열심히 개발합니다.')
+
+class Designer(Person):
+  def design(self):
+      print('열심히 디자인을 합니다.')      
+```
+
+
+
+### MRO (method resolution order)
+
+- 파이선의 클래스 탐색순서는 MRO를 따릅니다.
+  -  Class.mro 를 통해 확인 가능
+- MRO 가 꼬이도록 클래스를 설계할 수는 없습니다.
+  - TypeError : Cannot create a consistent method resolution order (MRO)
+
+### 부모의 함수 호출
+
+- 내장함수 super를 통해 부모의 함수 호출
+  - D의 mro 순서는 D > B > C > A
+  - D().fn()의 실행결과로서 A, C, B, D 가 출력
+- super 호출 시에  MRO 에 기반하여 호출
+
+```python
+class A:
+  	def fn(self, arg):
+      print('A', arg)
+      
+class B(A):
+  	def fn(self, arg):
+      print('B', arg)
+      
+class C(A):
+  	def fn(self, arg):
+      print('C', arg)      
+
+class D(B, C):
+  	def fn(self, arg):
+      print('D', arg)            
+      
+>>> print (D.__mro__)
+(__main__.D, __main__.B, __main__.C, __main__.A, object)
+>>> print (D().fn('python'))
+A python
+C python
+B python
+D python
+```
+
+
+
+### 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
