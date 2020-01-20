@@ -48,14 +48,14 @@ Today I Learned
  - 하나의 앱이름은 현재 프로젝트 상에서 유일해야
  - 새롭게 생성한 장고앱이나 외부 라이브러리 형태의 장고앱은        
    settings.INSTALLED_APPS 에 등록 시켜줘야만 장고앱으로서 대접을 받는다.
-    
+   
 ##  04 VSCode 장고 디버깅 세팅하기
 - 디버깅을 위해서 기본 적용되는 옵션
  - runserver 서버 시작옵션 --norelod --nothreading
  - 디버깅 메뉴를 통한 명시적인 재시작 및 정
 - 다양한 pylint 메세지
  - 파이썬 정적 코드 분석툴
- 
+
 ##  05 URLConf와 정규 표현식
 ### 정규 표현식
  - 문자열의 패턴, 규칙, Rule을 정의
@@ -79,7 +79,7 @@ Today I Learned
  - r"\d?" : 0회 혹은 1회 반복
  - r"\d*" : 0회 이상 반복
  - r"\d+" : 1회 이상 반복
- 
+
 ### URL Dispatcher
  - "특정 URL 패턴" -> view의 list
  - http 요청이 들어올 때마다, 등록된 urlpatterns 상의 매핑 리스트를 처음부터 순차적으로 훝으며 URL 매칭을 시도
@@ -90,7 +90,7 @@ Today I Learned
 - IntConverter    -> r"[0-9]+"
 - SlugConverter(StringConverter) -> r"[-a-zA-Z0-9_]+"
 - UUIDConverter -> r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"  ``하이픈 포함 36자리``
-    
+  
 ### 새로운 장고 앱을 생성할 때, 추천 작업
 - 앱 내 urls.py 를 생성하고 등록
     1. 앱 생성
@@ -120,7 +120,7 @@ Today I Learned
  - response = HttpResponse( 파일like객체 또는 str객체 또는 bytes 객체)
 - 파일 like 객체
  - response.write( str객체 또는 bytes객체)
-  
+
 ##  07 적절한 HTTP 상태코드로 응답하기
 ### HTTP 상태코드
 - 웹 서버는 적절한 상태코드로서 응답
@@ -150,7 +150,7 @@ Today I Learned
 - 데이터베이스 테이블과 파이썬 클래스를 1:1로 매핑
  - 모델 클래스명은 단수형으로 지정 - Post(o)
  - 매핑되는 모델 클래스는 DB 테이블 필드 내역이 일치
- 
+
 ### 모델 활용 순서
  - 장고 모델을 통해, 데이터베이스 형상을 관리할 경우
     1. 모델 클래스 형성
@@ -159,7 +159,7 @@ Today I Learned
     4. 모델활용
  - 장고 외부에서, 데이터베이스 형상을 관리할 경우
   - 데이터베이스로부터 모델 클래스 소스 생성 -> inspectdb 명령
-  
+
 ### 모델명과 DB 테이블명
  - DB 테이블명 : 디폴트 "앱이름_모델명"
     - blog 앱
@@ -186,7 +186,7 @@ Today I Learned
  - Relation Types
     - Foreign Key
     - 
-        
+      
 ### 자주 쓰는 필드 공통 옵션
  - blank : 파이썬 validation 시에 empty 허용 여부 (디폴트 : False)
  - null : null 허용 여부 
@@ -201,14 +201,14 @@ Today I Learned
 - 설계한 데이터베이스 구조에 따라, 최대한 필드타입을 타이트하게 지정해주는 것이, 입력값 오류를 막을 수 있음 
  - 필요하다면, validators들을 추가로 타이트하게 지정
 - ORM은 SQL 쿼리를 만들엉주는 역할일 뿐, 보다 성능높은 애플리케이션을 위해서는, 사용하려는 DB 엔진에 대한 깊은 이해가 필요 
-    
+  
 ##  11 마이그레이션을 통한 데이터베이스 스키마 관리
 - 데이터베이스에 어떤 변화를 가하는 Operation들을 나열
     - 테이블 생성/삭제, 필드 추가/삭제 등
 - 대개 모델로부터 자동 생성 -> makemigrations 명령
     - 모델 참조 없이 빈 마이그레이션 파일 만들어서 직접 채워넣기도
 - 같은 migration 파일이라 할지라도, DB종류에 따라 다른 SQL이 생    
-    
+  
 ### 언제 makemigrations 를 하는가?
 - 모델 필드 관련된 어떠한 변경이라도 발생 시에 마이그레이션 파일 생성
 - 마이그레이션 파일은 모델의 변경내역을 누적하는 역할
@@ -223,7 +223,7 @@ Today I Learned
     
 ### 새로운 필드가 필수필드라면?
 - 필수필드 여부 : blank, null이 모두 False인    
-    
+  
 ### 협업 Tip
 - 절대 하지 말아야할 일
  - 팀원 각자가 마이그레이션 파일을 생성하면 충돌
@@ -252,7 +252,7 @@ ModelCls.objects.all()
 ModelCls.objects.all().order_by('-id')[:10]
 ModelCls.objects.create(title="New Title")
 ```
-    
+
 ### QuerySet
 - SQL을 생성해주는 인터페이스
 - 순회가능한 객체
@@ -306,13 +306,13 @@ ModelCls.objects.create(title="New Title")
     -offset -> start
     -limit -> stop - start
     
-##  13 모델을 통한 데이터 생성/수정/삭제
+##  14 모델을 통한 데이터 생성/수정/삭제
 ### 다양한 INSERT 예시
 - 방법1
     ```djangotemplate
     post = Post.objects.create(field1=value1, field2=value2, ...)
     post.pk
-    ``` 
+    ```
     
 - 방법2
     ```djangotemplate
@@ -337,20 +337,20 @@ ModelCls.objects.create(title="New Title")
       post.field1 = new value1
       post.field2 = new value2
       post.save()         
-    ```    
+    ```
 
 - 방법2) querySet 의 update 함수 호출 -> 반환값 : count
     ```djangotemplate
       qs = Post.objects.all().filter().exclude()
       qs.update(field1=new_value1, field2=new_value2)
-    ```    
+    ```
 
 - 방법3) 
     ```djangotemplate
       form = PostForm(request.POST, request.FILES, instance=post)
       if form.is_valid():
           post = form.save()
-    ```    
+    ```
 
 ### 다양한 DELETE 예시
 - 방법1) 개별 모델 인스턴스의 delete 함수 호출 -> 반환값 : 삭제된 record 갯수
@@ -362,7 +362,7 @@ ModelCls.objects.create(title="New Title")
     ```djangotemplate
       qs = Post.objects.all().filter().exclude()
       qs.delete()
-    ```  
+    ```
 ### 대개의 경우, 데이터베이스가 주요 병목
 - 같은 작업을 하더라도
     - DB로 전달/실행하는 SQL 개수를 주링고
@@ -431,7 +431,9 @@ ModelCls.objects.create(title="New Title")
     - Post: Tag
 - ManyToManyField(to, blank=False)
 
-### RDBMS이지만 DB따라 NoSQL 기능도 지    
+### RDBMS이지만 DB따라 NoSQL 기능도 지원
+
+###   
 
 ##  16 django-debug-toolbar 를 통한 SQL 디버깅
 ### django-debug-toolbar
@@ -450,16 +452,19 @@ ModelCls.objects.create(title="New Title")
 - 쿼리확인 
     ```djangotemplate
       from django.db import connection, connections
-  
+    
       for row_dict in connection.queries:
           print('{time} {sql}'.format(**row_dict))
-  
+    
       connections['default'].queries  
-    ```    
+    ```
 
 - 쿼리초기화
     - 메모리에 누적되기에, 프로세스가 재시작됨되며 초기화
-    - django.db.reset_queries() 통해서 수동 초기화도 가
+    
+    - django.db.reset_queries() 통해서 수동 초기화도 가능
+    
+      
     
 ##  17 장고 Logging과 SQL Logging 처리
 ### 로그 
@@ -490,10 +495,16 @@ ModelCls.objects.create(title="New Title")
       def post_list(request):
           logger.error('Something went wrong!')
     
-    ```    
+    ```
+
+
+
 ##  18 데이터베이스 정규화/비정규화(제외)
-  
+
+
+
 ##  19 장고 템플릿 엔진
+
 ### 왜 템플릿을 사용하는가?
 - 코드만으로 직접 복잡한 문자열을 조합하기 까다롭다.
     - 조합한 문자열이 조금만 복잡해져도 코드가 산으로..
@@ -518,7 +529,7 @@ ModelCls.objects.create(title="New Title")
         def render(request, template_name, context=None, content_type=None, using=None):
             content = loader.render_to_string(template_name, context, request, using=using)    
             return HttpResponse(content, content_type, status)
-    ```    
+    ```
     
 ### 장고의 빌트인 백엔드
 - django.template.backends.django.DjangoTemplates
@@ -572,7 +583,10 @@ ModelCls.objects.create(title="New Title")
     - 위 파일들을 구현하지 않으면, "기본 흰바탕 까만글씨 에러화면" 출력
     - 실제 서비스에서는 구현을 권장 
 
+
+
 ##  20 Jinja2 템플릿 언어도 같이 써보기
+
 ### 장고 초심자는 장고 템플릿 언어에 먼저 집중
 - 장고 템플릿 언어 (이하 DTL) 를 통해
     - 장고 기본 기능과 수많은 써드파티 라이브러리들이 구현
@@ -600,7 +614,10 @@ ModelCls.objects.create(title="New Title")
     - 장고 기본에서의 Jinja2 지원만으로는 부족.
 - 기존 DTL 코드를 이에 맞춰 사용하기 위해서는, 마이그레이션 필요
 
+
+
 ##  21 장고가 템플릿 파일을 찾는 원리
+
 ### Django Template Loader
 - 다수 디렉토리 목록에서 지정 상대경로를 가지는 템플릿을 찾아줌.
     - 다양한 로더가 지원되며, 템플릿 설정의 OPTIONS내 loader를 통해 각기 활성화
@@ -643,7 +660,10 @@ ModelCls.objects.create(title="New Title")
     - 앱 내 디렉토리 배치는 app/templates/app 구조를 필히
     - 그리고 "app/파일명" 구조로 활용
 
+
+
 ##  22 템플릿 상속을 통한 중복 제거
+
 ### 템플릿 상속의 필요성
 - 각 뷰에 연결된 템플릿른 독립적으로 동작
     - 그런데, 독립적으로 동작하는 템플릿은 같은 레이아웃/스타일을 가지게 된다
@@ -680,7 +700,10 @@ ModelCls.objects.create(title="New Title")
         - 템플릿#2 : app/templates/app/post_detail.html -> layout.html 상속   
         - 템플릿#3 : app/templates/app/post_form.html -> layout.html 상속   
 
+
+
 ## 23 자주 사용하는 템플릿 필터
+
 ### 장고 템플릿 필터
 - 함수 형태로 구현하여, 템플릿에 등록
 - 언제 사용하는가?
@@ -756,11 +779,13 @@ ModelCls.objects.create(title="New Title")
     - django.core.serializers.json.DjangoJSONEncoder 를 통한 json 직렬화
     - 변환된 JSON 문자열에 대해서 '>', '<', '&' 문자열 ESCAPE 처리 (XSS 공격방지)
     
+
 {{ value|json_script:"my-id" }}
 
 <script id="my-id" type="application/json">{"hello": "world"}</script>
-
 var value = JSON.parse(document.getElementById('my-id').textContent);
+
+
 
 ## 24. 자주 사용하는 템플릿 태그
 
@@ -811,6 +836,7 @@ var value = JSON.parse(document.getElementById('my-id').textContent);
 - with ... endwith
     - 템플릿 단계에서 변수 생성 문법
     
+
 총 {{ business.employees.count }} 명의 직원이 있습니다.
 {{ business.employees.count }} 명의 직원 중에 3명이 업무 중에 있습니다.
 
@@ -819,11 +845,266 @@ var value = JSON.parse(document.getElementById('my-id').textContent);
     {{ total }} 명의 직원 중에 3명이 업무 중에 있습니다.
 {% endwith %}
 
+## 
+
+## 25. static 파일을 다루는 방법
+
+### Static & Media 파일
+
+- Static 파일
+  - 개발 리소스로서의 정적인 파일( js, css, image 등)
+  - 앱 / 프로젝트 단위로 저장/서빙
+- Media 파일
+  - FileField / ImageField  를 통해 저장한 모든 파일
+  - DB 필드에는 저장경로를 저장하며, 파일은 파일 스토리지에 저장
+  - 프로젝트 단위로 저장/서빙
+
+### Static 파일,관련 settings 예시
+
+- 각 설정의 디폴트 값
+  - STATIC_URL = None
+    - 각 static 파일에 대한 URL Prefix
+      - 템플릿 태그 {% static "경로" %} 에 의해서 참조되는 설정
+    - 항상 / 로 끝나도록 설정
+  - STATICFILES_DIRS = []
+    - File System Loader 에 의해 참조되는 설정
+  - STATIC_ROOT = None
+    - python manage.py collectstatic 명령이 참조되는 설정
+    - 여러 디렉토리로 나눠진 static 파일들을 이 경로의 디렉토리로 복사하여, 서빙
+    - 배포에서만 의미가 있는 설정
+
+### 추천 settings
+
+```python
+STATIC_URL = '/static'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+  		os.path.join(BASE_DIR, 'askdjango', 'static')
+]
+```
+
+### Static Files Finders
+
+```python
+STATICFILES_FINDERS = [
+  'django.contrib.staticfiles.finders.FileSystemFinder'
+  'django.contrib.staticfiles.finders.AppDirectoriesFinder'
+]
+```
+
+- Template Loader 와 유사
+  - 설정된 Finders 를 통해 , static 템플릿이 있을 디렉토리 목록을 구성
+    - 장고 서버 초기 시작 시에만 1회 작성
+    - 디렉토리 목록에서 지정 상대경로를 가지는 static 파일 찾기
+  - 대표적인 2가지 Static Files Finders
+    - APP Directories Finder
+      - "장고앱/static/" 경로를 "디렉토리 목록"에 추가
+    - File System Finder
+      - settings.STATICFILES_DIRS 설정값을 "디렉토리 목록"에 추가
+
+### 템플릿에서 static URL 처리 예시(1)
+
+- 방법1) settings.STATIC_URL, Prefix 를 하드코딩하기
+
+  - 하지만 settings.STATIC_URL 설정은 언제라도/ 프로젝트마다 변경될 수 있음. 하드코딩하는 것이 번거롭기도하고 변경이 되었을 때 하나하나 수정해줘야 함
+
+  - 무엇보다, 배포 시에는 static_url 설정값이 변경됩니다.
+
+    - 클라우드 저적 스토리지나 CDN 사용시
+
+      ```html
+      <img src="/static/blog/title.png" />
+      ```
+
+### 템플릿에서 static URL 처리 예시(2)
+
+- 방법2) Template Tag를 통한 처리
+
+  - 프로젝트 설정에 따라, 유연하게 static url prefix 가 할당됩니다.
+
+  ```html
+  {% load static %}
+  <img src="{% static "blog/title.png" %}" />
+  ```
+
+### 개발환경에서의 static 파일 서빙
+
+- 개발서버를 쓰고, and settings.DEBUG = True 일 때에만, 지원
+  -  프로젝트/urls.py 에 Rule이 명시되어 있지 않아도, 자동 Rule 추가
+  - 이는 순수 개발목적으로만 제공
+- 개발서버를 쓰지 않거나, settings.DEBUG = False 일 때에는
+  - 별도의 static 서빙 설정을 해줘야합니다
+
+- static 서빙을 하는 여러가지 방법
+
+  1) 클라우드 정적 스토리지나 CDN 서비스를 활용
+
+  2) apche/nginx 웹서버 등을 통한 서빙
+
+  3) 장고를 통한 서빙
+
+  	- whitenoise 라이브러리 활용
+
+### collectstatic 명령
+
+- 실 서비스 배포 전에는 필히 본 명령을 통해, 여러 디렉토리에 나눠져있는 static 파일들을 한 곳으로 복사
+  - 복사하는 대상 디렉토리 : settings.STATIC_ROOT
+  - 왜냐하면 여러 디렉토리에 나눠 저장된 static 파일들의 위치는 "현재 장고 프로젝트" 만이 알고있음. 외부 웹서버는 전혀 알지 못함
+  - 외부 웹서버에서 finder 의 도움없이도 static 파일을 서빙하기 위함.
+  - 한 디렉토리에 모두 모여있기에, finder의 도움이 필요가 없음
+
+### 외부 웹서버에 의한 static/media 컨텐츠 서비스
+
+- 정적인 컨텐츠는 외부 웹서버를 통해 처리하면, 효율적인 처리
+- 정적 컨텐츠만의 최적화 방법 사용
+  - Memcache/redis 캐시 등
+  - CDN (Content Delivery Network)
+
+### nginx  웹서버에서의 static 설정 예시
+
+```javascript
+server{
+  location /static{
+    autoindex off;
+    alias /var/www/staticfiels;		# settings.STATIC_ROOT
+  }
+  location /media {
+    autoindex off;
+    alias /var/www/media;					# settings.MEDIA_ROOT
+  }
+}
+```
 
 
 
+### 배포 시에 static 처리 프로세스
+
+1. "서비스용 settings"에 배포 static 설정
+
+2. 관련 클라우드 스토리지 설정, 혹은 아파치/ ngix static 설정
+
+3. 개ㄹ이 완료된 static 파일을, 한 디렉토리로 복사
+
+   ```python
+   python manage.py collectstatic --settings=서비스용 settings
+   ```
+
+   - storage 설정에 따라, 한 번에 클라우드 스토리지로의 복사를 수행되기도 함.
+   - settings.STATIC_ROOT 경로로 복사됨
+
+4. settings.STATIC_ROOT 경로에 복사된 파일들을 배포서버로 복사
+
+   - 대상 : 클라우드 스토리지, 혹은 아파치/nginx 에서 참조할 경로
+
+5. static 웹서버를 가리키도록 settings.STATIC_URL 수정
 
 
+
+### static 관련 라이브러리
+
+- Django-storages
+  - Azure Storage, Amazon S3, Google Cloud Storage, FTP 등 지원
+  - 
+
+## 26. Media 파일을 다루는 방법
+
+### Media 파일
+
+- 실제로 문자열을 저장하는 필드(중요)
+
+### Media 파일 처리 순서
+
+1. HttpRequest.FILES 를 통해 파일이 전달
+2. 뷰 로직이나 폼 로직을 통해, 유효성 검증을 수행하고,
+3. Field/ImageFiled 필드에 "경로(문자열)"를 저장하고,
+4. settings.MEDIA_ROOT 경로에 파일을 저장합니다.
+
+### Media 파일, 관련 settings 예시
+
+- 각 설정의 디폴트 값
+  - MEDIA_URL = ""
+    - 각 media 파일에 대한 URL Prefix
+      - 필드명.url 속성에 의해서 참조되는 설정
+  - MEDIA_ROOT = ""
+    - 파일필드를 통한 저장 시에, 실제 파일을 저장할 ROOT 경로
+
+#### 추천 settings
+
+```python
+MEDIA_URL = '/media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+```
+
+### FileField 와 ImageField
+
+- FileField
+  - File Storage API를 통해 파일을 저장
+    - 장고에서는 File System Storage 만 지원. Django-storages 를 통해 확장 지원
+  - 해당 필드를 옵션 필드로 두고자 할 경우, blank = True 옵션 적용
+- ImageField 
+  - Pillow 를 통해 이미지 width/height 획득
+    - Pillow 미설치 시에, ImageField 를 추가한 make migrations 수행에 실패
+- 위 필드를 상속받은 커스텀 필드를 만드실 수도 있습니다.
+  - Ex) PDFField, ExcelField 등
+
+### 모델 필드 예시
+
+```python
+class Post(models.Model):
+  		author_name = models.CharField(max_length=20)
+  		title = models.CharField(max_length=100)
+  		content = models.TextField()
+      photo = models.ImageField(blank=True)
+      created_at = models.DateTimeField(auto_now_add=True)
+      updated_at = models.DateTimeField(auto_now=True)      
+```
+
+### 사용할 만한 필드 옵션
+
+- blank 옵션
+  - 업로드 옵션처리 여부
+  - 디폴트 : False
+- upload_to 옵션
+  - settings.MEDIA_ROOT 하위에서 저장한 파일명/경로명 결정
+  - 디폴트 : 파일명 그대로 settings.MEDIA_ROOT 에 저장
+    - 추천) 성능을 위해, 한 디렉토리에 너무 많은 파일들이 저장되지 않도록 조정하기
+  - 동일 파일명으로 저장 시에, 파일명에 더미 문자열을 붙여 파일 덮어쓰기 방지
+
+### 파일 업로드 시에 HTM Form enctype
+
+- form method 는 필히  POST로 지정
+
+  - GET의 경우 enctype이 "application/x-www-form-urlencoded"로 고정
+
+- form enctype을 필히 "multipart/form-data" 로 지정
+
+  - "Application/x-www.form-urlencoded"의 경우, 파일명만 전송
+
+    ```html
+    <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <table>
+        	{{ form.as_table }}
+      </table>
+      <input type="submit" />
+    </form>
+    ```
+
+### upload_to 인자
+
+- 파일 저장 시에 upload_to 함수를 호출하여, 저장 경로를 계산
+  - 파일 저장 시에  upload_to 인자를 변경한다고 해서, DB에 저장된 경로 값이 갱신되진 않습니다.
+- 인자 유형
+  - 문자열로 지정
+    - 파일을 저장할 "중간 디렉토리 경로" 로서 활용
+  - 함수로 지정
+    - "중간 디렉토리 경로" 및 "파일명"까지 결정 가나ㅡㅇ
+
+### 파일 저장경로
+
+- travel-20181225.jpg 파일을 업로드할 경우
+  - MEDIA_ROOT/travel-20181225.jpg 경로에 저자되며,
+  - DB에는 "travel-20181225.jpg" 문자열을 저장합니다.
 
 
 
@@ -836,12 +1117,6 @@ var value = JSON.parse(document.getElementById('my-id').textContent);
 
 
   
-  
-    
-    
-    
-    
-    
 
 
 
@@ -853,33 +1128,7 @@ var value = JSON.parse(document.getElementById('my-id').textContent);
 
 
 
-    
-    
-    
-    
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-           
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-     
 
 
 
@@ -912,20 +1161,19 @@ var value = JSON.parse(document.getElementById('my-id').textContent);
 
 
 
+​        
+​        
+​        
 
 
-        
-        
-        
 
 
 
 
+​    
+​    
+​    
 
-    
-    
-    
-    
 
 
 
@@ -937,62 +1185,59 @@ var value = JSON.parse(document.getElementById('my-id').textContent);
 
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-           
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-       
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-      
-   
-    
-    
-    
-    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​           
+​       
+​       
+​       
+​       
+​       
+​       
+​       
+​       
+​       
+​       
+​       
+​       
+​       
+​       
+​       
+​       
+​       
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​      
 
 
+​    
+​    
+​    
 
 
 
@@ -1016,45 +1261,44 @@ var value = JSON.parse(document.getElementById('my-id').textContent);
 
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-            
-        
-        
-        
-    
 
 
 
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​    
+​            
+​        
+​        
+​        
+​    
 
 
 
-    
-    
-    
 
 
 
+​    
+​    
+​    
 
 
 
@@ -1063,18 +1307,17 @@ var value = JSON.parse(document.getElementById('my-id').textContent);
 
 
 
-    
-    
-    
-    
-    
-    
-        
-    
 
 
 
 
+​    
+​    
+​    
+​    
+​    
+​        
+​    
 
 
 
@@ -1096,39 +1339,43 @@ var value = JSON.parse(document.getElementById('my-id').textContent);
 
 
 
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+​    
+​    
+​    
+​    
+​    
 
  
+
  
+
+
+​        
+​    
+​    
+​    
+​    
+​    
+
  
+
  
+
  
-        
-    
-    
-    
-    
-    
+
  
+
  
+
  
+
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
  
 
 
