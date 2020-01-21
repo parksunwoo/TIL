@@ -933,8 +933,9 @@ STATICFILES_FINDERS = [
   -  프로젝트/urls.py 에 Rule이 명시되어 있지 않아도, 자동 Rule 추가
   - 이는 순수 개발목적으로만 제공
 - 개발서버를 쓰지 않거나, settings.DEBUG = False 일 때에는
-  - 별도의 static 서빙 설정을 해줘야합니다
-
+  
+- 별도의 static 서빙 설정을 해줘야합니다
+  
 - static 서빙을 하는 여러가지 방법
 
   1) 클라우드 정적 스토리지나 CDN 서비스를 활용
@@ -1106,312 +1107,95 @@ class Post(models.Model):
   - MEDIA_ROOT/travel-20181225.jpg 경로에 저자되며,
   - DB에는 "travel-20181225.jpg" 문자열을 저장합니다.
 
+### 파일 저장 경로 / 커스텀
+
+upload_to  옵션
+
+- 한 디렉토리에 파일을 너무 많이 몰아둘 경우, OS 파일찾기 성능 저하. 디렉토리 Depth가 깊어지는 것은 성능에 큰 영향 없음
+- 필드 별도, 다른 디렉토리 저장경로를 가지기
+  - 대책1) 필드 별로 다른 디렉토리에 저장
+    - phto = models.ImageField(upload_to='blog')
+    - phto = models.ImageField(upload_to='blog/photo')
+  - 대책2) 업로드 시간대 별로 다른 디렉토리에 저장
+    - upload_to 에서 strftime 포맷팅을 지원
+    - photo = models.ImageField(upload_to='blog/%Y/%m/%d')
+
+### uuid 를 통한 파일명 정하기 예시
+
+```python
+import os
+from uuid import uuid4
+from django.utils import timezone
+
+def uuid_name_upload_to(instance, filename):
+  	app_label = instance.__class__._meta.app_label  # 앱 별로
+    cls_name = instance.__class__._name.lower()     # 모델 별로
+    ymd_path = timezone.now().strftime('%Y/%m/%d')  # 업로드하는 년/월/일 별로
+    uuid_name = uuid4().hex
+    extension = os.path.splitext(filename)[-1].lower() # 확장자 추출하고, 소문자로 변환
+    return '/'.join([
+      app_label,
+      cls_name,
+      ymd_path,
+      uuid_name[:2],
+      uuid_name + extension,
+    ])
+```
 
 
 
+### 템플릿에서 media URL 처리 예시
 
+- 필드의 .url 속성을 활용하세요.
 
+  - 내부적으로 settings.MEDIA_URL과 조합을 처리
 
+    - <img src="{{ post.photo.url }}" %}" />
 
+  - 필드에 저장된 경로에 없을 경우, .url 계산에 실패함에 유의. 그러니 안전하게 필드명 저장유무를 체크
 
+    ```python
+    {% if post.phto %}
+    	<img src="{{ post.photo.url }}" %}" />
+    {% endif %}
+    ```
 
+- 참고
+  - 파일 시스템 상의 절대경로가 필요하다면, .path 속성을 활용하세요
+    - settings.MEDIA_ROOT 와 조합
+
+### 개발환경에서의 media 파일 서빙
+
+- static 파일과 다르게, 장고 개발서버에서 서빙 미지원
+
+- 개발 편의성 목적을 직접 서빙 Rule 추가 가능
+
+  ```python
+  from django.conf import settings
+  from django.conf.urls.static import static
+  
+  urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+  ```
+
+### File Upload Handler
+
+- 파일크기가 2.5MB 이하일 경우
+  - 메모리에 담겨 전달
+  - MemoryFileUploadHandler
+- 파일크기가 2.5MB 초과일 경우
+  - 디스크에 담겨 전달
+  - TemporaryFileUploadHandler
+- 관련 설정
+  - settings.FILE_UPLOAD_MAX_MEMORY_SIZE
+    - 2.5MB
+    - 
+
+## 27. 개발환경에서 static 캐싱 무효화하기
+
+### Private browser caches 
+
+- 브라우저 단에서는 컨텐츠를 캐싱하여, 매번 서버로 컨텐츠를 요청하지 않고 캐싱된 컨텐츠를 사용함으로서, 페이지 렌더링 시간을 단축시킵니다
+- 캐싱  Key : 요청 URL
+- 캐싱 만료 정책 : Cache-Control 헤더 
 
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-​        
-​        
-​        
-
-
-
-
-
-
-​    
-​    
-​    
-
-
-
-
-
-
-
-
-
-
-
-
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​           
-​       
-​       
-​       
-​       
-​       
-​       
-​       
-​       
-​       
-​       
-​       
-​       
-​       
-​       
-​       
-​       
-​       
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​      
-
-
-​    
-​    
-​    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​    
-​            
-​        
-​        
-​        
-​    
-
-
-
-
-
-
-​    
-​    
-​    
-
-
-
-
-
-
-
-
-
-
-
-
-​    
-​    
-​    
-​    
-​    
-​        
-​    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-​    
-​    
-​    
-​    
-​    
-
- 
-
- 
-
-
-​        
-​    
-​    
-​    
-​    
-​    
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
