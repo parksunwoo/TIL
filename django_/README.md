@@ -1199,3 +1199,37 @@ def uuid_name_upload_to(instance, filename):
 - 캐싱 만료 정책 : Cache-Control 헤더 
 
   
+
+### 개발할 때에는, 쉴새없이 변경되는~
+
+- 하지만 종종 이전 내역이 브라우저 캐싱되어 변경된 내역이 반영되지 않기도
+- 이때 변경된 내역이 반영되게 하려면
+  - 1) 브라우저의 캐시 내역을 강제로 비우기
+  - 2) 해당 정적 파일 응답에서 cache-control 헤더 조절하기
+  - 3) 해당 정적 파일의 파일명을 변경
+  - 4) 해당 정적 파일, 요청 URL에 대해 Dummy QueryString을 추가
+    - Query String 값이 변경되면 브라우저에서는 새로운 리소스로 인식합니다
+      - 웹프론트엔드에서 같은 URL로 Ajax 요청시마다  dummy QueryString 을 붙이는 것과 같은 이치
+
+### 커스텀 Template Tag를 통해, Dummy Query String을 붙여봅시다
+
+```python
+from time import time
+from django import template
+from django.conf import settings
+from django.template.static import StaticNode
+
+register = template.Library()
+
+class FreshStaticNode(StaticNode):
+  	def url(self, context):
+      url = super().url(text)
+      if settings.DEBUG():
+        url += '?_={}'.format(int(time())) # Dummy Qeury String 추가
+      return url
+    
+@register.tag('fresh_static')
+def do_static(parser, token):
+  return FreshStaticNode.handle_token(parser, token)
+```
+
