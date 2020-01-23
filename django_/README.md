@@ -1233,3 +1233,135 @@ def do_static(parser, token):
   return FreshStaticNode.handle_token(parser, token)
 ```
 
+
+
+## 28. URL Reverse를 통해 유연하게 URL 생성하기
+
+### URL Dispatcher
+
+urls.py  변경만으로  "각 뷰에 대한 URL"이 변경되는 유연한  URL 시스템
+
+```python
+# "/blog/", "/blog/1/" 주소로 서비스하다가
+urlpatterns = [
+  path('blog/', blog_views.post_list, name="post_list"),
+  path('blog/<int:pk>/', blog_views.post_detail, name='post_detail'),
+]
+
+# 다음과 같이 변경을 하면,
+# 이제 "/weblog/", "/weblog/1/" 주소로 서비스하게 됩니다
+urlpatterns = [
+  path('weblog/', blog_views.post_list, name="post_list"),
+  path('weblog/<int:pk>/', blog_views.post_detail, name='post_detail'),
+]
+
+
+```
+
+### URL Reverse의 혜택
+
+- 개발자가 일일이 URL을 계산하지 않아도 됩니다. 
+- URL이 변경되더라도, URL Reverse 가 변경된 URL을 추척
+
+### 직접 URL을 계산한다면 ~
+
+1. blog앱 Post 목록을 볼려면, post_list 뷰를 호출해야하니깐,
+2. Urls.py 를 뒤적뒤적거리며,  URL계산계산
+3. 계산완료! -> /blog/ 주소를 쓰면 되겠네
+
+### URL 계산은 장고에게 양보하세요
+
+1. blog앱 Post 목록을 볼려면,  post_list 뷰를 호출해야하니깐,
+
+### URL Reverse 를 수행하는 4가지 함수 (1)
+
+- url 템플릿태그
+  - 내부적으로 reverse 함수를 사용
+- reverse 함수
+  - 매핑 URL이 없으면 NoReverseMatch 예외 발생
+- resolve_url 함수
+  - 매핑 URL이 없으면 "인자 문자열"을 그대로 리턴
+  - 내부적으로 reverse 함수를 사용
+- redirect 함수
+  - 매핑 URL이 없으면  "인자 문자열"을 그대로 URL로 사용
+  - 내부적으로  resolve_url 함수를 사용
+
+
+
+### URL Reverse 를 수행하는 4가지 함수 (2)
+
+```python
+{% url "blog:post_detail" 100 %}
+{% url "blog:post_detail" pk=100 %}
+
+reverse('blog:post_detail', args=[100])
+reverse('blog:post_detail', kwargs={'pk': 100})
+
+resolve_url('blog:post_datail', 100)
+resolve_url('blog:post_datail', pk=100)
+resolve_url('/blog/100/')
+
+redirect('blog:post_detail', 100)
+redirect('blog:post_detail', pk=100)
+redirect('/blog/100/')
+```
+
+### 모델 객체에 대한 detail 주소계산
+
+- 매번 다음과 같은 코드로 하실수도 있겠지만
+
+  ```python
+  resolve('blog:post_detail', pk=post.pk)
+  redirect('blog:post_detail', pk=post.pk)
+  {% url 'blog:post_detail' post.pk %}
+  ```
+
+- 다음과 같이 사용하실 수도 있습니다 어떻게?
+
+  ```python
+  resolve_url(post)
+  redirect(post)
+  {{ post.get_absolute_url }}
+  ```
+
+### 모델 클래스에 get_absolute_url()
+
+- resolve_url 함수는 가장 먼저 get_absolute_url() 함수의 존재여부를 체크하고, 존재할 경우 reverse를 수행하지 않고 그 리턴값을 즉시 리턴
+
+  ```python
+  def resolve_url(to, *args, **kwargs):
+      if hasattr(to, 'get_absolute_url'):
+        	return to.get_absolute_url()
+      try:
+        	return reverse(to, args=args, kwargs=kwargs)
+      except NoReverseMatch:
+  ```
+
+### resolve_url/ redirect 를 위한 모델 클래스 추가 구현
+
+```python
+from django.urls import reverse
+
+class Post(models.Model):
+  		def get_absolute_url(self):
+          return reverse('blog:post_detail', args=[self.pk])
+```
+
+### 그 외 활용
+
+- CreateView / UpdateView
+  - success_url 을 제공하지 않을 경우, 해당 model instance 의 get_absolute_url 주소로 이동이 가능한지 체크하고 이동이 가능할 경우 이동
+  - 생성/수정하고 나서 Detail 화면으로 이동하는 것은 자연스러운 시나리오
+- 특정 모델에 대한 Detail 뷰를 작성할 경우
+  - Detail 뷰에 대한 URLConf 설정을 하자마자 필히 get_absolute_url 설정을 
+
+
+
+
+
+
+
+
+
+
+
