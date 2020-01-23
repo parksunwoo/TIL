@@ -1357,6 +1357,39 @@ class Post(models.Model):
 
 
 
+## 29. 장고 Form 을 쓰지 않고, 글 생성/수정 구현하기
+
+### 장고 스타일로 Item New
+
+```python
+chrome <-> django
+# GET요청
+1) http://localhost:8000/shop/item/new/
+				2) 빈 Form 화면을 보여줍니다.
+# POST요청
+3) 유저가 Form을 채우고, 작성후에 "저장"을 요청합니다
+				4) 입력값 유효성 검사를 한 후에,
+  			a. 검사를 통과 못했을 경우에, 다시 Form을 보여주고 재입력을 요청
+    		b. 검사를 통과했을 경우에, 데이터베이스에 저장하고, 다른 주소로 이동
+```
+
+### 장고 스타일로 Item Edit
+
+```python
+chrome <-> django
+# GET요청
+1) http://localhost:8000/shop/item/<int:pk>/edit 페이지 방문
+				2) 지정 pkdml item이 없을 경우, 404처리
+						Item이 있을 경우, Item 필드로 채운 Form 화면을 보여줍니다.
+# POST요청
+3) 유저가 Form을 내용을 변경하고, 작성후에 "저장"을 요청합니다.
+				4) 입력값 유효성 검사를 한 후에,
+  			a. 검사를 통과 못했을 경우에, 다시 Form을 보여주고 재입력을 요청
+    		b. 검사를 통과했을 경우에, 데이터베이스에 저장하고, 다른 주소로 이동
+```
+
+
+
 
 
 
