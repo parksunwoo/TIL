@@ -1390,11 +1390,285 @@ chrome <-> django
 
 
 
+## 30. 장고 Form 을 통해, 글 생성/수정 구현하기
+
+### Django Form
+
+- 장고를 더욱 장고스럽게 만들어주는 주옥같은 Feature
+- Model 클래스와 유사하게 Form 클래스를 정의
+- 주요역할 : 커스텀 Form 클래스를 통해 
+  - 입력폼 HTML 생성
+  - 입력폼 값 검증 (Validation) 및 값 변환
+  - 검증을 통과한 값들을 사전타입으로 제공
+
+### Django 스타일의 Form 처리
+
+- 폼 처리 시에 같은  URL (즉, 같은 View) 에서 GET/POST로 나눠 처리
+  - GET 방식 요청
+    - 입력폼을 보여줍니다
+  - POST 방식 요청
+    - 데이터를 입력받아 유효성 검증 과정을 거칩니다
+    - 검증 성공 시 : 해당 데이터를 저장하고 SUCCESS URL 로 이동
+    - 검증 실패 시 : 오류메세지와 함께 입력폼을 다시 보여줍니다.
+
+### 구현순서
+
+- Model
+  - 생성할 Model 에 맞춰 Form 클래스를 정의
+  - ModelForm 을 이용하면, Model 내역에 맞게, 손쉽게 정의가능
+- View
+  - Form 클래스를 활용하는, 범용 스타일로 구현
+    - 하나의 View 에서 하나의 Form, 하나의 Model을 다룹니다
+- Template
+  - 거의 모든 View를 커버할 수 있는, 범용 템플릿 코드로 구현
+    - 개별 Form 위젯에
+    - 물론 커스텀으로 만드실 수도 있습니다
+
+## 31. 다양한 구동환경을 위한 settings/requirements.txt 분기
+
+### requirements.txt
+
+- pip 에서는 설치할 팩키지 목록을 파일을 통한 지정 지원
+
+  - 일반적인 파일명이  requirements.txt
+
+  - 다른 파일명/경로이어도 Dont' care.
+
+    ```shell
+    pip install -r requirements.txt
+    ```
+
+### 실행환경에 따라 다양한 팩키지 목록이 필요
+
+- why?
+  - 실행환경 별로 필요한 라이브러리가 다를 수 있음
+    - 클라우드 별로, 혹은 DB별로 등등
+  - 같은 프로젝트를 하는 개발팀/개발자마다 다른 라이브러리로  개발 중일 수도
+
+### requirements.txt 를 만들어본다면?
+
+다른 파일을 포함할 수 있습니다. -r 옵션
+
+- 공통
+- 개발용
+- 서비스 2.0 개발용
+- 배포용 (공통)
+- 배포용 (AWS)
+- 배포용 (Azure)
+- requirements.txt
+- reqs 디렉토리
+  - common.txt : 공통
+  - dev.txt : 현재 개발용
+  - dev_2.0.txt : 서비스 2.0 개발용
+  - prod_common.txt : 배포용(공통)
+  - prod_aws.txt : 배포용(AWS)
+  - prod_azure.txt : 배포용 (Azure)
+  - prod_heroku.txt : 배포용 (Heroku)
+
+### settings 란?
+
+- 다양한 프로젝트 설정을 담는 파이썬 소스 파일
+  - 장고 앱 설정, DB 설정, 캐시 설정 등등
+  - 디폴트 설정 (django/conf/global_settings.py)을 기본으로 깔고, 지정  settigns 를 통해 필요한 설정을 재정의
+- 장고 프로젝트 구동 시에 필히 DJANGO_SETTINGS_MODULE 환경변수를 통해,  settings 의 위치를 알려줘야 합니다
+
+### setdefault 동작은?
+
+os.environ은 dict과 유사한 인터페이스
+
+```python
+dict.setdefault(key, default=None)
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'askcompany.settings')
+
+# 위 코드는 아래 코드와 같은 동작을 한다
+if 'DJANGO_SETTINGS_MODULE' not in os.environs:
+  	os.environs['DJANGO_SETTINGS_MODULE'] = 'askcompany.settings'
+```
+
+### settings 를 지정하는 2가지 방법
+
+- 1) DJANGO_SETTINGS_MODULE 환경변수로 지정
+
+  - 주의) OS마다/배포하는 방법마다 환경변수 세팅방법이 다름
+  - 별도로 지정하지 않으면,  manage.py/wsgi.py 에 세팅된 설정값이 적용
+
+- 2) manage.py 명령에서 --settings 옵션을 통해 지정하기
+
+  - 환경변수 설정에 우선합니다
+
+  - ```shell
+    python manage.py 명령 --settings=askcompany.settings.prod_heroku
+    ```
+
+### settings를 파이썬 팩키지로 만들기
+
+- 주의
+
+  - settings.py 내 BASE_DIR 설정은 상대경로로 프로젝트 ROOT 경로를 계산
+
+- 이전
+
+  - 프로젝트/settings.py
+
+- 이후
+
+  - 프로젝트/settings/
+
+    - ```__init__.py```
+    - common.py
+    - dev.py
+    - prod_common.py
+    - prod_aws.py
+    - prod_heroku.py
+
+    
+
+## 32. 휴대폰 망을 통해 접속하는 방법
+
+### 개발서버 옵션
+
+```shell
+python manage.py runserver
+```
+
+- 서버가 bind 되는 아이피는 디폴트ㄹ로 127.0.0.1
+
+  - 각 OS마다 127.0.0.1 주소는 localhost 도메인에 디폴트 매핑
+
+- 네트워크를 통해, 같은 네트워크의 다른 컴퓨터에서 접속할려면
+
+  - bind주소가 127.0.0.1 이면 불가 -> 서버를 실행시킨 컴퓨터에서만 접속 가능
+
+- 다른 컴퓨터에서 접속할려면, 기본적으로
+
+  - bind 주소를 그 컴퓨터가 가진 아이피를 지정하거나
+
+  - 0.0.0.0 을 지정하여 그 컴퓨터가 가진 모든 아이피에 대해 접속을 받을 수 있도록 설정이 필요 ->
+
+    ```shell
+    python manage.py runserver 0.0.0.0:8000
+    ```
+
+  - 그리고 외부망에서 접속할려면, 외부 네트워크 설정이 추가로 필요
+
+같은 네트워크가 아닌, LTE망의
+
+### 휴대폰으로 내부망의 개발서버에 접속할려면
+
+- 방법1) 휴대폰을 같은 네트워크에 물리거나
+
+- 방법2) 개발서버에 외부망 연결
+  - a)  공인 아이피를 할당하거나
+    - 학교나 회사에서는 거의 불가능
+  - b) 아이피 공유기에 포트워딩이나  DMZ 세팅
+    - 학교나 회사에서는 거의 불가능
+  - c) ngrok 나 localtunnel 을 쓰자
+    - 이는 순수히 개발/테스트 목적 NEVER 실서비스 목적의 배포
+
+### ngrok 프로그램 주의사항
+
+- ngrok.io 주소는 변경될 수 있음
+  - 유료 플랜을 통해 주소 고정 지원
+- 실제 서비스 배포가 절대 아님
+  - 이는 사설 네트워크 내 개발서버를 포트포워딩 등의 설정없이도 외부 네트워크에서 접속토로 해주는 것일 뿐
 
 
 
+## 33. 다양한 데이터베이스 연동하기
+
+### Databases in Django 
+
+- 장고 기본에서 다양한 RDB 관계형DB 백엔드 지원
+  - sqlit3, mysql, oracle, postgresql
+  - 관련 DB API 드라이버 추가 설치 필요
+- 데이터베이스와의 디폴트 인코딩
+  - UTF-8 
+- 멀티 데이터베이스를 지원
 
 
 
+### SQLite
 
+- 파일 기반의 데이터베이스
+- 파이썬에서 기본 지원
+  - 개발 초기에 보다 빠르게 개발을 시작할 수 있음
+- 실제 서비스에서는 다른 DB서버 필수
+
+### MySQL
+
+- 5.6 이상을 지원
+- 스토리지 엔진 : InnoDB (장고 디폴트), MyISAM
+- DB API 드라이버 
+  - mysqlclient 
+    - 장고 공식문서에서 추천
+  - MySQL Connector / Python
+    - Oracle, Pure Python 으로 개발
+    - 장고 최신버전을 지원하지 않을 수도
+  - PyMySQL
+    - Pure Python 으로 개발
+
+### 먼저 MySQL 서버를 구동
+
+1. mysql.com 에서 다운받아 로컬에 설치하거나
+2. 클라우드 관리형 서비스를 쓰거나
+3. 로컬에서 Docker로 설치
+   1. 현 디렉토리에 빈 data_mysql 디렉토리를 생성하고, 아래 명령 수행
+
+```shell
+docekr run \
+		--rm -it \
+		--publish 3306:3306 \
+		--env MYSQL_DATABASE="askcompany_db" \
+		--env MYSQL_ROOT_PASSWORD='qwer1234' \
+		--volume 'pwd'/data_mysql:/var/lib/mysql\
+		mysql:5
+```
+
+### settings 설정
+
+- 별도 MySQL 서버에서 데이터베이스와 유저 생성 및 암호 설정
+  - 필히, 데이터베이스 생성 시에 UTF-8 charset으로 생성하기
+    - my.cnf 를 수정해서  DB를 생성해도 되고
+    - 혹은 mysql 쉘에서 create database DB명 default utf8;
+  - 이모지를 저장할려면,  utf8mb4 charset으로 생성하기
+    - 장고 settings DB OPTIONS 항목에  {'charset':'utf8mb4'} 추가 필요
+
+### PostgreSQL
+
+- 장고의 Full Features 를 지원하는 DB
+- 장고에 PostgreSQL 만을 위한 모델 필드도 지원
+  - ArrayField, HStoreField, JSONField, 각종 RangeFields
+- 9.4 이상을 지원
+  - DB API 드라이버 : psycopg2
+
+### 먼저 PostgreSQL 서버를 구동
+
+1. Installer 를 통해 설치하거나 (맥 : Postgres.app)
+2. 클라우드 관리형 서비스를 쓰거나
+3. 로컬에서 Docker로 설치
+   1. 현 디렉토리에 빈 data_pg 디렉토리를 생성하고, 아래 명령 수행
+
+```shell
+docekr run \
+		--rm -it \
+		--publish 5342:5342 \
+		--env POSTGRES_PASSWORD='qwer1234' \
+		--volume 'pwd'/data_pg:/var/lib/postgreqsl/data \
+		postgres:11
+```
+
+### settings 설정
+
+```python
+DATABASEs = { 
+	'default' : {
+    	'ENGINE' : 'django.db.backends.postgresql',
+      'NAME' : 'postgres',
+    	'UER' : 'postgres',
+      'PASSWORD' : 'qwer1234',
+      'HOST' : '127.0.0.1',
+  }
+}
+```
 
