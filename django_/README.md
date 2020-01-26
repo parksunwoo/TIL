@@ -1672,3 +1672,83 @@ DATABASEs = {
 }
 ```
 
+
+
+## 34. Heroku에 웹서비스 배포하기
+
+### 다양한 Platform as a Service
+
+- Microsoft 의 Azure Web App for Containers
+- Google 의 AppEngine Flexible Environment
+- Heroku
+- ZEIT의 now.sh
+
+### Heroku
+
+- AWS 플랫폼에서 서비스되고 있는 Paas 플랫폼
+- 주의
+  - Heroku 상의 디스크는 Persistent 스토리지가 아님
+    - 매 프로세스 리부트마다 삭제
+
+### 배포할 내용
+
+- 장고 프로젝트는  gunicorn 을 통한 구동
+- static 파일은 WhiteNoise 를 통한 직접 서빙
+  - AWS S3/CDN 를 통한 정적파일 관리를 추천
+- 데이터베이스
+  - Heroku 기본지원 PostgreSQL 관리형 DB
+
+### 배포 기본 설정
+
+#### - 파이썬 런타임 지정 
+
+#### - Databse Provisioning
+
+#### - Procfile 파일 생성
+
+##### - 설치할 라이브러리 명시
+
+	- 최상위 requirements.txt 에 명시하면, Heroku에서 자동 수행
+ - Heroku 필수 팩키지
+   - django-heroku
+   - whitenoise : 정적파일 직접 서빙
+   - Unicorn 혹은  uwsgi : python WSGI HTTP Server
+   - psycopg2 : postgreSQL Driver
+
+### WhiteNoise 를 통한 static 서빙
+
+- Django-heroku를 통한 자동 셋업
+
+- 이제 Heroku 배포 중에 자동으로 다음 명령어 수행
+
+  ```shell
+  python manage.py collectstatic --noinput
+  ```
+
+- 디버깅 옵션 켜기 
+
+  ```shell
+  heroku config:set DEBUG_COLLECTSTATIC=1
+  ```
+
+- collectstatic 끄기
+
+  ```shell
+  heroku config:set DISABLE_COLLECTSTATIC=1
+  ```
+
+### Heroku CLI를 통한 배포
+
+- 현재 프로젝트를 git 저장소로 변경
+- Heroku CLI를 통한 인증 수행
+- Heroku CLI를 통해 프로젝트 생성
+- 필요한 환경변수 설정
+- 배포수행
+- migrate 수행
+- 보충하면 좋은 내용
+  - media  파일 처리
+    - aws s3와 연동
+  - 30분 sleep 에 빠지지 안헥 할려면
+    - 적어도 29분 주기로 웹페이지 접속이 있어야 합니다
+    - Azure Scheduler 를 통해 Free 로도 HTTP 요청
+    - 
