@@ -862,6 +862,396 @@ response.rendered_content.decode('utf8')
 
 
 
+## 03. JSON 응답뷰 만들기 ( 부제 - APIView 부터 Viewset까지)
+
+장고에서는 뷰를 통해 HTTP 요청을 처리
+rest_framework를 쓰면 APIView/ViewSet을 활용하면 API뷰를 보다 적은 양의 코드로 효율적으로 작성
+
+장고 기본 뷰에서의  Serializer 활용코드를 먼저 살펴
+
+### Serializer를 통한 뷰처리
+
+rest_framework의 Serializer는 장고의  Form과 유사한 역할을 한다. 데이터 유효성 검사 및 데이터베이스로의 저장을 지원
+Serializer 를 통한 뷰처리는 다음과 같다
+
+```python
+class PostSerializer(serializers.ModelSerializer):
+  	class Meta:
+      	model = Post
+        fields = ['title', 'content']
+
+# views
+serializer = PostSerializer(data= request.POST)
+if serializer.is_valid():
+  	 serializer.save()
+     return JsonResponse(serializer.data, status=201)
+return JsonResponse(serializer.errors, status=400)
+```
+
+### APIView 클래스와 api_view 장식자
+
+APIView 클래스와 api_view 장식자는 뷰에 여러 기본 설정을 부여
+
+- 직렬화 클래스 지정 : renderer_classes 속성(list)
+  - 디폴트
+    - rest_framework.renderers.JSONRenderer : JSON 직렬화
+    - rest_framework.renderers.TemplateHTMLRenderer : HTML 페이지 직렬화
+- 비직렬화 클래스 지정 : parser_classes 속성(list)
+  - 디폴트
+    - rest_framework.parsers.JSONRenderer : JSON 직렬화
+    - rest_framework.parsers.FormParser
+    - rest_framework.parsers.MultiPartParser
+- 인증 클래스 지정 : authentication_classes 속성 (list)
+  - 디폴트
+    - rest_framework.authentication.SessionAuthentication : 세션에 기반한 인증
+    - rest_framework.authentication.BasicAuthentication : HTTP Basic 인증
+- 사용량 제한 클래스 지정 : throttle_classes 속성(list)
+  - 디폴트 : 빈 튜플
+- 권한  클래스 지정 : permission_classes 속성 (list)
+  - 디폴트
+    - rest_framework.permissions.AllowAny : 누구라도 접근 허용
+
+- 요청에 따라 적절한 직렬화/비직렬화 클래스를 선택 : content_negotiation_class 속성(문자열)
+  - 같은 URL로의 요청이지만, JSON 응답을 요구하는 것이나 / HTML 응답을 요구하는 것인지 판단
+  - 디폴트 : rest_framework.negotiation.DefaultContentNegotiation
+- 요청 내역에서 API 버전 정보를 탐지할 클래스 지정 : versioning_class 속성
+  - 디폴트 : None : API 버전 정보를 탐지하지 않겠다
+  - 요청 URL에서, GET 인자에서, HEADER에서 버전정보를 탐지하여, 해당 버전의  API뷰를 호출토록 한다.
+
+### 장고에는 FBV와 CBV가 있다
+
+- FBV(함수 기반 뷰, Function Based View)
+  - 함수로 구현한 뷰
+  - Specialize 한 뷰는 FBV 로 구현하는 것이 훨씬 가ㅏㄴ단
+- CBV(클래스 기반 뷰, Class Based View)
+  - 클래스로 구현한 뷰
+  - 재사용성에 포커스 : 여러 뷰에 걸쳐서 반복되는 루틴이 있다면 클래스 상속 문법을 통해 중복을 줄여갈 수 있음
+
+Rest_framework 에서 지원하는 API 뷰를 구현하기 위해 다음 2가지를 지원
+
+- APIView : CBV
+- api_view : FBV
+
+### APIView 샘플
+
+APIView 는 django-rest-framework 규격의 Class Based View
+
+1. 하나의 Class Based View 이므로, 한 URL 에 대해서만 처리할 수 있음
+   - /post/ 에 대한 CBV일 경우
+     - get 요청 : 포스팅 목록 요청
+     - post 요청 : 새 포스팅 등록 요청
+   - /post/10/ 에 대한 CBV 일 경우
+     - get 요청 : 10번 포스팅 내용 요청
+     - put 요청 : 10번 포스팅 수정 요청
+     - delete 요청 : 10번 포스팅 삭제 요청
+2. 요청 method 에 맞게 멤버함수를 정의하면, 해당 method 요청이 들어올 때 호출이 됩니다
+   - def get(self, request)
+   - def post(self, request)
+   - def put(self, request)
+   - def delete(self, request)
+3. 각 method 가 호출될 때, 다음 처리가 이뤄집니다
+   - 직렬화/ 비직렬화
+   - 인증 처리 : 인증 체크
+   - 사용량 제한 체크 : 호출 허용량 범위인지 체크
+   - 권한 클래스 지정 : 비인증유저/ 인증유저에 대해 해당 API 호출을 허용할 것인지를 결정
+   - 요청된 API 버전 문자열을 탐지하여 request.version 에 저장
+
+APIView 클래스를 활용하여, 다음과 같이 글목록 응답/ 새글등록을 처리해주는 CBV를 만들어
+
+```python
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import Post
+from .serializers import PostSerializer
+
+class PostListAPIView(APIView):
+  	def get(self, request):
+      	serializer = PostSerializer(Post.objects.all(), many=True)
+        return Response(serializer.data)
+    def post(self, request):
+      	serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+          	serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+```
+
+APIView 클래스를 활용하여 다음과 같이 특정 글의 내용응답/수정/삭제를 처리해주는 CBV를 만들어봄
+
+```python
+from django.shortcuts import get_object_or_404
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import Post
+from .serializers import PostSerializer
+
+class PostDetailAPIVievw(APIView):
+  	def get_object(self, pk):
+     		return get_object_or_404(Post, pk=pk)
+      
+    def get(self, request, pk, format=None):
+      	post = self.get_object(pk)
+        serializer = PostSerializer(post)
+        return Response(serializer.data)
+      
+    def put(self, request, pk):
+      	post = self.get_object(pk)
+        serializer = PostSerializer(post, data=request.data)
+        if serializer.is_valid():
+          	serializer.save()
+            return Response(serializer.data)
+      	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(slef, request, pk):
+      	post = self.get_object(pk)
+        post.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+```
+
+POST 요청을 받기 위해 별도로 csrf_exempt 처리를 해줄 필요가 없습니다.  APIView.as_view() 에서 이미 csrf_exempt 처리된 뷰를 만들어주고 있기 때문
+
+```python
+#rest_framework/views.py
+from django.views.decorators.csrf import csrf_exempt
+
+class APIView(View):
+  
+  	@classmethod
+    def as_view(cls, **initkwargs):
+      return csrf_exempt(view)
+
+```
+
+파이썬의 장식자는 다음과 같이 활용할 수 있음
+
+```python
+# 장식자 문법으로 써도 되고
+@csrf_exempt
+def myview1(request):
+  	return HttpResponse('hello askdjango')
+  
+# 장식자는 실제로 다음과 같이 동작  
+def myview2(request):
+  	return HttpResponse('hello askdjango')
+myview2 = csrf_exempt(myview2)
+```
+
+### @api_view 장식자 샘플
+
+api_view 는 django-rest-framework 규격의  Function Based View 를 세팅해주는 장식자
+위에서 구현한 CBV 버전의 PostListAPIView 를 FBV로 구현하면 다음과 같다
+
+```python
+from django.http import get_object_or_404
+from rest_framework import status, Response
+from rest_framework.decorators import api_view
+from .models import Post
+from .serializers import PostSerializer
+
+@api_view(['GET', 'POST'])
+def post_list(request):
+  	if request.method == 'GET':
+      	serializer = PostSerializer(Post.objects.all(), many=True)
+        return Response(serializer.data)
+    else:
+      	serializer = PostSerializer(data=request.data)
+        if serializer.is_valid():
+						serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+     
+```
+
+@api_view 에서는 허용할 http method 를 지정해줘야하는 것이 조금 다름
+위에서 구현한 CBV 버전의 PostDetailAPIView를 FBV로 구현하면 다음과 같다
+
+```python
+from rest_framework.decorators import api_view
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def post_detail(request, pk):
+  	post = get_object_or_404(Post, pk=pk)
+    
+    if request.method == 'GET':
+      	serializer = PostSerializer(post)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+      	serializer = PostSerializer(post, data=request.data)
+        if serializer.is_valid():
+          	serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+      	post.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+```
+
+### mixins 상속을 통한 APIView 로직 재사용
+
+위에서 구현한 APIView 에서는 직접 Serializer 를 처리를 해줬어야한다 그런데 여러 Serializer에 대해서 구현을 하다보면 필연적을 중복이 발생. 이를 줄여보고자 한다
+
+APIView는 클래스이기 때문에 클래스 상속을 통해 로직을 재활용할 수 있음
+
+rest_framework.mixins에서는 다음 Mixin을 통해 위에서 구현한 기능들을 모두 지원 참고로 파이썬에서 Mixin 문법이 따로 있는 것이 아니라, 문법적으로 단순히 파이썬 클래스
+
+- CreteModelMixin : create 함수
+- ListModelMixin : list 함수
+- RetrieveModelMixin : retrieve 함수
+- UpdateModelMixin : update 함수
+- DestroyModelMixin : destroy 함수
+
+이렇게 여러 Mixin이 준비만 되어있음. 이 함수들이 호출되기 위해서는 직접 연결해야
+
+PostListAPIView 를 다음과 같이 구현
+
+```python
+from rest_framework import generics
+from rest_framework import mixins
+
+class PostListAPIView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+  		queryset = Post.objects.all()
+    	serializer_class = PostSerializer
+      
+      def get(self, request, *args, **kwargs):
+        	return self.list(request, *args, **kwargs)
+
+      def post(self, request, *args, **kwargs):
+        	return self.create(request, *args, **kwargs)        
+```
+
+PostDetailAPIView 를 다음과 같이 구현
+
+```python
+from rest_framework import generics
+from rest_framework import mixins
+
+class PostDetailAPIView(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+  		queryset = Post.objects.all()
+    	serializer_class = PostSerializer
+      
+      def get(self, request, *args, **kwargs):
+        	return self.retrieve(request, *args, **kwargs)
+
+      def put(self, request, *args, **kwargs):
+        	return self.update(request, *args, **kwargs) 
+        
+      def post(self, request, *args, **kwargs):
+        	return self.destroy(request, *args, **kwargs)         
+```
+
+### Generics APIView 를 통한 로직 재사용
+
+REST API 에서는 목록조회와 생성을 하나의 URL에서 처리. 그래서 이를 하나로 묶은 CBV도 rest_framework에서 지원
+
+```python
+# rest_framework/generics.py
+class ListCreateAPIView(maxins.ListModelMixin, mixins.ListModelMixin, GenericAPIview):
+  
+  		def get(self, request, *args, **kwargs):
+      		return self.list(request,t *args, **kwargs)
+      
+  		def post(self, request, *args, **kwargs):
+      		return self.create(request,t *args, **kwargs)      
+```
+
+이를 활용하면 코드가 이렇게 간단
+
+```python
+from rest_framework import generics
+
+class PostListAPIView(generics.ListCreateAPIView):
+			queryset = Post.objects.all()
+			serializer_class = PostSerializer
+```
+
+그리고 특정 레코드의 조회/수정/삭제도 하나의 URL에서 처리 이를 하나로 묶은 CBV도 지원
+
+```python
+# rest_framework/generics.py
+class RetrieveUpdateDestroyAPIView(mixins.RetrieveModelMixin,
+                                   mixins.UpdateModelMixin,
+                                   mixins.DestroyModelMixin,
+                                   GenericAPIView):
+
+```
+
+이를 활용하면 코드가 이렇게 간단
+
+```python
+from rest_framework import generics
+
+class PostDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+  		queryset = Post.objects.all()
+    	serializer_class = PostSerializer
+```
+
+위에서 살펴본 generics 외에도, 다음 generics 가 추가로 지원됩니다. 모두 GenericsAPIView 를 상속받으므로 추가로 상속받으실 필요가 없음
+
+### 최종병기 ViewSet
+
+하나의 Model에 대해서 기본적이 REST API 는 목록/생성/조회/수정/삭제인데요. 이를 지원하려면 2개의 URL, 즉 다음과 같이 2개의 뷰가 필요
+
+```python
+from rest_framework import generics
+
+class PostListAPIView(generics.ListCreateAPIView):
+  		queryset = Post.objects.all()
+    	serializer_class = PostSerializer
+      
+class PostDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+  		queryset = Post.objects.all()
+    	serializer_class = PostSerializer
+```
+
+2개의 뷰 모두 queryset, serializer_class 를 동일하게 지정, 이를 한번에 처리, 그것이 ViewSet
+ViewSet은 CBV가 아니다. 2개의 뷰를 만들어주는 헬퍼 클래스일 뿐. ViewSet은 다음 2가지가 지원
+
+- Viewsets.ReadOnlyModelViewSet : 목록 조회, 특정 레코드 조회를 지원 => 2개의 URL 지원
+- Viewsets.ModelViewSet : 목록조회, 생성, 특정 레코드 조회/수정/삭제 지원 => 2개의 URL 지원
+
+조회만 지원하는 API를 만들어보면
+
+가입한 회원 목록에 대한 API가 제공된다면 조회 기능만 제공. "회원 생성" 기능은 별도의 가입기능을 활용
+UserViewSet 를 만들었다면, 목록조회/특정유저조회 API를 제공받을 수 있다.
+
+```python
+from rest_framework import viewsets
+
+class UserViewSet(viewsets.ReadOnlyModelViewset):
+  	qeuryset = User.objects.all()
+    serializer_clss = UserSerializer
+```
+
+이렇게 만들어진 UserViewSet 을 URLConf 에 등록
+다음과 같이 UserViewSet 을 통해, 개별 View를 생성할수도
+
+```python
+user_list = UserViewSet.as_view({
+  		'get': 'list',    # 호출될 함수와 호출할 함수를 지정
+})
+
+user_detail = UserViewSet.as_view({
+  		'get': 'retrieve',    # 호출될 함수와 호출할 함수를 지정
+})
+```
+
+하지만 이렇게 하지 않아도 Router 를 통해 일괄적으로 URLConf에 등록
+
+```python
+from rest_framework.routers import DafaultRouter
+
+router = DafaultRouter()
+router.register(r'user', views.UserViewSet)
+# router.register(r'post', views.PostViewSet) # PostViewSet이 있다면, 다음과 같이 추가등록할수
+
+urlpatterns = [
+  		url(r'', include(router.urls)),
+]
+```
+
+
+
 
 
 
