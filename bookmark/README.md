@@ -38,9 +38,17 @@ A curated list of bookmark
 - Linear algebra https://www.khanacademy.org/math/linear-algebra
 
 ## Python
-
+- 파이썬 중급자를 위한 책 추천 https://winterj.me/python-books-for-intermediate/
 
 ## Django
+- 장고걸스 튜토리얼 https://tutorial.djangogirls.org/ko/
+- ask company https://www.askcompany.kr/
+- A curated list of awesome things related to Django https://github.com/wsvincent/awesome-django
+- Classy Class-Based Views http://ccbv.co.uk/
 - 8퍼센트 Two scoops of django 스터디 https://github.com/8percent/tsd
 - 피플펀드 Mastering Django Core https://tech.peoplefund.co.kr
- 
+
+## Dev setting
+- 아이패드로 코딩하기 https://boxnwhis.kr/2020/01/11/coding_with_ipad.html
+- DigitalOcean – The developer cloud https://www.digitalocean.com/
+
