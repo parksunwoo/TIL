@@ -4,7 +4,7 @@ Today I Learned
 데이터사이언티스트를 꿈꾸는 엔지니어의 기록
 
 ### 강의내용 정리
-#### [[MIT] 데이터 사이언스 기초](/data-science/README.md)
+#### [[MIT] 데이터 사이언스 기초](/ds/README.md)
 ##### Chapter 1. Introduction and Optimization Problems
 ##### Chapter 2. Optimization Problems
 ##### Chapter 3. Graph-theoretic Models
