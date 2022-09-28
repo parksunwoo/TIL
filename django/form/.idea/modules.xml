@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/TIL.iml" filepath="$PROJECT_DIR$/.idea/TIL.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/.idea/askdjangoForm.iml" filepath="$PROJECT_DIR$/.idea/askdjangoForm.iml" />
+>>>>>>> r4remote/master
     </modules>
   </component>
 </project>

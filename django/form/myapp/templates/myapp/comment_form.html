@@ -1,0 +1,21 @@
+{% extends "myapp/layout.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<h1>Comment Form</h1>
+
+<form action="" method="post" novalidate autocomplete="off">
+    {% csrf_token %}
+
+    {% bootstrap_form form %}
+
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">
+            Submit
+        </button>
+    {% endbuttons %}
+</form>
+
+{% endblock %}
+

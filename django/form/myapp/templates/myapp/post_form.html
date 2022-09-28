@@ -1,0 +1,31 @@
+{% extends "myapp/layout.html" %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<div class="container">
+    <div class="col-sm-12">
+        <h1>Post Form</h1>
+
+        <form action="" method="post" novalidate autocomplete="off">
+            {% csrf_token %}
+
+            {% bootstrap_form form %}
+
+            {% buttons %}
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+            {% endbuttons %}
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_body %}
+<script type="text/javascript">
+var dom = document.getElementById('{{ form.user_agent.id_for_label }}');
+dom.value = navigator.userAgent;
+</script>
+{% endblock %}
