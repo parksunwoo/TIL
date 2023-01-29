@@ -13,6 +13,7 @@ openai.api_key = 'sk-your-token-here'
 # # Define the Slack bot's token
 SLACK_BOT_TOKEN = "xoxb-your-token-here"
 
+
 # # Define the Slack bot's endpoint
 # SLACK_BOT_ENDPOINT = f"https://slack.com/api/chat.postMessage?token={SLACK_BOT_TOKEN}&channel=%s&text=%s"
 
