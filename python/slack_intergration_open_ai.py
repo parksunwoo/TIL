@@ -8,10 +8,10 @@
 # api_key = secrets["api_key"]
 
 # # Set the API key
-openai.api_key = 'sk-your-token-here'
+openai.api_key = 'sk-your-token-here  '
 
 # # Define the Slack bot's token
-SLACK_BOT_TOKEN = "xoxb-your-token-here"
+SLACK_BOT_TOKEN = "xoxb-your-token-here  "
 
 
 # # Define the Slack bot's endpoint
