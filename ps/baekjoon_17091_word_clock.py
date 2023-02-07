@@ -35,3 +35,32 @@ elif m in [15, 30]:
     print(d[m]+ " " + connect + " " + d[h])
 else:
     print(alpha_m+ " minutes " + connect + " " + d[h])
+
+# chatGPT
+# d_below_20 = {i: d[i] for i in range(1, 21)}
+
+# if m > 30:
+#     h = h + 1
+#     m = 60 - m
+#     connect = "to"
+# else:
+#     connect = "past"
+
+# if h > 12:
+#     h = h - 12
+
+# if m < 20:
+#     alpha_m = d_below_20[m]
+# else:
+#     mod_m = m - 20
+#     alpha_m = d[20] + " " + d_below_20[mod_m]
+
+# if m == 0:
+#     print(f"{d[h]} {d[m]}")
+# elif m == 1:
+#     print(f"{d[m]} minute {connect} {d[h]}")
+# elif m in [15, 30]:
+#     print(f"{d[m]} {connect} {d[h]}")
+# else:
+#     print(f"{alpha_m} minutes {connect} {d[h]}")
+
